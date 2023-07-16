@@ -1,0 +1,7 @@
+#+title: About
+#+author: JEG2
+#+date: <2023-07-08 Sat>
+#+draft: true
+#+cover: images/programmers_stone.png
+
+FIXME
