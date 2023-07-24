@@ -1,7 +1,25 @@
 #+title: About
 #+author: JEG2
-#+date: <2023-07-08 Sat>
-#+draft: true
+#+date: <2023-07-23 Sun>
+#+draft: false
 #+cover: images/programmers_stone.png
 
-FIXME
+This blog represents one programmer's quest for enlightenment by attempting to turn (mostly [[https://elixir-lang.org/][Elixir]]) code into gold.
+
+# more
+
+* About the Author
+
+My name is James Edward Gray II — JEG2 around some parts of the Internet. I have been a developer for around two decades.  These days I manage developers.  In both roles, teaching programming has always been a big focus of my work.
+
+When programming, I'm passionate about design.  When managing, I try to empower teams of self-organizing Musketeers.  When teaching, I care deeply about practical examples, visualization of algorithms, and how to train fluency.
+
+I co-wrote [[https://pragprog.com/titles/jgotp/designing-elixir-systems-with-otp/][Designing Elixir Systems with OTP]] with Bruce Tate, who's one heck of a nice guy.  I'm developing a strong appreciation for [[https://livebook.dev/][Livebook]] and I have always loved regular expressions and board games.
+
+* How this Blog is Built
+
+These pages are built using the static site generator [[https://gohugo.io/][Hugo]] with the [[https://themes.gohugo.io/themes/hugo-theme-terminal/][Terminal]] theme.  Posts are written in [[https://www.spacemacs.org/][Spacemacs]] using [[https://orgmode.org/][Org Mode]], which, in this author's opinion, is a big reason to consider using a [[https://quotefancy.com/quote/1428461/Neal-Stephenson-I-use-emacs-which-might-be-thought-of-as-a-thermonuclear-word-processor][thermonuclear word processor]].  The [[https://github.com/JEG2/programmers_stone][source]] is hosted with [[https://pages.github.com/][GitHub Pages]].
+
+* Further Discussion
+
+To discuss topics written about on this site, please start a thread on [[https://elixirforum.com/][Elixir Forum]] so others can benefit from any unearthed insights.  You're also welcome to [[mailto:james@graysoftinc.com][email the author]].

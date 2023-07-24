@@ -1,7 +1,7 @@
 #+title: Easier Recursion
 #+author: JEG2
-#+date: <2023-06-25 Sun>
-#+draft: true
+#+date: <2023-07-23 Sun>
+#+draft: false
 
 I definitely understand the sentiment behind the L. Peter Deutsch quote, "To iterate is human, to recurse divine."  I enjoy an elegant recursive solution as much as other programmers, but lately I've been playing with another style of coding up similar needs that might just be easier and more flexible.
 
@@ -9,7 +9,7 @@ I definitely understand the sentiment behind the L. Peter Deutsch quote, "To ite
 
 * The Challenge of Recursion
 
-Let's use recursion to model [[https://www.mathsisfun.com/numbers/fibonacci-sequence.html][The Fibonacci Sequence]].  We'll say that we would like to be able to look at the first several numbers or fetch a specific number out of the sequence.  Here's what that code could look like:
+Let's use recursion to model [[https://www.mathsisfun.com/numbers/fibonacci-sequence.html][The Fibonacci Sequence]].  We'll say that we would like to be able to fetch a specific number or look at the first several numbers of the sequence.  Here's what that code could look like:
 
 #+begin_src elixir :session none
   defmodule FibonacciRecursion do
@@ -63,9 +63,9 @@ First, it's not *like* an ~Enum~, it *is* an ~Enum~ and that's awesome!  It mean
 
 Also, ~Stream~ is not about speed.  It's about controlling the flow of iteration.  We can use it to transform a list of items one at a time while we search for a specific one that we need and avoid working through the rest of the list after we've found it.  We can also use it to build potentially infinite sequences of data.
 
-The real irony is that—since I've figured out how to use ~Stream~ properly—I've been able to drastically outpace replaced ~Enum~ operations on several occasions.
+The real irony is that — since I've figured out how to use ~Stream~ properly — I've been able to drastically outpace replaced ~Enum~ operations on several occasions.
 
-Let's focus in on one function of the ~Stream~ module to show you what all of this means.  A great place to begin is [[https://hexdocs.pm/elixir/1.15.2/Stream.html#iterate/2][~Stream.iterate/2~]].  This one function isn't too tough to get the hang of and it can be used in a lot of cases.
+Let's focus in on one function of the ~Stream~ module to show what all of this means.  A great place to begin is [[https://hexdocs.pm/elixir/1.15.2/Stream.html#iterate/2][~Stream.iterate/2~]].  This one function isn't too tough to get the hang of and it can be used in a lot of cases.
 
 The idea is simple.  You pass ~Stream.iterate/2~ two things:
 
@@ -164,4 +164,4 @@ I've used this strategy in a wide range of cases:
 
 I take a very similar approach each time.  I start by building a struct that holds all the details of the work that needs doing:  inputs, resources, calculations, caches, stage tracking, partial results, and whatever else it takes.  Then I build a reducer function that can advance the work one step at a time by taking the current struct and returning an updated one.  I end with an iteration pipeline that passes a starting struct and the reducer into something like ~Stream.iterate/2~ and uses other iterators to hunt for the expected results.
 
-There are other great tools hiding in the ~Stream~ module.  For example, [[https://hexdocs.pm/elixir/1.15.3/Stream.html#unfold/2][~Stream.unfold/2~]] is an upgraded ~Stream.iterate/2~ that I use a lot.  It adds the ability to differentiate between what the stream emits and carries forward as well as the ability for the reducer function to end the stream.  Just remember that those quality of life improvements aren't strictly needed!  We changed emitted values with ~Stream.map/2~ and ended the stream with ~Enum.find/3~ in the last code example.
+There are other great tools hiding in the ~Stream~ module.  For example, [[https://hexdocs.pm/elixir/1.15.3/Stream.html#unfold/2][~Stream.unfold/2~]] is an upgraded ~Stream.iterate/2~ that I use a lot.  It adds the ability to differentiate between what the stream emits and carries forward as well as the ability for the reducer function to end the stream.  Just remember that those quality of life improvements aren't strictly needed!  We changed emitted values with ~Stream.map/2~ and ended the stream with ~Enum.find/3~ in the previous code block.

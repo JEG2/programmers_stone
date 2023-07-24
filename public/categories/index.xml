@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on The Programmer&#39;s Stone</title>
+    <link>https://programmersstone.blog/categories/</link>
+    <description>Recent content in Categories on The Programmer&#39;s Stone</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language><atom:link href="https://programmersstone.blog/categories/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

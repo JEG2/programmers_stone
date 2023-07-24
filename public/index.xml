@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>The Programmer&#39;s Stone</title>
+    <link>https://programmersstone.blog/</link>
+    <description>Recent content on The Programmer&#39;s Stone</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 23 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://programmersstone.blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>https://programmersstone.blog/about/</link>
+      <pubDate>Sun, 23 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://programmersstone.blog/about/</guid>
+      <description>&lt;p&gt;
+This blog represents one programmer&amp;#39;s quest for enlightenment by attempting to turn (mostly &lt;a href=&#34;https://elixir-lang.org/&#34;&gt;Elixir&lt;/a&gt;) code into gold.&lt;/p&gt;</description>
+      <content>&lt;p&gt;
+This blog represents one programmer&amp;#39;s quest for enlightenment by attempting to turn (mostly &lt;a href=&#34;https://elixir-lang.org/&#34;&gt;Elixir&lt;/a&gt;) code into gold.&lt;/p&gt;
+&lt;div id=&#34;outline-container-headline-1&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-1&#34;&gt;
+About the Author
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-1&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;
+My name is James Edward Gray II — JEG2 around some parts of the Internet. I have been a developer for around two decades.  These days I manage developers.  In both roles, teaching programming has always been a big focus of my work.&lt;/p&gt;
+&lt;p&gt;
+When programming, I&amp;#39;m passionate about design.  When managing, I try to empower teams of self-organizing Musketeers.  When teaching, I care deeply about practical examples, visualization of algorithms, and how to train fluency.&lt;/p&gt;
+&lt;p&gt;
+I co-wrote &lt;a href=&#34;https://pragprog.com/titles/jgotp/designing-elixir-systems-with-otp/&#34;&gt;Designing Elixir Systems with OTP&lt;/a&gt; with Bruce Tate, who&amp;#39;s one heck of a nice guy.  I&amp;#39;m developing a strong appreciation for &lt;a href=&#34;https://livebook.dev/&#34;&gt;Livebook&lt;/a&gt; and I have always loved regular expressions and board games.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-2&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-2&#34;&gt;
+How this Blog is Built
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-2&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;
+These pages are built using the static site generator &lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; with the &lt;a href=&#34;https://themes.gohugo.io/themes/hugo-theme-terminal/&#34;&gt;Terminal&lt;/a&gt; theme.  Posts are written in &lt;a href=&#34;https://www.spacemacs.org/&#34;&gt;Spacemacs&lt;/a&gt; using &lt;a href=&#34;https://orgmode.org/&#34;&gt;Org Mode&lt;/a&gt;, which, in this author&amp;#39;s opinion, is a big reason to consider using a &lt;a href=&#34;https://quotefancy.com/quote/1428461/Neal-Stephenson-I-use-emacs-which-might-be-thought-of-as-a-thermonuclear-word-processor&#34;&gt;thermonuclear word processor&lt;/a&gt;.  The &lt;a href=&#34;https://github.com/JEG2/programmers_stone&#34;&gt;source&lt;/a&gt; is hosted with &lt;a href=&#34;https://pages.github.com/&#34;&gt;GitHub Pages&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-3&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-3&#34;&gt;
+Further Discussion
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-3&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;
+To discuss topics written about on this site, please start a thread on &lt;a href=&#34;https://elixirforum.com/&#34;&gt;Elixir Forum&lt;/a&gt; so others can benefit from any unearthed insights.  You&amp;#39;re also welcome to &lt;a href=&#34;mailto:james@graysoftinc.com&#34;&gt;email the author&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content>
+    </item>
+    
+    <item>
+      <title>Easier Recursion</title>
+      <link>https://programmersstone.blog/posts/easier-recursion/</link>
+      <pubDate>Sun, 23 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://programmersstone.blog/posts/easier-recursion/</guid>
+      <description>&lt;p&gt;
+I definitely understand the sentiment behind the L. Peter Deutsch quote, &amp;#34;To iterate is human, to recurse divine.&amp;#34;  I enjoy an elegant recursive solution as much as other programmers, but lately I&amp;#39;ve been playing with another style of coding up similar needs that might just be easier and more flexible.&lt;/p&gt;</description>
+      <content>&lt;p&gt;
+I definitely understand the sentiment behind the L. Peter Deutsch quote, &amp;#34;To iterate is human, to recurse divine.&amp;#34;  I enjoy an elegant recursive solution as much as other programmers, but lately I&amp;#39;ve been playing with another style of coding up similar needs that might just be easier and more flexible.&lt;/p&gt;
+&lt;div id=&#34;outline-container-headline-1&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-1&#34;&gt;
+The Challenge of Recursion
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-1&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;
+Let&amp;#39;s use recursion to model &lt;a href=&#34;https://www.mathsisfun.com/numbers/fibonacci-sequence.html&#34;&gt;The Fibonacci Sequence&lt;/a&gt;.  We&amp;#39;ll say that we would like to be able to fetch a specific number or look at the first several numbers of the sequence.  Here&amp;#39;s what that code could look like:&lt;/p&gt;
+&lt;div class=&#34;src src-elixir&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-elixir&#34; data-lang=&#34;elixir&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;defmodule&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;FibonacciRecursion&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; advance({&lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;}), &lt;span style=&#34;color:#e6db74&#34;&gt;do&lt;/span&gt;: {&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; advance({prev, cur}), &lt;span style=&#34;color:#e6db74&#34;&gt;do&lt;/span&gt;: {cur, prev &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; cur}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; at(seq \\ {&lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;}, n)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; at(seq, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;), &lt;span style=&#34;color:#e6db74&#34;&gt;do&lt;/span&gt;: elem(seq, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; at(seq, n) &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      seq
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; advance()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; at(n &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; take(seq \\ {&lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;}, n, acc \\ [])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; take(_seq, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, acc), &lt;span style=&#34;color:#e6db74&#34;&gt;do&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;Enum&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;reverse(acc)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; take(seq, n, acc) &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      take(advance(seq), n &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, [elem(seq, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt; acc])
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;FibonacciRecursion&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;take(&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;IO&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inspect()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;FibonacciRecursion&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;at(&lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;IO&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inspect()&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;pre class=&#34;example&#34;&gt;
+[0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+34
+&lt;/pre&gt;
+&lt;p&gt;
+This code separates the &lt;em&gt;business logic&lt;/em&gt; (&lt;code&gt;FibonacciRecursion.advance/1&lt;/code&gt;) from the interface (&lt;code&gt;FibonacciRecursion.at/2&lt;/code&gt; and &lt;code&gt;FibonacciRecursion.take/2&lt;/code&gt;).  The interface functions are where we see the recursive approach.&lt;/p&gt;
+&lt;p&gt;
+This works fine, obviously, but there are a few drawbacks.  First, we may need to dream up a new strategy for each way that we want to access this data.  Both existing functions keep dropping a counter to tell when to stop, but one of them also has to build up an accumulator as it works.  We could generalize this by introducing mechanisms to control when to stop and for assembling the output, but that would introduce some additional complexity.  That brings me to another point.&lt;/p&gt;
+&lt;p&gt;
+Recursion very often involves three things at once:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The actual work we&amp;#39;re doing (generating Fibonacci numbers)&lt;/li&gt;
+&lt;li&gt;Checking for the stop case (when our counter reaches some predetermined value)&lt;/li&gt;
+&lt;li&gt;Creating the desired outcome (keeping track of the last number or building a list of all of them)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I struggle to address those elements individually when I&amp;#39;m coding up something complex.  I generally feel like I have to do the whole thing together.  It&amp;#39;s more mental overhead to manage.&lt;/p&gt;
+&lt;p&gt;
+Circling back to the first problem, if we later decide that we want the second set of ten numbers or to find the first number in the sequence over 100, we will have to introduce two new recursion strategies or that generalization layer discussed previously.  The mental overhead continues to rise.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-2&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-2&#34;&gt;
+There&amp;#39;s an Easier Way
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-2&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;
+It took me a while, but I think &lt;code&gt;Stream&lt;/code&gt; has become one of my favorite modules in Elixir.&lt;/p&gt;
+&lt;p&gt;
+Earlier on I had some weird mental block about thinking that it was similar to &lt;code&gt;Enum&lt;/code&gt;, but slower in many cases.  I now know that I was confused on multiple levels.&lt;/p&gt;
+&lt;p&gt;
+First, it&amp;#39;s not &lt;strong&gt;like&lt;/strong&gt; an &lt;code&gt;Enum&lt;/code&gt;, it &lt;strong&gt;is&lt;/strong&gt; an &lt;code&gt;Enum&lt;/code&gt; and that&amp;#39;s awesome!  It means that we can use all of the iterators to help us build.&lt;/p&gt;
+&lt;p&gt;
+Also, &lt;code&gt;Stream&lt;/code&gt; is not about speed.  It&amp;#39;s about controlling the flow of iteration.  We can use it to transform a list of items one at a time while we search for a specific one that we need and avoid working through the rest of the list after we&amp;#39;ve found it.  We can also use it to build potentially infinite sequences of data.&lt;/p&gt;
+&lt;p&gt;
+The real irony is that — since I&amp;#39;ve figured out how to use &lt;code&gt;Stream&lt;/code&gt; properly — I&amp;#39;ve been able to drastically outpace replaced &lt;code&gt;Enum&lt;/code&gt; operations on several occasions.&lt;/p&gt;
+&lt;p&gt;
+Let&amp;#39;s focus in on one function of the &lt;code&gt;Stream&lt;/code&gt; module to show what all of this means.  A great place to begin is &lt;a href=&#34;https://hexdocs.pm/elixir/1.15.2/Stream.html#iterate/2&#34;&gt;&lt;code&gt;Stream.iterate/2&lt;/code&gt;&lt;/a&gt;.  This one function isn&amp;#39;t too tough to get the hang of and it can be used in a lot of cases.&lt;/p&gt;
+&lt;p&gt;
+The idea is simple.  You pass &lt;code&gt;Stream.iterate/2&lt;/code&gt; two things:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Some starting data&lt;/li&gt;
+&lt;li&gt;A function that turns any given piece of data into the next piece of data, also known as a &lt;em&gt;reducer&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The &lt;code&gt;Stream&lt;/code&gt; call returns an &lt;em&gt;enumerable&lt;/em&gt; that will infinitely step through the data until it&amp;#39;s instructed to stop.  During iteration it will first return the starting data.  Then it will call the passed function with the starting data and return the result.  Then it will call the passed function with that previous result and return the new result.  And so on.&lt;/p&gt;
+&lt;pre class=&#34;example&#34;&gt;
+starting -f.(starting)-&amp;gt; result -f.(result)-&amp;gt; next_result -f.(next_result)-&amp;gt; …
+&lt;/pre&gt;
+&lt;p&gt;
+The emitted values are the variable contents before each function call in that flow:  &lt;code&gt;starting&lt;/code&gt;, &lt;code&gt;result&lt;/code&gt;, &lt;code&gt;next_result&lt;/code&gt;, …&lt;/p&gt;
+&lt;p&gt;
+Let&amp;#39;s take our first step toward converting our Fibonacci generator to this new model:&lt;/p&gt;
+&lt;div class=&#34;src src-elixir&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-elixir&#34; data-lang=&#34;elixir&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;defmodule&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Fibonacci&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; stream(seq \\ {&lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;}) &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#a6e22e&#34;&gt;Stream&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iterate(seq, &lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {&lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;} &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {prev, cur} &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; {cur, prev &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; cur}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;Fibonacci&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;stream()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Enum&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;take(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;IO&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inspect()&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;pre class=&#34;example&#34;&gt;
+[{nil, 0}, {0, 1}, {1, 1}, {1, 2}, {2, 3}]
+&lt;/pre&gt;
+&lt;p&gt;
+We&amp;#39;re definitely not all the way back to the desired outcome yet, but you can find the sequence hiding in there if you squint a bit.&lt;/p&gt;
+&lt;p&gt;
+What&amp;#39;s more interesting is what isn&amp;#39;t there.  We haven&amp;#39;t had to worry about how we&amp;#39;ll actually stop things so far.  The use of &lt;code&gt;|&amp;gt; Enum.take(5)&lt;/code&gt; is just a handy trick that&amp;#39;s available to us, now that we can use the iterators, for peeking in on how things are going.&lt;/p&gt;
+&lt;p&gt;
+We also haven&amp;#39;t decided to care about producing the final output at this point.  As we&amp;#39;ll see shortly, that&amp;#39;s trivial to add on when we&amp;#39;re ready.&lt;/p&gt;
+&lt;p&gt;
+We&amp;#39;ve really just recreated the business logic here, in a slightly different form.  This is about a third of the cognitive load of the recursive interface at this point.  We can worry about those other concerns separately.  We don&amp;#39;t need to solve the whole problem in one move.&lt;/p&gt;
+&lt;p&gt;
+Let&amp;#39;s take those last steps to see it all come together:&lt;/p&gt;
+&lt;div class=&#34;src src-elixir&#34;&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-elixir&#34; data-lang=&#34;elixir&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;defmodule&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Fibonacci&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; stream(seq \\ {&lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;}) &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      seq
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Stream&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;iterate(&lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {&lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;} &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; {&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {prev, cur} &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; {cur, prev &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; cur}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Stream&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;map(&lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; {_prev, cur} &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; cur &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# the two original examples&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;Fibonacci&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;stream()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Enum&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;take(&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;IO&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inspect()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;Fibonacci&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;stream()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Enum&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;at(&lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;IO&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inspect()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;# the considered expansions&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;Fibonacci&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;stream()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Stream&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;drop(&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Enum&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;take(&lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;IO&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inspect()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#a6e22e&#34;&gt;Fibonacci&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;stream()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Enum&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;find(&lt;span style=&#34;color:#66d9ef&#34;&gt;fn&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; n &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;100&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;|&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;IO&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;inspect()&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;pre class=&#34;example&#34;&gt;
+[0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
+34
+[55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181]
+144
+&lt;/pre&gt;
+&lt;p&gt;
+That may look like a bunch of code, but most of it is examples.  We&amp;#39;ve recreated the two we started with and added on the two possible additions mentioned earlier.  Note how it&amp;#39;s now easy to combine &lt;code&gt;Stream&lt;/code&gt; and &lt;code&gt;Enum&lt;/code&gt; staples to get at the data any way we can dream up.&lt;/p&gt;
+&lt;p&gt;
+This is possible because we now stream the actual sequence of numbers.  That&amp;#39;s the most significant change in this version:  we add on a call to &lt;code&gt;Stream.map/2&lt;/code&gt; to transform the underlying data structure into the numbers that we care about as it iterates.  That&amp;#39;s really all it takes!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;outline-container-headline-3&#34; class=&#34;outline-2&#34;&gt;
+&lt;h2 id=&#34;headline-3&#34;&gt;
+Adopting the Pattern
+&lt;/h2&gt;
+&lt;div id=&#34;outline-text-headline-3&#34; class=&#34;outline-text-2&#34;&gt;
+&lt;p&gt;
+I&amp;#39;ve used this strategy in a wide range of cases:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Analyzing data from &lt;a href=&#34;https://hexdocs.pm/elixir/1.15.3/File.html#stream!/3&#34;&gt;&lt;code&gt;File.stream!/3&lt;/code&gt;&lt;/a&gt; and &lt;a href=&#34;https://hexdocs.pm/csv/CSV.html#decode!/2&#34;&gt;&lt;code&gt;CSV.decode!/2&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Ingesting Web API&amp;#39;s&lt;/li&gt;
+&lt;li&gt;Running simulations until specific criteria are met&lt;/li&gt;
+&lt;li&gt;Building complex graph and tree data structures&lt;/li&gt;
+&lt;li&gt;Pathfinding algorithms&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I take a very similar approach each time.  I start by building a struct that holds all the details of the work that needs doing:  inputs, resources, calculations, caches, stage tracking, partial results, and whatever else it takes.  Then I build a reducer function that can advance the work one step at a time by taking the current struct and returning an updated one.  I end with an iteration pipeline that passes a starting struct and the reducer into something like &lt;code&gt;Stream.iterate/2&lt;/code&gt; and uses other iterators to hunt for the expected results.&lt;/p&gt;
+&lt;p&gt;
+There are other great tools hiding in the &lt;code&gt;Stream&lt;/code&gt; module.  For example, &lt;a href=&#34;https://hexdocs.pm/elixir/1.15.3/Stream.html#unfold/2&#34;&gt;&lt;code&gt;Stream.unfold/2&lt;/code&gt;&lt;/a&gt; is an upgraded &lt;code&gt;Stream.iterate/2&lt;/code&gt; that I use a lot.  It adds the ability to differentiate between what the stream emits and carries forward as well as the ability for the reducer function to end the stream.  Just remember that those quality of life improvements aren&amp;#39;t strictly needed!  We changed emitted values with &lt;code&gt;Stream.map/2&lt;/code&gt; and ended the stream with &lt;code&gt;Enum.find/3&lt;/code&gt; in the previous code block.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</content>
+    </item>
+    
+  </channel>
+</rss>
