@@ -1,0 +1,523 @@
+#+title: Math Not Required
+#+author: JEG2
+#+date: <2023-11-18 Sat>
+
+There's an age old debate in programming about whether or not there's a lot of math involved.  Do you need to be a math geek to become a good programmer?
+
+At the risk of spoiling this entire article:  I don't think you do.
+
+Why do I say that and what do I think this debate is really about?  That I won't spoil…
+
+# more
+
+* Programming Without Math
+
+Let's examine a problem that we could math our way out of, but assume we don't know how.  We'll lean on our programming to teach us what we don't know.
+
+The [[https://en.wikipedia.org/wiki/Monty_Hall_problem][Monty Hall problem]] comes from an old game show called Let's Make a Deal, hosted by Monty Hall.  In the show, Monty would show three closed doors to a contestant and explain that one holds a car while the other two hold goats.  The contestant then chose a door.  After this first pick, Monty would reveal one unchosen door that was hiding a goat.  The contestant then faced a key second choice:  keep their door or switch to the other closed door.  After this final choice, the two doors were opened and the contestant kept whatever they selected.  The goal, of course, was to win a car.
+
+What we really to want to know:  are the chances of winning better if we switch or don't switch after the reveal?
+
+Let's see if we can find out by modeling the problem in code:
+
+#+begin_src elixir :session none
+  defmodule MontyHallProblem do
+    def dont_switch do
+      Enum.at(randomize_doors(), pick_door())
+      # no need to model the reveal or second choice in this case since it
+      # doesn't change the outcome
+    end
+
+    def switch do
+      game = randomize_doors()
+      pick1 = pick_door()
+
+      reveal =
+        0..2
+        |> Enum.filter(fn i -> i != pick1 and Enum.at(game, i) == :lose end)
+        |> Enum.random()
+
+      pick2 = hd([0, 1, 2] -- [pick1, reveal])
+      Enum.at(game, pick2)
+    end
+
+    defp randomize_doors, do: Enum.shuffle(~w[win lose lose]a)
+
+    defp pick_door, do: Enum.random(0..2)
+  end
+#+end_src
+
+Hopefully this code is a pretty direct translation of the earlier problem description.  Note that we now have two public functions, one that simulates a game where we switch and another for when we don't.
+
+Here's a random run of each one:
+
+#+begin_src elixir :session none
+  MontyHallProblem.dont_switch() |> IO.inspect()
+#+end_src
+
+#+RESULTS:
+: :win
+
+#+begin_src elixir :session none
+  MontyHallProblem.switch() |> IO.inspect()
+#+end_src
+
+#+RESULTS:
+: :lose
+
+Now what we want to do is just try them both—a lot—and show the results.
+
+Let's write a little code for that too:
+
+#+begin_src elixir :session none
+  defmodule MonteCarloSimulation do
+    def analyze(event, measurement, repetitions \\ 10_000) do
+      Stream.repeatedly(event)
+      |> Stream.take(repetitions)
+      |> Enum.count(fn result -> result == measurement end)
+      |> then(&:io_lib.format("~.2f%", [&1 / repetitions * 100]))
+      |> to_string()
+    end
+  end
+#+end_src
+
+This code takes some function that simulates an ~event~, runs it for a requested number ~repetitions~, and counts how many times the result matches a provided ~measurement~.  The rest is just about showing pretty output.
+
+You may have noticed from the module name that this technique is another "Monte."  [[https://en.wikipedia.org/wiki/Monte_Carlo_method][Monte Carlo simulations]] are just repeated random samplings used to measure results.  This works thanks to [[https://en.wikipedia.org/wiki/Law_of_large_numbers][the law of large numbers]].
+
+It may sound like I'm sneaking some math into this solution, but I suspect most of us intuitively understand this process even if we don't know the names for it.  For example, how many heads will I get if I flip a coin three times?
+
+#+begin_src elixir :session none
+  MonteCarloSimulation.analyze(
+    fn -> Enum.random([:heads, :tails]) end,
+    :heads,
+    3
+  )
+#+end_src
+
+#+RESULTS:
+: "0.00%"
+
+I guess I'm not very lucky, but watch what happens if I keep cranking up the number of flips:
+
+#+begin_src elixir :session none
+  MonteCarloSimulation.analyze(
+    fn -> Enum.random([:heads, :tails]) end,
+    :heads,
+    30
+  )
+#+end_src
+
+#+RESULTS:
+: "43.33%"
+
+#+begin_src elixir :session none
+  MonteCarloSimulation.analyze(
+    fn -> Enum.random([:heads, :tails]) end,
+    :heads,
+    300
+  )
+#+end_src
+
+#+RESULTS:
+: "54.67%"
+
+#+begin_src elixir :session none
+  MonteCarloSimulation.analyze(
+    fn -> Enum.random([:heads, :tails]) end,
+    :heads,
+    3_000
+  )
+#+end_src
+
+#+RESULTS:
+: "50.47%"
+
+#+begin_src elixir :session none
+  MonteCarloSimulation.analyze(
+    fn -> Enum.random([:heads, :tails]) end,
+    :heads,
+    30_000
+  )
+#+end_src
+
+#+RESULTS:
+: "50.40%"
+
+What if I asked:  how many heads will I get if I flip 30,000 coins?  I feel like a lot of folks would answer, "around 15,000," or, "about half."  That's exactly what happens.  The more tests we do the more the results converge on the expected probability.
+
+We can use that to discover the answer to the Monty Hall problem!
+
+#+begin_src elixir :session none
+  %{
+    "Don't switch win chance" =>
+      MonteCarloSimulation.analyze(
+        &MontyHallProblem.dont_switch/0,
+        :win
+      ),
+    "Switch win chance" =>
+      MonteCarloSimulation.analyze(
+        &MontyHallProblem.switch/0,
+        :win
+      )
+  }
+#+end_src
+
+#+RESULTS:
+: %{"Don't switch win chance" => "33.40%", "Switch win chance" => "66.78%"}
+
+What we see there is mathematically correct, or at least very close to it.  The /don't switch/ result is probably the easiest to come to terms with.  We selected one of three available doors and never changed, so we'll be right about a third of the time.
+
+The /switching/ result is a little trickier.  If our initial guess is right a third of the time, that means it's wrong two thirds of the time.  Put another way there's a two thirds chance that the car is behind one of the two doors we didn't initially pick.  Then Monty is kind enough to rule one of those two out, shifting the full two thirds chance to the one remaining unselected door.  If we switch to that one, we double our chances to win!
+
+Programming can show you what to do, even if it doesn't explain why.
+
+* In Defense of Math
+
+I want to be very clear:  this article is examining whether or not math is essential background knowledge for programmers.  It is not arguing that math is not important or valuable.
+
+I believe that most people can benefit from learning some math!  You are absolutely affected by math in your day-to-day life, whether you understand it or not.
+
+For example, many adults have a credit card.  Credit cards typically come with an /Annual Percentage Rate (APR)/, which is pretty confusing since most cards calculate daily compound interest.  Compound interest could be considered the eighth wonder of the modern world and, when you compound it daily, it's simply terrifying.  It's vital to understand at least the magnitude of how this grows if you carry a significant balance.
+
+However, if you don't know this, programming might be able to save you!  Let's build a model for credit cards:
+
+#+begin_src elixir :session none
+  defmodule CreditCard do
+    defstruct balance: 7_279.0,
+              apr: 24.45,
+              daily_periodic_rate: nil,
+              minimum_percent: 0.02,
+              minimum_floor: 27.5,
+              last_due: nil
+
+    def new(fields \\ []) do
+      fields
+      |> Keyword.put_new_lazy(:last_due, &Date.utc_today/0)
+      |> then(&struct!(__MODULE__, &1))
+      |> then(fn card ->
+        %__MODULE__{card | daily_periodic_rate: card.apr / 100 / 365}
+      end)
+    end
+
+    def payment_schedule(card, overpayment \\ 0) do
+      Stream.unfold(card, fn
+        %__MODULE__{balance: 0.0} ->
+          nil
+
+        card ->
+          payment =
+            CreditCard.Payment.new(card)
+            |> CreditCard.Payment.advance_due_date()
+            |> CreditCard.Payment.accrue_interest()
+            |> CreditCard.Payment.apply_payment(overpayment)
+
+          {payment, payment.card_after}
+      end)
+    end
+  end
+#+end_src
+
+This code above is mostly just a data structure.  The defaults you see came from Google:
+
+- [[https://www.lendingtree.com/credit-cards/credit-card-debt-statistics/][Average balance]]
+- [[https://www.lendingtree.com/credit-cards/average-credit-card-interest-rate-in-america/][Average APR]]
+- [[https://wallethub.com/edu/cc/credit-card-minimum-payments/97692][Average minimum payment]]
+
+The ~CreditCard.payment_schedule/2~ function provides a public interface for repeatedly making payments, until the balance reaches zero.  A payment involves a few steps, but the keys bits are that interest is accrued for days past and then a payment is applied to the new total.  A minimum payment is always made, but we can choose to pass an ~overpayment~ amount.
+
+The trickiest line in the code above is probably where I convert the APR to a ~daily_periodic_rate~.  Is this using math knowledge?  I don't think it has to be, since the [[https://www.usbank.com/customer-service/knowledge-base/KB0194384.html][formulas needed are easily Googled]].  (Yes, I've made some simplifying assumptions:  assume the full balance is already subject to interest, ignore details like /cash advances/ to assume the whole balance is under the same APR, and assume no new debt will be added.)
+
+Let's look at the payments:
+
+#+begin_src elixir :session none
+  defmodule CreditCard.Payment do
+    defstruct ~w[card_before card_after days interest minimum paid]a
+
+    def new(card), do: %__MODULE__{card_before: card, card_after: card}
+
+    def advance_due_date(payment) do
+      # try to jump a month forward
+      last_due = payment.card_before.last_due
+      next_due = Date.add(last_due, Date.days_in_month(last_due))
+
+      # correct if we overshot a shorter month (not possible in November or
+      # December, since both December and January have 31 days)
+      next_due =
+        if next_due.month == last_due.month + 2 do
+          Date.add(next_due, -next_due.day)
+        else
+          next_due
+        end
+
+      days = Date.diff(next_due, last_due)
+
+      %__MODULE__{
+        payment
+        | card_after: %CreditCard{payment.card_after | last_due: next_due},
+          days: days
+      }
+    end
+
+    def accrue_interest(payment) do
+      card = payment.card_after
+      interest = card.balance * card.daily_periodic_rate * payment.days
+      new_balance = card.balance + interest
+
+      %__MODULE__{
+        payment
+        | card_after: %CreditCard{payment.card_after | balance: new_balance},
+          interest: interest
+      }
+    end
+
+    def apply_payment(payment, overpayment \\ 0) do
+      card = payment.card_after
+
+      minimum =
+        card.balance
+        |> min(card.minimum_floor)
+        |> max(card.balance * card.minimum_percent)
+
+      paid = min(card.balance, minimum + overpayment)
+      new_balance = card.balance - paid
+
+      %__MODULE__{
+        payment
+        | card_after: %CreditCard{payment.card_after | balance: new_balance},
+          minimum: minimum,
+          paid: paid
+      }
+    end
+  end
+#+end_src
+
+Another data structure and three public functions as the interface for manipulating it.  The longest function finds the next payment date, because calendaring might be the only subject more complex credit cards.  The interest calculation is right out of the formulas page I linked to above.  Finally the actual payment function has to sort out whether we're paying the minimum percentage, using the minimum floor, or just paying the full remaining balance, depending on how much is left on the card.
+
+That's enough for us to see how long it'll take to pay off an average debt if we stick to minimum payments:
+
+#+begin_src elixir :session none
+  payments =
+    CreditCard.new()
+    |> CreditCard.payment_schedule()
+    |> Enum.map(& &1.paid)
+
+  %{
+    months: length(payments),
+    total_paid: payments |> Enum.sum() |> Float.round(2)
+  }
+  |> IO.inspect()
+#+end_src
+
+#+RESULTS:
+: %{months: 87414, total_paid: 6257806.8}
+
+Over 7,000 years and $6,000,000?  You would be forgiven for assuming that I have a bug!  But do I?
+
+Let's examine the first five payments:
+
+#+begin_src elixir :session none
+  CreditCard.new()
+  |> CreditCard.payment_schedule()
+  |> Enum.take(5)
+  |> IO.inspect()
+#+end_src
+
+#+RESULTS:
+: [
+:   %CreditCard.Payment{
+:     days: 31,
+:     interest: 151.1539191780822,
+:     card_after: %CreditCard{
+:       balance: 7281.550840794521,
+:       apr: 24.45,
+:       daily_periodic_rate: 6.698630136986302e-4,
+:       minimum_percent: 0.02,
+:       minimum_floor: 27.5,
+:       last_due: ~D[2023-11-16]
+:     },
+:     card_before: %CreditCard{
+:       balance: 7279.0,
+:       apr: 24.45,
+:       daily_periodic_rate: 6.698630136986302e-4,
+:       minimum_percent: 0.02,
+:       minimum_floor: 27.5,
+:       last_due: ~D[2023-10-16]
+:     },
+:     minimum: 148.60307838356164,
+:     paid: 148.60307838356164
+:   },
+:   %CreditCard.Payment{
+:     days: 30,
+:     interest: 146.32924771843236,
+:     card_after: %CreditCard{
+:       balance: 7279.322486742694,
+:       apr: 24.45,
+:       daily_periodic_rate: 6.698630136986302e-4,
+:       minimum_percent: 0.02,
+:       minimum_floor: 27.5,
+:       last_due: ~D[2023-12-16]
+:     },
+:     card_before: %CreditCard{
+:       balance: 7281.550840794521,
+:       apr: 24.45,
+:       daily_periodic_rate: 6.698630136986302e-4,
+:       minimum_percent: 0.02,
+:       minimum_floor: 27.5,
+:       last_due: ~D[2023-11-16]
+:     },
+:     minimum: 148.55760177025905,
+:     paid: 148.55760177025905
+:   },
+:   %CreditCard.Payment{
+:     days: 31,
+:     interest: 151.1606158582637,
+:     card_after: %CreditCard{
+:       balance: 7281.873440548939,
+:       apr: 24.45,
+:       daily_periodic_rate: 6.698630136986302e-4,
+:       minimum_percent: 0.02,
+:       minimum_floor: 27.5,
+:       last_due: ~D[2024-01-16]
+:     },
+:     card_before: %CreditCard{
+:       balance: 7279.322486742694,
+:       apr: 24.45,
+:       daily_periodic_rate: 6.698630136986302e-4,
+:       minimum_percent: 0.02,
+:       minimum_floor: 27.5,
+:       last_due: ~D[2023-12-16]
+:     },
+:     minimum: 148.60966205201916,
+:     paid: 148.60966205201916
+:   },
+:   %CreditCard.Payment{
+:     days: 31,
+:     interest: 151.21358833600186,
+:     card_after: %CreditCard{
+:       balance: 7284.425288307241,
+:       apr: 24.45,
+:       daily_periodic_rate: 6.698630136986302e-4,
+:       minimum_percent: 0.02,
+:       minimum_floor: 27.5,
+:       last_due: ~D[2024-02-16]
+:     },
+:     card_before: %CreditCard{
+:       balance: 7281.873440548939,
+:       apr: 24.45,
+:       daily_periodic_rate: 6.698630136986302e-4,
+:       minimum_percent: 0.02,
+:       minimum_floor: 27.5,
+:       last_due: ~D[2024-01-16]
+:     },
+:     minimum: 148.6617405776988,
+:     paid: 148.6617405776988
+:   },
+:   %CreditCard.Payment{
+:     days: 29,
+:     interest: 141.50744522395203,
+:     card_after: %CreditCard{
+:       balance: 7277.41407886057,
+:       apr: 24.45,
+:       daily_periodic_rate: 6.698630136986302e-4,
+:       minimum_percent: 0.02,
+:       minimum_floor: 27.5,
+:       last_due: ~D[2024-03-16]
+:     },
+:     card_before: %CreditCard{
+:       balance: 7284.425288307241,
+:       apr: 24.45,
+:       daily_periodic_rate: 6.698630136986302e-4,
+:       minimum_percent: 0.02,
+:       minimum_floor: 27.5,
+:       last_due: ~D[2024-02-16]
+:     },
+:     minimum: 148.51865467062387,
+:     paid: 148.51865467062387
+:   }
+: ]
+
+If you look closely at the first payment, you can see that the interest is a little more than what we're required to pay.  Our balance actually went up by a couple of bucks!
+
+The second payment was better, because it happened in a month that's one day shorter.  It cost us less interest.  After making both payments we're about 32 cents above where we started.  So what saves us from a forever climbing balance?
+
+February.  Check out that fifth payment.  Unfortunately it landed in a /leap year/, so it still has one more day than normal.  However, it's enough of a win to undo the damage of the previous four payments and leave us over a buck and a half to the good.
+
+This cycle repeats for a very long time, with each new February gaining a tiny bit of ground.  Eventually we reach a point where all payments are more than the interest and a payoff can be reached.  Even that is slow going though.
+
+When you're in this situation, little changes can have a huge impact.  Look at the differences we see if we just up the minimum payment percentage to the higher end of average:
+
+#+begin_src elixir :session none
+  payments =
+    CreditCard.new(minimum_percent: 0.03)
+    |> CreditCard.payment_schedule()
+    |> Enum.map(& &1.paid)
+
+  %{
+    months: length(payments),
+    total_paid: payments |> Enum.sum() |> Float.round(2)
+  }
+  |> IO.inspect()
+#+end_src
+
+#+RESULTS:
+: %{months: 258, total_paid: 20606.42}
+
+We're still paying for over 20 years and it'll cost nearly three times the amount charged, but this seems like a miracle compared to the previous outcome.
+
+What if we tossed in an extra $10 per month?
+
+#+begin_src elixir :session none
+  card = CreditCard.new(minimum_percent: 0.03)
+
+  overpayments =
+    card
+    |> CreditCard.payment_schedule(10)
+    |> Enum.map(& &1.paid)
+
+  overpayments_total = overpayments |> Enum.sum() |> Float.round(2)
+
+  minimums_total =
+    card
+    |> CreditCard.payment_schedule()
+    |> Enum.map(& &1.paid)
+    |> Enum.sum()
+
+  %{
+    months: length(overpayments),
+    total_paid: overpayments_total,
+    savings: Float.round(minimums_total - overpayments_total, 2)
+  }
+  |> IO.inspect()
+#+end_src
+
+#+RESULTS:
+: %{months: 178, total_paid: 17481.32, savings: 3125.1}
+
+That saves us over six years and $3,000 even with the increased outlay of cash each month.
+
+Hopefully you get the idea.  I think math holds a lot of value to humans in general, regardless of where we land on the programming issue.  Just refreshing algebra and geometry can do a lot for you, if it's been a while.  In a world where typical credit card debt turns into a life long reduction of income, this stuff matters!
+
+* Half of An Education
+
+Let's return to the main question.
+
+Why do some say that programmers require math?  I've seen other possibly related claims.  One was a job description for a tech savvy position that wanted applicants to have, "completed an Intro to Programming course (HTML doesn't count)."  Another was a code school that sought students, "comfortable with the command-line."  Who's comfortable with the command-line that's not a programmer?  Almost programmers?
+
+Programmers need a pretty diverse set of skills when you really think about it.  There's the obvious technical know-how, which can be plenty to get your head around.  But that's not even close to enough.
+
+Programmers translate human requirements into machine instructions.  Strong communication is vital for tasks like requirements gathering and documentation, at a minimum.  Still, there's more.
+
+Rarely does code spring fully formed from a programmer's head.  Most solutions need to be discovered.  Programmers spend time exploring the domain to gain familiarity and insights.  Then there's a stage of modeling where the struggle is to balance human needs with what's viable for computers.  This is creative [[https://en.wikipedia.org/wiki/Knowledge_worker][knowledge work]] that leans heavily on areas like logic and problem solving.  Who's typically experienced in logic and problem solving?  Math fans, for one.
+
+So where's the disconnect?  If we know what's needed, why do we apply all of these specific filters?
+
+I suspect that we have a training problem.  A typical Elixirist probably studies:
+
+- [[https://www.manning.com/books/elixir-in-action-third-edition][The core language]]
+- [[https://pragprog.com/titles/liveview/programming-phoenix-liveview/][Specific domains]] and/or [[https://pragprog.com/titles/sgdpelixir/concurrent-data-processing-in-elixir/][specialized knowledge]]
+- And maybe some [[https://pragprog.com/titles/jwdsal2/a-common-sense-guide-to-data-structures-and-algorithms-second-edition/][general theory]]
+
+I personally haven't seen many classes on [[https://www.cnvc.org/store/nonviolent-communication-a-language-of-life][respectful collaboration]], [[https://raymondsmullyan.com/books/to-mock-a-mockingbird-and-other-logic-puzzles/][logical deduction]], or even just [[https://mitpress.mit.edu/9780262545297/once-upon-an-algorithm/][abstract thinking]].  It seems like we need them though.  Otherwise, we're only learning half of our job, and I worry it's the easier half.
+
+I'll say it again:  I don't think strong math is essential for programmers.  However, systemic problem solving definitely is.  We need to enhance our study of these areas as a community.  Even more importantly, we need to get better as teaching them.
