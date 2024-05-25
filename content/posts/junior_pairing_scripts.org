@@ -1,0 +1,62 @@
+#+title: Junior Pairing Scripts
+#+author: JEG2
+#+date: <2024-05-23 Thu>
+#+draft: true
+
+When there's a large skill gap between two or more pairing developers, it can become a frustrating experience for everyone involved.  I suspect this happens more often when more junior folks are at the keyboard.
+
+Experienced developers have learned a high level language to communicate with their peers about problems that their less skilled partners may not yet be fluent in.  If they are forced to downgrade from, "Let's make a map," to, "Type a percent sign followed by an opening curly brace," they are now operating with one brain tied behind their back.  That's the simple stuff too.  [[https://en.wikipedia.org/wiki/Rope_(data_structure)][Rope data structures]], [[https://en.wikipedia.org/wiki/Schwartzian_transform][Schwartzian transforms]], and [[https://hexdocs.pm/elixir/genservers.html][adding a custom GenServer to the application's supervision tree]] are right out!
+
+The junior is not in a better position.  They often feel like their job is to understand as much as possible of what the other person is doing to learn from it.  Of course, it's common for most problems to quickly exceed their capacity for taking things in and, once they are overwhelmed, it's easy to feel like they can't bring any knowledge they've acquired to bear in a useful manner.  It's totally understandable if they essentially shut down in such circumstances and the hope of learning is no longer on the table.
+
+The good news is that I believe there is a better and easier way.
+
+# more
+
+* Better Goals
+
+Juniors, I've got great news for you!  You don't need any skill to be useful to another developer.  In fact, you could be [[https://en.wikipedia.org/wiki/Rubber_duck_debugging][an inanimate object and still help]].  It's also perfectly normal for a less skilled developer to pair with a more skilled developer.  There are entire strategies for how to do this well, like[[https://stackify.com/pair-programming-styles/#backseat-navigator][ Backseat Navigator]].
+
+So the bar is low.  You don't have to expect a ton from yourself.  However, the great thing about low bars is that they are pretty easy to step over.  With a few simple tricks, you can be out performing precious rubber ducks in no time.
+
+Here's what you need to do.
+
+First, stop trying so hard to keep track of everything that's going on.  In fact, especially in the beginning, just don't.  It may seem counter-intuitive, but you can't remember to be useful when you're struggling not to drown.
+
+My daughter tells this hilarious story about another girl on her swim club, that we will call Sam.  When Sam told the coach that she had signed up to swim the breaststroke in an upcoming meet, the coach said, "Sam, why would you do that?  You need to think about me!  You suck at the breaststroke and I have to watch you swim it!"  That's great advice, you juniors need to think more about me, or at least your pairs.
+
+Here's how you do that.  You develop small scripts of preprogrammed actions that you're going to take when certain cues are met.  You will know when to do this by listening for magic words that are extremely common in programming.  Whenever you identify a set of these magic words, you'll begin alternating between prewritten questions and purely mechanical actions.  Neither of those require much thought and they are tuned to maximize the benefit your pair is receiving.
+
+Don't worry, this doesn't mean you aren't going to learn anything anymore.  As time goes on with you practicing these simple scripts, they should slowly fade into the background and free you up to participate more and more in the actual process.  Even before you are ready to lend a hand, you can [[https://animalearning.com/chicken-sexers-plane-spotters-and-the-elegance-of-tagteaching/][learn just by watching the experts work]].
+
+* Starter Scripts
+
+FIXME
+
+** Magic Words:  "Let's define a function…"
+
+*** Variations
+
+- "We need a function…"
+- "We need to name this operation to make it more obvious what it does…"
+- "Let's extract this code…"
+- "We need to be able to reuse this in several places…"
+
+*** Actions
+
+1. Question:  "Which module does it belong in?"/"In this file?"
+2. Mechanical:  Add the boilerplate code for a function (~def … do … end~ in Elixir) in the proper file
+3. Question:  "What should we call it?"
+4. Mechanical:  Type the selected name in the proper place
+5. Question:  "How many arguments will it take and what should we name those?"
+6. Mechanical:  Add the parameter definitions
+
+*** Discussion
+
+This is one of the most fundamental actions in all of programming.  It's universal and we do it all the time.  What's great is that it's harder than it looks, which makes it a perfect opportunity for a pair to lend a hand in easing the burden.
+
+It may sound silly, but if your pair utters, "we should probably extract this," and you just start walking them through the steps like you're a government employee helping them fill out an application, you will seem like a mind reader.  Even better, we've baked in the hard hitting questions like naming.  Naming things is probably the worst never-ending responsibility that programmers wrestle with.  You reminding them when it's time to take that step and making space for the ensuing discussion is the very definition of helping them do their job.
+
+*** Growth Opportunities
+
+As you gain practice and skill applying this script, you can provide more help along the way.  One of the best ways to do that is to start participating in the naming discussions.  Remember that functions are the actions or verbs of the programming world, so try to think of words like that that fit your current situation.  What of you don't know what your current situation is?  Ask!  "What will this chunk of code actually do in plain English?"  If you listen closely, the answer will likely be in your partners explanation.
