@@ -53,10 +53,16 @@ FIXME
 
 *** Discussion
 
-This is one of the most fundamental actions in all of programming.  It's universal and we do it all the time.  What's great is that it's harder than it looks, which makes it a perfect opportunity for a pair to lend a hand in easing the burden.
+Creating a chunk of reusable code is one of the most fundamental actions in all of programming.  It's universal and we do it all the time.  What's great is that it's harder than it looks, which makes it a perfect opportunity for a pair to lend a hand in easing the burden.
 
 It may sound silly, but if your pair utters, "we should probably extract this," and you just start walking them through the steps like you're a government employee helping them fill out an application, you will seem like a mind reader.  Even better, we've baked in the hard hitting questions like naming.  Naming things is probably the worst never-ending responsibility that programmers wrestle with.  You reminding them when it's time to take that step and making space for the ensuing discussion is the very definition of helping them do their job.
 
+Remember that it's the on the person at the keyboard to take care of syntactical details like placing parentheses around the parameter list and separating those parameters with commas.  Practice those steps until they are truly mechanical!
+
 *** Growth Opportunities
 
-As you gain practice and skill applying this script, you can provide more help along the way.  One of the best ways to do that is to start participating in the naming discussions.  Remember that functions are the actions or verbs of the programming world, so try to think of words like that that fit your current situation.  What of you don't know what your current situation is?  Ask!  "What will this chunk of code actually do in plain English?"  If you listen closely, the answer will likely be in your partners explanation.
+As you gain practice and skill applying this script, you can provide more help along the way.  One of the best ways to do that is to start participating in the naming discussions.  Remember that functions are the actions or verbs of the programming world, so try to think of words like that that fit your current situation.  What if you don't know what your current situation is?  Ask!  "What will this chunk of code actually do in plain English?"  If you listen closely, the answer will likely be in your partner's explanation.
+
+If your project uses type specifications, add-on questions about them and a step to put them in place.  Aside from dialing in the parameters further, this is the perfect chance to think through the possible return values before you implement.
+
+If your programming language supports multiple function heads, this script will also cover a significant amount of the code's conditional logic.  You can merge in the later branching script to kill two birds with one stone.  See that script for details.
