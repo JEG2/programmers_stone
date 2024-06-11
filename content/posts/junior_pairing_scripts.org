@@ -57,7 +57,7 @@ Creating a chunk of reusable code is one of the most fundamental actions in all 
 
 It may sound silly, but if your pair utters, "we should probably extract this," and you just start walking them through the steps like you're a government employee helping them fill out an application, you will seem like a mind reader.  Even better, we've baked in the hard hitting questions like naming.  Naming things is probably the worst never-ending responsibility that programmers wrestle with.  You reminding them when it's time to take that step and making space for the ensuing discussion is the very definition of helping them do their job.
 
-Remember that it's the on the person at the keyboard to take care of syntactical details like placing parentheses around the parameter list and separating those parameters with commas.  Practice those steps until they are truly mechanical!
+Remember that it's on the person at the keyboard to take care of syntactical details like placing parentheses around the parameter list and separating those parameters with commas.  Practice those steps until they are truly mechanical!
 
 *** Growth Opportunities
 
@@ -66,3 +66,102 @@ As you gain practice and skill applying this script, you can provide more help a
 If your project uses type specifications, add-on questions about them and a step to put them in place.  Aside from dialing in the parameters further, this is the perfect chance to think through the possible return values before you implement.
 
 If your programming language supports multiple function heads, this script will also cover a significant amount of the code's conditional logic.  You can merge in the later branching script to kill two birds with one stone.  See that script for details.
+
+** Magic Words:  "Let's iterate over these items…"
+
+*** Variations
+
+- "We need to walk over the collection…"
+- "We have to remove those items from the list…"  (~Enum.filter~)
+- "We have some X, but we really want is some Y…"  (~Enum.map~)
+- "We need to know how many items are in there…"  (~Enum.count~)
+- "Let's group those by…"  (~Enum.group_by~)
+- "Now we need to summarize all of that…"  (~Enum.reduce~)
+
+*** Actions
+
+1. Question:  "Which iterator do we need?"  (Skip this if the magic words gave it away.)
+2. Mechanical:  Start the function call (~Enum.whatever(…)~)
+3. Mechanical:  Open the documentation for that function, if your editor does not show you which parameters are needed
+4. Question:  "What are we iterating over?"  (Again, skip this if you already know.)
+5. Mechanical:  Type the name of the variable holding the collection
+6. Question:  "What do we pass in this argument?"  (Repeat this and the following step for any arguments before the anonymous function.)
+7. Mechanical:  Type the argument or expression
+8. Question:  "And what do we need to do in here?"  (Only if the iterator needs an anonymous function.)
+9. Mechanical:  Work through the function definition script above
+
+*** Discussion
+
+The other half of defining functions is calling them, and we do that even more often.  While you could absolutely define a generic function calling script, it may be more useful to think of them in terms of specialized operations.  Here the focus is on iteration, which is often very similar across many of those calls.  Other areas worth scripting might be string manipulation, mathematical operations, and data manipulation.
+
+Also remember that the largest aspect of iteration is typically defining the anonymous function that the iterator will call.  As noted in the script, we already have an entire process for resolving that.  Don't forget to use it!
+
+*** Growth Opportunities
+
+Work out similar scripts for the other common uses mentioned above, a generic function call script to fall back on, and any other common use cases in your work.  At my company, database queries would definitely make the cut, just to give one example.
+
+As you master more and more of this mechanical process, turn your focus to trying to follow which data structure results from each iterator call.  Maybe you start with a map, but drop it down to just a list of values, remove some of those (still a list), and then count (now a number).  It's very common to sling several iterators together to accomplish some task, so getting to where you can follow what's popping out the other side will give you huge hints about what's most likely to come next.
+
+Speaking of slinging iterators together, in Elixir and other languages like it, that probably means that you'll be building pipelines.  See the script below for details on that.
+
+** Magic Words:  "Now we need to handle each of those cases…"
+
+*** Variations
+
+- "Let's handle some edge cases…"
+- "There are a couple of ways this can go…"
+- "We need to extract a few values…"  (use pattern matching)
+- "Let's perform a few (boolean) checks…"  (~cond~)
+- "We should handle the errors this call can return…"  (~case~)
+- "There's a couple of inputs we could receive here…"  (use multiple function heads)
+
+*** Actions
+
+1. Question:  "Do we want to branch with ~case~, multiple function heads, or something else?"  (Skip this if the magic words gave it away.)
+2. Mechanical:  Add the boilerplate code for the desired style of branching (~case … do … end~ for example)
+3. Question:  "What's a case that we need to handle?"  (Repeat this and the following steps until no more branching is needed.)
+4. Mechanical:  Type the test and any needed boilerplate (~->~ for example)
+5. Question:  "And what code do we need to run for that case?"
+6. Mechanical:  Work out the conditional code with applications of your function calling, pipelines, and other scripts
+
+*** Discussion
+
+While the iterators handle looping in most modern languages, the other half of flow control is conditional logic.  A massive portion of programming is separating the various cases that need handling and applying the suitable code for each of them.  Along with functions and iterators, this script should cover a large majority of the structure of any code written.
+
+It may surprise some folks to see pattern matching listed above as a form of branching, but it often serves that role.  A ~case~ statement is just a syntactical way to try several pattern matches until one fits.  Multiple function heads provide the same service for function arguments.  Even a bare pattern match is a type of branching with two possible outcomes:  either it matches or an error is thrown.
+
+This script assumes you will work through each condition before moving on to the next one.  However, you may want to stay flexible.  Sometimes it's easier to think through each of the cases that needs handling (writing all of the tests as you go) and then go back and add the handling code.
+
+*** Growth Opportunities
+
+Probably the biggest skill you can eventually grow into with this script is to merge it with the function definition script.  In functional languages with pattern matching and multiple function heads, that's where a huge portion of the branching really happens.  We tend to handle both needs at the same time:  defining a chunk of code to handle the various possibilities that need handling.
+
+It's okay if you're not great at that at first.  Go ahead and define the ~case~ statement to keep the discussion rolling.  When you're done, look to see if you just defined a function that contains nothing but a ~case~ statement.  If so, you can almost surely rewrite it into a single function with multiple heads.  That's a very mechanical process that makes for great practice!
+
+** Magic Words:  "It's time to turn this into a pipeline…"
+
+*** Variations
+
+- "Now pipe that into…"
+- "Let's run this through a couple of iterators to get what we need…"
+
+*** Actions
+
+1. Mechanical:  Remove the first argument of the function call and the trailing comma, if there is one
+2. Mechanical:  Place that argument on the line above
+3. Mechanical:  Insert a pipe operator (~|>~) before the function call
+4. Question:  "Should we keep piping?"  (Repeat this and the following steps until the answer is no.)
+5. Mechanical:  Add a line below the current one and start it off with a pipe operator
+6. Mechanical:  Work out the next function call using the appropriate script
+
+*** Discussion
+
+This script is extremely specific to Elixir or languages like it, but the concept is universal.  In Elixir, we structure a large amount of code around pipelines.  When you can identify features like that for any language, developing a quick script gives you a very repeatable mechanical process that continually dumps you into what comes next.  That guides us through the process of constructing something.
+
+*** Growth Opportunities
+
+As your comfort grows with this script, start scanning for places in the code where you have assigned several variables in a row.  It may even be the same variable over and over again.  Those sections are probably crying out for a little pipeline magic.  Transforming them is another great practice opportunity.
+
+By the way, it's very okay to perform these acts of manual practice while your partner watches on.  It buys them some valuable thinking time while they don't have to worry about what operation is happening right now.
+
+As your pipelines grow more complex, you can learn to transition into ~with~ statements.  A ~with~ is a supercharged pipeline that can abort early, pipe into arguments other than the first one, carry forward more than one argument, and more.  In time, you can develop a script for that and practice identifying the right times to make the switch.
