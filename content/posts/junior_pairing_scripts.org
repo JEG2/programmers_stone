@@ -15,7 +15,7 @@ The good news is that I believe there is a better and easier way.
 
 * Better Goals
 
-Juniors, I've got great news for you!  You don't need any skill to be useful to another developer.  In fact, you could be [[https://en.wikipedia.org/wiki/Rubber_duck_debugging][an inanimate object and still help]].  It's also perfectly normal for a less skilled developer to pair with a more skilled developer.  There are entire strategies for how to do this well, like[[https://stackify.com/pair-programming-styles/#backseat-navigator][ Backseat Navigator]].
+Juniors, I've got great news for you!  You don't need any skill to be useful to another developer.  In fact, you could be [[https://en.wikipedia.org/wiki/Rubber_duck_debugging][an inanimate object]] and still help.  It's also perfectly normal for a less skilled developer to pair with a more skilled developer.  There are entire strategies for how to do this well, like [[https://stackify.com/pair-programming-styles/#backseat-navigator][Backseat Navigator]].
 
 So the bar is low.  You don't have to expect a ton from yourself.  However, the great thing about low bars is that they are pretty easy to step over.  With a few simple tricks, you can be out performing precious rubber ducks in no time.
 
@@ -45,11 +45,11 @@ FIXME
 *** Actions
 
 1. Question:  "Which module does it belong in?"/"In this file?"
-2. Mechanical:  Add the boilerplate code for a function (~def … do … end~ in Elixir) in the proper file
+2. Mechanical:  Add the boilerplate code for a function (~def … do … end~ in Elixir) in the proper file.
 3. Question:  "What should we call it?"
-4. Mechanical:  Type the selected name in the proper place
+4. Mechanical:  Type the selected name after ~def~ and space, then add an empty set of parentheses to hold the parameters.
 5. Question:  "How many arguments will it take and what should we name those?"
-6. Mechanical:  Add the parameter definitions
+6. Mechanical:  Add the parameter definitions with commas between them.
 
 *** Discussion
 
@@ -72,23 +72,23 @@ If your programming language supports multiple function heads, this script will 
 *** Variations
 
 - "We need to walk over the collection…"
-- "We have to remove those items from the list…"  (~Enum.filter~)
-- "We have some X, but we really want is some Y…"  (~Enum.map~)
-- "We need to know how many items are in there…"  (~Enum.count~)
-- "Let's group those by…"  (~Enum.group_by~)
-- "Now we need to summarize all of that…"  (~Enum.reduce~)
+- "We have to remove those items from the list…"  (~Enum.filter(…)~)
+- "We have some X, but we really want is some Y…"  (~Enum.map(…)~)
+- "We need to know how many are in there…"  (~Enum.count(…)~)
+- "Let's group those together…"  (~Enum.group_by(…)~)
+- "Now we need to summarize all of that…"  (~Enum.reduce(…)~)
 
 *** Actions
 
 1. Question:  "Which iterator do we need?"  (Skip this if the magic words gave it away.)
-2. Mechanical:  Start the function call (~Enum.whatever(…)~)
-3. Mechanical:  Open the documentation for that function, if your editor does not show you which parameters are needed
+2. Mechanical:  Start the function call (~Enum.whatever(…)~).
+3. Mechanical:  Open the documentation for that function, if your editor does not show you which parameters are needed.
 4. Question:  "What are we iterating over?"  (Again, skip this if you already know.)
-5. Mechanical:  Type the name of the variable holding the collection
+5. Mechanical:  Just inside the parentheses type the name of the variable holding the collection that you are iterating over.
 6. Question:  "What do we pass in this argument?"  (Repeat this and the following step for any arguments before the anonymous function.)
-7. Mechanical:  Type the argument or expression
+7. Mechanical:  Type a comma followed by the argument or expression.
 8. Question:  "And what do we need to do in here?"  (Only if the iterator needs an anonymous function.)
-9. Mechanical:  Work through the function definition script above
+9. Mechanical:  Type ~fn … -> … end~, and then work through the function definition script above, skipping the naming bit.
 
 *** Discussion
 
@@ -111,9 +111,40 @@ Speaking of slinging iterators together, in Elixir and other languages like it, 
 - "Let's handle some edge cases…"
 - "There are a couple of ways this can go…"
 - "We need to extract a few values…"  (use pattern matching)
-- "Let's perform a few (boolean) checks…"  (~cond~)
-- "We should handle the errors this call can return…"  (~case~)
+- "Let's perform a few (boolean) checks…"
+  #+begin_src elixir :session none
+    # example
+    cond do
+      a_test?(var) ->
+        …
+
+      another_test?(var) ->
+        …
+
+      true ->
+        …
+    end
+  #+end_src
+- "We should handle the errors this call can return…"
+  #+begin_src elixir :session none
+    # example
+    case var do
+      {:ok, result} ->
+        …
+
+      {:error, message} ->
+        …
+    end
+  #+end_src
 - "There's a couple of inputs we could receive here…"  (use multiple function heads)
+  #+begin_src elixir :session none
+    # example
+    defmodule Serializer do
+      def serialize(map) when is_map(map), do: …
+      def serialize(list) when is_list(list), do: …
+      def serialize(unexpected), do: …
+    end
+  #+end_src
 
 *** Actions
 
