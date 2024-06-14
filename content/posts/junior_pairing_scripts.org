@@ -1,13 +1,12 @@
 #+title: Junior Pairing Scripts
 #+author: JEG2
-#+date: <2024-05-23 Thu>
-#+draft: true
+#+date: <2024-06-14 Fri>
 
 When there's a large skill gap between two or more pairing developers, it can become a frustrating experience for everyone involved.  I suspect this happens more often when more junior folks are at the keyboard.
 
 Experienced developers have learned a high level language to communicate with their peers about problems that their less skilled partners may not yet be fluent in.  If they are forced to downgrade from, "Let's make a map," to, "Type a percent sign followed by an opening curly brace," they are now operating with one brain tied behind their back.  That's the simple stuff too.  [[https://en.wikipedia.org/wiki/Rope_(data_structure)][Rope data structures]], [[https://en.wikipedia.org/wiki/Schwartzian_transform][Schwartzian transforms]], and [[https://hexdocs.pm/elixir/genservers.html][adding a custom GenServer to the application's supervision tree]] are right out!
 
-The junior is not in a better position.  They often feel like their job is to understand as much as possible of what the other person is doing to learn from it.  Of course, it's common for most problems to quickly exceed their capacity for taking things in and, once they are overwhelmed, it's easy to feel like they can't bring any knowledge they've acquired to bear in a useful manner.  It's totally understandable if they essentially shut down in such circumstances and the hope of learning is no longer on the table.
+The junior is not in a better position.  They often feel like their job is to understand as much as possible of what the other person is doing to learn from it.  Of course, it's common for most problems to quickly exceed their capacity for taking things in and, once they are overwhelmed, it's easy to feel like they can't bring any knowledge they've acquired to bear in a useful manner.  It's totally understandable if they essentially shut down in such circumstances.  The hope of learning is no longer on the table.
 
 The good news is that I believe there is a better and easier way.
 
@@ -31,7 +30,7 @@ Don't worry, this doesn't mean you aren't going to learn anything anymore.  As t
 
 * Starter Scripts
 
-FIXME
+Below you will find five scripts that I feel are useful in pretty much every pairing scenario.  While they certainly don't cover everything you will face when programming, you should be able to get considerable mileage out of these starting points.
 
 ** Magic Words:  "Let's define a function…"
 
@@ -44,7 +43,7 @@ FIXME
 
 *** Actions
 
-1. Question:  "Which module does it belong in?"/"In this file?"
+1. Question:  "Which module does it belong in?" / "In this file?"
 2. Mechanical:  Add the boilerplate code for a function (~def … do … end~ in Elixir) in the proper file.
 3. Question:  "What should we call it?"
 4. Mechanical:  Type the selected name after ~def~ and space, then add an empty set of parentheses to hold the parameters.
@@ -61,7 +60,7 @@ Remember that it's on the person at the keyboard to take care of syntactical det
 
 *** Growth Opportunities
 
-As you gain practice and skill applying this script, you can provide more help along the way.  One of the best ways to do that is to start participating in the naming discussions.  Remember that functions are the actions or verbs of the programming world, so try to think of words like that that fit your current situation.  What if you don't know what your current situation is?  Ask!  "What will this chunk of code actually do in plain English?"  If you listen closely, the answer will likely be in your partner's explanation.
+As you gain practice and skill applying this script, you can provide more help along the way.  One of the best ways to do that is to start participating in the naming discussions.  Remember that functions are the actions or verbs of the programming world, so try to think of words like that which fit your current situation.  What if you don't know what your current situation is?  Ask!  "What will this chunk of code actually do in plain English?"  If you listen closely, the answer will likely be in your partner's explanation.
 
 If your project uses type specifications, add-on questions about them and a step to put them in place.  Aside from dialing in the parameters further, this is the perfect chance to think through the possible return values before you implement.
 
@@ -73,8 +72,8 @@ If your programming language supports multiple function heads, this script will 
 
 - "We need to walk over the collection…"
 - "We have to remove those items from the list…"  (~Enum.filter(…)~)
-- "We have some X, but we really want is some Y…"  (~Enum.map(…)~)
-- "We need to know how many are in there…"  (~Enum.count(…)~)
+- "We have some X, but what we really want is some Y…"  (~Enum.map(…)~)
+- "We need to know how many are…"  (~Enum.count(…)~)
 - "Let's group those together…"  (~Enum.group_by(…)~)
 - "Now we need to summarize all of that…"  (~Enum.reduce(…)~)
 
@@ -92,13 +91,13 @@ If your programming language supports multiple function heads, this script will 
 
 *** Discussion
 
-The other half of defining functions is calling them, and we do that even more often.  While you could absolutely define a generic function calling script, it may be more useful to think of them in terms of specialized operations.  Here the focus is on iteration, which is often very similar across many of those calls.  Other areas worth scripting might be string manipulation, mathematical operations, and data manipulation.
+The other half of defining functions is calling them, and we do that even more often.  While you could absolutely define a generic function calling script, it may be more useful to think of them in terms of specialized operations.  Here the focus is on iteration, which is often very similar across many of those calls.  Other areas worth scripting might be string parsing, mathematical operations, and data manipulation.
 
 Also remember that the largest aspect of iteration is typically defining the anonymous function that the iterator will call.  As noted in the script, we already have an entire process for resolving that.  Don't forget to use it!
 
 *** Growth Opportunities
 
-Work out similar scripts for the other common uses mentioned above, a generic function call script to fall back on, and any other common use cases in your work.  At my company, database queries would definitely make the cut, just to give one example.
+Work out similar scripts for the other common uses mentioned above, a generic function call script to fall back on, and any other common use cases specific to your work.  At my company, database queries would definitely make the cut, just to give one example.
 
 As you master more and more of this mechanical process, turn your focus to trying to follow which data structure results from each iterator call.  Maybe you start with a map, but drop it down to just a list of values, remove some of those (still a list), and then count (now a number).  It's very common to sling several iterators together to accomplish some task, so getting to where you can follow what's popping out the other side will give you huge hints about what's most likely to come next.
 
@@ -110,8 +109,8 @@ Speaking of slinging iterators together, in Elixir and other languages like it, 
 
 - "Let's handle some edge cases…"
 - "There are a couple of ways this can go…"
-- "We need to extract a few values…"  (use pattern matching)
-- "Let's perform a few (boolean) checks…"
+- "We need to extract a few values…"  (Use pattern matching.)
+- "Let's perform a few (boolean) checks…"  (Use a ~cond~ statement.)
   #+begin_src elixir :session none
     # example
     cond do
@@ -125,7 +124,7 @@ Speaking of slinging iterators together, in Elixir and other languages like it, 
         …
     end
   #+end_src
-- "We should handle the errors this call can return…"
+- "We should handle the errors this call can return…"  (Use a ~case~ statement.)
   #+begin_src elixir :session none
     # example
     case var do
@@ -136,7 +135,7 @@ Speaking of slinging iterators together, in Elixir and other languages like it, 
         …
     end
   #+end_src
-- "There's a couple of inputs we could receive here…"  (use multiple function heads)
+- "There are a couple of inputs we could receive here…"  (Use multiple function heads.)
   #+begin_src elixir :session none
     # example
     defmodule Serializer do
@@ -149,11 +148,11 @@ Speaking of slinging iterators together, in Elixir and other languages like it, 
 *** Actions
 
 1. Question:  "Do we want to branch with ~case~, multiple function heads, or something else?"  (Skip this if the magic words gave it away.)
-2. Mechanical:  Add the boilerplate code for the desired style of branching (~case … do … end~ for example)
+2. Mechanical:  Add the boilerplate code for the desired style of branching.  (See examples above.)
 3. Question:  "What's a case that we need to handle?"  (Repeat this and the following steps until no more branching is needed.)
-4. Mechanical:  Type the test and any needed boilerplate (~->~ for example)
+4. Mechanical:  Type the test and any needed boilerplate.  (~->~, ~, do:~, etc.)
 5. Question:  "And what code do we need to run for that case?"
-6. Mechanical:  Work out the conditional code with applications of your function calling, pipelines, and other scripts
+6. Mechanical:  Work out the conditional code with applications of your function calling, pipelines, and other scripts.
 
 *** Discussion
 
@@ -178,12 +177,12 @@ It's okay if you're not great at that at first.  Go ahead and define the ~case~ 
 
 *** Actions
 
-1. Mechanical:  Remove the first argument of the function call and the trailing comma, if there is one
-2. Mechanical:  Place that argument on the line above
-3. Mechanical:  Insert a pipe operator (~|>~) before the function call
+1. Mechanical:  Remove the first argument of the function call and the trailing comma, if there is one.
+2. Mechanical:  Place that argument on the line above.
+3. Mechanical:  Insert a pipe operator (~|>~) before the function call.
 4. Question:  "Should we keep piping?"  (Repeat this and the following steps until the answer is no.)
-5. Mechanical:  Add a line below the current one and start it off with a pipe operator
-6. Mechanical:  Work out the next function call using the appropriate script
+5. Mechanical:  Add a line below the current one and start it off with a pipe operator.
+6. Mechanical:  Work out the next function call using the appropriate script.
 
 *** Discussion
 
@@ -195,4 +194,83 @@ As your comfort grows with this script, start scanning for places in the code wh
 
 By the way, it's very okay to perform these acts of manual practice while your partner watches on.  It buys them some valuable thinking time while they don't have to worry about what operation is happening right now.
 
-As your pipelines grow more complex, you can learn to transition into ~with~ statements.  A ~with~ is a supercharged pipeline that can abort early, pipe into arguments other than the first one, carry forward more than one argument, and more.  In time, you can develop a script for that and practice identifying the right times to make the switch.
+As your pipelines grow more complex, you can learn to transition into ~with~ statements.  A ~with~ statement is a supercharged pipeline that can abort early, pipe into arguments other than the first one, carry forward more than one argument, and more.  In time, you can develop a script for that and practice identifying the right times to make the switch.
+
+** Magic Words:  NONE
+
+*** Variations
+
+- "How do we begin?"
+- "What's next?"
+
+*** Actions
+
+1. Question:  "What are the overall steps we need to work through?"
+2. Mechanical:  Outline the listed steps in code comments where you will soon be writing the implementation.
+3. Mechanical:  Shift your focus to the first step you wrote down and consider if it's simple enough to start on now (meaning something like you know which function call to start with) or if you need more information.
+4. Mechanical:  If you need more information, restart the script from the beginning but just focus on accomplishing this one small step.
+5. Mechanical:  Implement the step using tools like your function calling scripts.
+
+*** Discussion
+
+Similar to the well known problem that authors face when staring down a blank page, there's not much scarier to the programmer than watching a blinking cursor in an empty editor window.  What's next?  You have literally infinite choices.  Good luck!
+
+We could talk about how to get past this problem for many blog posts.  Folks already have.  However, this script is one of the easier processes that typically gets me moving in some useful direction.
+
+Let's work through a simple example.  James is just sitting down to pair with Dana on reading in a large input file and using it to add records to the database.  Let's listen in on their imaginary conversation.
+
+James:  "What are the steps we need to take to get this done?"
+
+Dana:  "It seems like we will need to read in the file, validate and transform the records found inside, then add them to the database."
+
+James:  "That's sounds great."  (James starts typing.)
+
+#+begin_src elixir :session none
+  # 1. Read file
+  # 2. Transform records
+  # 3. Validate records
+  # 4. Save to database
+#+end_src
+
+James:  "I split out transform and validate, and also thought we might want to do them in this order.  We may change that as we go.  I'm thinking about reading in the file.  Is it as simple as one call to ~File.read~ or will we need to do some parsing?"
+
+Dana:  "Well, we need to deal with each line individually.  Also, it's in the CSV format so we need to separate that to find the fields.  I guess you could say it will need some light parsing."
+
+James:  "Got it."  (Resumes typing.)
+
+#+begin_src elixir :session none
+  # 1. Read file
+  #    a. Read input one line at a time
+  #    b. Decode CSV
+  # 2. Transform records
+  # 3. Validate records
+  # 4. Save to database
+#+end_src
+
+At this point, James feels that he knows enough to start writing some code.  If he didn't, they could keep breaking down the steps.
+
+I tend to drop the code in directly below the line of the outline where it tells me what to do.  I'll later go back and purge the comments when I feel they are no longer useful.  You could also choose to replace the lines as you go.
+
+Remember that these steps are a starting point, not a pact signed in blood.  If you discover new steps or feel the need to modify steps as you work, that's great!  It means the process is working.  Once you've started the wheels rolling, you can more easily understand what actually needs doing.
+
+This script is useful at all beginnings.  Starting a project, defining a new function body, working out one clause of a branching statement, and much more.  It ties in with all of the scripts above and more.
+
+*** Growth Opportunities
+
+In the beginning you may feel the need to ask very specific questions and type exactly what your pair dictates.  That's totally fine.  It's okay to let your pair guide the process.
+
+As you gain experience, you may feel more able to insert steps, rearrange the order, or otherwise contribute to the plan.  I've tried to show how this might go in the example above.
+
+* Sans Keyboard
+
+Scripts can remain useful when you're not the person driving the keyboard.  You can still ask all the leading questions at the key moments.  Simply skip over the mechanical steps as your partner will be handling those.
+
+Again, this is still helpful.  The goal of a pair is to share some of the mental load of creation.  Just prompting for the right times to consider the right things provides that.
+
+Since you won't need to worry about mechanics in this role, try to provide more help in discussions like naming or all of the cases that need handling.  You don't have to have all of the answers.  Ask as many probing questions as needed to help draw them out of your partner.  You'll learn a lot from watching them go through that process.
+
+* Add You Own Scripts
+
+The scripts above are just meant to get you started.  They represent generic needs that should exist in pretty much any programming context.  However, you know your work way better than I could.  It's important to recognize tasks that you always end up doing and to try codify those into the steps involved.  Going through that process will help you turn overwhelming interactions into comfortable learning scenarios.
+
+Use the sample scripts above as starting points.  If you are building a script for time zone conversions, start with the iterators script.  Both involve functions to manipulate related data types.  Translate the magic words and questions into things you've heard your coworkers say.  Add mechanical steps for the things you've seen them do.  Most importantly of all, if you can't work out what they are doing in a given step, definitely ask!  That's the whole point.  You are trying to gain insight into how they are working through what needs doing.
