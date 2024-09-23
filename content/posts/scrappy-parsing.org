@@ -1,0 +1,246 @@
+#+title: Scrappy Parsing
+#+author: JEG2
+#+date: <2024-09-20 Fri>
+#+draft: true
+
+FIXME
+
+# more
+
+* FIXME
+
+FIXME
+
+#+begin_src elixir :session none
+  Mix.install([
+    {:exqlite, "~> 0.23.0"},
+    {:faker, "~> 0.18.0"}
+  ])
+
+  db_path = Path.join(System.tmp_dir!(), "db.sqlite3")
+  {:ok, conn} = Exqlite.Sqlite3.open(db_path)
+
+  :ok =
+    Exqlite.Sqlite3.execute(conn, """
+    CREATE TABLE people (
+      id INTEGER PRIMARY KEY,
+      name TEXT NOT NULL,
+      age INTEGER NOT NULL,
+      email TEXT NOT NULL
+    );
+
+    CREATE UNIQUE INDEX person_email ON people(email);
+    """)
+
+  {:ok, statement} =
+    Exqlite.Sqlite3.prepare(
+      conn,
+      "INSERT INTO people (name, age, email) VALUES (?1, ?2, ?3)"
+    )
+
+  Stream.repeatedly(fn ->
+    name = Faker.Person.name()
+
+    account =
+      name
+      |> String.downcase()
+      |> String.replace(~r{[^a-z]+}, "_")
+      |> String.replace(~r{_\z}, "")
+
+    [name, Enum.random(10..100//1), "#{account}@#{Faker.Internet.domain_name()}"]
+  end)
+  |> Stream.take(150)
+  |> Enum.each(fn values ->
+    :ok = Exqlite.Sqlite3.bind(conn, statement, values)
+    :done = Exqlite.Sqlite3.step(conn, statement)
+  end)
+
+  :ok = Exqlite.Sqlite3.release(conn, statement)
+
+  IO.puts("Database path:  #{db_path}")
+#+end_src
+
+#+RESULTS:
+: Database path:  /tmp/db.sqlite3
+: :ok
+
+FIXME
+
+#+begin_example
+sqlite> SELECT * FROM people LIMIT 10;
+1|Abdullah Raynor|98|abdullah_raynor@mills.net
+2|Mrs. Rickie Kovacek|26|mrs_rickie_kovacek@champlin.biz
+3|Dolly Jakubowski MD|24|dolly_jakubowski_md@mclaughlin.name
+4|Lura McDermott|80|lura_mcdermott@bernhard.info
+5|Irwin Kertzmann|81|irwin_kertzmann@senger.biz
+6|Dawson Lockman|48|dawson_lockman@homenick.net
+7|Darwin Schmidt|70|darwin_schmidt@powlowski.org
+8|Isobel Carroll|18|isobel_carroll@huel.info
+9|Jaclyn Bogan IV|35|jaclyn_bogan_iv@wunsch.com
+10|Miss Cathy Runte IV|55|miss_cathy_runte_iv@oconnell.net
+sqlite> SELECT * FROM people WHERE age >= 97;
+1|Abdullah Raynor|98|abdullah_raynor@mills.net
+88|Brooklyn Stark|97|brooklyn_stark@steuber.info
+142|Mrs. Odessa Ryan DDS|98|mrs_odessa_ryan_dds@dicki.com
+sqlite> SELECT * FROM people WHERE id = 77;
+77|Briana Cassin|80|briana_cassin@mitchell.biz
+sqlite> SELECT * FROM people WHERE email = 'mrs_odessa_ryan_dds@dicki.com';
+142|Mrs. Odessa Ryan DDS|98|mrs_odessa_ryan_dds@dicki.com
+#+end_example
+
+FIXME
+
+#+begin_src elixir :session none
+  File.open!(db_path, [:read, :binary], fn f ->
+    <<"SQLite format 3\0"::binary,
+      raw_page_size::integer-big-unit(8)-size(2),
+      1::integer-big-unit(8)-size(1),
+      1::integer-big-unit(8)-size(1),
+      0::integer-big-unit(8)-size(1),
+      64::integer-big-unit(8)-size(1),
+      32::integer-big-unit(8)-size(1),
+      32::integer-big-unit(8)-size(1),
+      file_change_counter::integer-big-unit(8)-size(4),
+      page_count::integer-big-unit(8)-size(4),
+      _first_freelist_trunk_page::integer-big-unit(8)-size(4),
+      _freelist_pages::integer-big-unit(8)-size(4),
+      _schema_cookie::integer-big-unit(8)-size(4),
+      4::integer-big-unit(8)-size(4),
+      _default_page_cache_size::integer-big-unit(8)-size(4),
+      _largest_root_page_for_vacuum::integer-big-unit(8)-size(4),
+      1::integer-big-unit(8)-size(4),
+      _user_version::integer-big-unit(8)-size(4),
+      0::integer-big-unit(8)-size(4),
+      _application_id::integer-big-unit(8)-size(4),
+      0::integer-big-unit(8)-size(20),
+      file_change_counter::integer-big-unit(8)-size(4),
+      3_046_000::integer-big-unit(8)-size(4)>> = IO.binread(f, 100)
+
+    page_size =
+      case raw_page_size do
+        1 -> 65_536
+        _ -> raw_page_size
+      end
+
+    %{page_size: page_size, page_count: page_count}
+  end)
+#+end_src
+
+#+RESULTS:
+: %{page_size: 4096, page_count: 7}
+
+FIXME
+
+#+begin_src elixir :session none
+  parse_header = fn bytes ->
+    <<"SQLite format 3\0",
+      raw_page_size::2*8,
+      1::1*8,
+      1::1*8,
+      0::1*8,
+      64::1*8,
+      32::1*8,
+      32::1*8,
+      file_change_counter::4*8,
+      page_count::4*8,
+      _first_freelist_trunk_page::4*8,
+      _freelist_pages::4*8,
+      _schema_cookie::4*8,
+      4::4*8,
+      _default_page_cache_size::4*8,
+      _largest_root_page_for_vacuum::4*8,
+      1::4*8,
+      _user_version::4*8,
+      0::4*8,
+      _application_id::4*8,
+      0::20*8,
+      file_change_counter::4*8,
+      3_046_000::4*8>> = bytes
+
+    page_size =
+      case raw_page_size do
+        1 -> 65_536
+        _ -> raw_page_size
+      end
+
+    %{page_size: page_size, page_count: page_count}
+  end
+
+  open_db = fn path, func ->
+    File.open!(path, [:read, :binary], fn f ->
+      db =
+        f
+        |> IO.binread(100)
+        |> parse_header.()
+        |> Map.put(:file, f)
+
+      func.(db)
+    end)
+  end
+
+  open_db.(db_path, &Function.identity/1)
+#+end_src
+
+#+RESULTS:
+: %{file: #PID<0.170.0>, page_size: 4096, page_count: 7}
+
+FIXME
+
+#+begin_src elixir :session none
+  parse_page = fn bytes, i ->
+    offset = if i == 1, do: 100, else: 0
+
+    <<raw_page_type::1*8, _first_page_freeblock::2*8, cell_count::2*8, _raw_cell_content_start::2*8,
+      _fragmented_free_bytes::1*8, rest::binary>> = binary_slice(bytes, offset, 12)
+
+    page_type =
+      case raw_page_type do
+        2 -> :interior_index
+        5 -> :interior_table
+        10 -> :leaf_index
+        13 -> :leaf_table
+      end
+
+    right_most_pointer =
+      if page_type in [:interior_index, :interior_table] do
+        <<right_most_pointer::4*8>> = rest
+        right_most_pointer
+      else
+        nil
+      end
+
+    %{
+      index: i,
+      page_type: page_type,
+      cell_count: cell_count,
+      right_most_pointer: right_most_pointer
+    }
+  end
+
+  read_page = fn %{page_count: page_count} = db, i when i <= page_count ->
+    :file.position(db.file, (i - 1) * db.page_size)
+
+    db.file
+    |> IO.binread(db.page_size)
+    |> parse_page.(i)
+  end
+
+  open_db.(db_path, fn db ->
+    Enum.map(1..db.page_count//1, fn i ->
+      read_page.(db, i)
+    end)
+  end)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+[
+  %{index: 1, cell_count: 2, page_type: :leaf_table, right_most_pointer: nil},
+  %{index: 2, cell_count: 1, page_type: :interior_table, right_most_pointer: 5},
+  %{index: 3, cell_count: 1, page_type: :interior_index, right_most_pointer: 7},
+  %{index: 4, cell_count: 77, page_type: :leaf_table, right_most_pointer: nil},
+  %{index: 5, cell_count: 73, page_type: :leaf_table, right_most_pointer: nil},
+  %{index: 6, cell_count: 74, page_type: :leaf_index, right_most_pointer: nil},
+  %{index: 7, cell_count: 75, page_type: :leaf_index, right_most_pointer: nil}
+]
+#+end_example
