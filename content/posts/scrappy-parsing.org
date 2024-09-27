@@ -61,31 +61,39 @@ FIXME
 #+end_src
 
 #+RESULTS:
-: Database path:  /var/folders/5z/kjv_k0597pj0qml6qfd8y97h0000gn/T/db.sqlite3
+: Database path:  /tmp/db.sqlite3
 : :ok
 
 FIXME
 
 #+begin_example
 sqlite> SELECT * FROM people LIMIT 10;
-1|Abdullah Raynor|98|abdullah_raynor@mills.net
-2|Mrs. Rickie Kovacek|26|mrs_rickie_kovacek@champlin.biz
-3|Dolly Jakubowski MD|24|dolly_jakubowski_md@mclaughlin.name
-4|Lura McDermott|80|lura_mcdermott@bernhard.info
-5|Irwin Kertzmann|81|irwin_kertzmann@senger.biz
-6|Dawson Lockman|48|dawson_lockman@homenick.net
-7|Darwin Schmidt|70|darwin_schmidt@powlowski.org
-8|Isobel Carroll|18|isobel_carroll@huel.info
-9|Jaclyn Bogan IV|35|jaclyn_bogan_iv@wunsch.com
-10|Miss Cathy Runte IV|55|miss_cathy_runte_iv@oconnell.net
+1|Margret Ebert|39|margret_ebert@bahringer.net
+2|Thad Pouros|74|thad_pouros@rodriguez.com
+3|Susana Torp|50|susana_torp@ebert.biz
+4|Mr. Michele Stroman|84|mr_michele_stroman@white.name
+5|Kenna Okuneva|49|kenna_okuneva@koch.biz
+6|Irwin Kohler|61|irwin_kohler@ledner.com
+7|Daren Keeling|89|daren_keeling@collins.name
+8|Viola Beer V|73|viola_beer_v@bayer.org
+9|Edward Cummerata|47|edward_cummerata@lockman.biz
+10|Nathan Halvorson|98|nathan_halvorson@kuhlman.biz
 sqlite> SELECT * FROM people WHERE age >= 97;
-1|Abdullah Raynor|98|abdullah_raynor@mills.net
-88|Brooklyn Stark|97|brooklyn_stark@steuber.info
-142|Mrs. Odessa Ryan DDS|98|mrs_odessa_ryan_dds@dicki.com
+10|Nathan Halvorson|98|nathan_halvorson@kuhlman.biz
+27|Colten Kub DDS|98|colten_kub_dds@nolan.info
+45|Randy Grimes|100|randy_grimes@grant.com
+46|Mrs. Madisen Bashirian DVM|100|mrs_madisen_bashirian_dvm@prosacco.name
+59|Paula Larkin|99|paula_larkin@abshire.com
+63|Barney Walker|98|barney_walker@dooley.com
+80|Daphney Carroll|100|daphney_carroll@jast.name
+94|Rickey Balistreri DVM|97|rickey_balistreri_dvm@kuvalis.info
+100|Bradford Schowalter|100|bradford_schowalter@okeefe.biz
 sqlite> SELECT * FROM people WHERE id = 77;
-77|Briana Cassin|80|briana_cassin@mitchell.biz
-sqlite> SELECT * FROM people WHERE email = 'mrs_odessa_ryan_dds@dicki.com';
-142|Mrs. Odessa Ryan DDS|98|mrs_odessa_ryan_dds@dicki.com
+77|Samanta Waelchi III|88|samanta_waelchi_iii@blanda.org
+sqlite> SELECT * FROM people WHERE id = 142;
+142|Darryl Dicki|62|darryl_dicki@sawayn.net
+sqlite> SELECT * FROM people WHERE email = 'randy_grimes@grant.com';
+45|Randy Grimes|100|randy_grimes@grant.com
 #+end_example
 
 FIXME
@@ -181,17 +189,17 @@ FIXME
 #+end_src
 
 #+RESULTS:
-: %{file: #PID<0.172.0>, page_count: 7, page_size: 4096}
+: %{file: #PID<0.184.0>, page_count: 7, page_size: 4096}
 
 FIXME
 
 #+begin_src elixir :session none
   parse_page = fn bytes, i ->
     start = if i == 1, do: 100, else: 0
-  
+
     <<raw_type::1*8, _first_page_freeblock::2*8, cell_count::2*8, _raw_cell_content_start::2*8,
       _fragmented_free_bytes::1*8, rest::binary>> = binary_slice(bytes, start, 12)
-  
+
     type =
       case raw_type do
         2 -> :interior_index
@@ -199,7 +207,7 @@ FIXME
         10 -> :leaf_index
         13 -> :leaf_table
       end
-  
+
     right_most_pointer =
       if type in [:interior_index, :interior_table] do
         <<right_most_pointer::4*8>> = rest
@@ -207,7 +215,7 @@ FIXME
       else
         nil
       end
-  
+
     %{
       index: i,
       start: start,
@@ -216,15 +224,15 @@ FIXME
       right_most_pointer: right_most_pointer
     }
   end
-  
+
   read_page = fn %{page_count: last_page} = db, i when i > 0 and i <= last_page ->
     :file.position(db.file, (i - 1) * db.page_size)
-  
+
     db.file
     |> IO.binread(db.page_size)
     |> parse_page.(i)
   end
-  
+
   open_db.(db_path, fn db ->
     Enum.map(1..3//1, fn i ->
       read_page.(db, i)
@@ -265,7 +273,7 @@ FIXME
   parse_varint = fn bytes, start ->
     Enum.reduce_while(0..8, {0, 0}, fn offset, {int, size} ->
       <<high_bit::1, new_int::7>> = binary_part(bytes, start + offset, 1)
-  
+
       cond do
         size == 8 -> {:halt, {Bitwise.bsl(int, 8) + new_int, size + 1}}
         high_bit == 0 -> {:halt, {Bitwise.bsl(int, 7) + new_int, size + 1}}
@@ -273,10 +281,10 @@ FIXME
       end
     end)
   end
-  
+
   parse_cells = fn bytes, page ->
     cell_start = page.start + if is_nil(page.right_most_pointer), do: 8, else: 12
-  
+
     cells =
       0..(page.cell_count - 1)//1
       |> Enum.map(fn i ->
@@ -288,43 +296,43 @@ FIXME
           :interior_index ->
             <<left_child_pointer::4*8>> = binary_part(bytes, content_start, 4)
             {payload_bytes, p_size} = parse_varint.(bytes, content_start + 4)
-  
+
             {
               left_child_pointer,
               binary_part(bytes, content_start + 4 + p_size, payload_bytes)
             }
-  
+
           :interior_table ->
             <<left_child_pointer::4*8>> = binary_part(bytes, content_start, 4)
             {integer_key, _size} = parse_varint.(bytes, content_start + 4)
             {left_child_pointer, integer_key}
-  
+
           :leaf_index ->
             {payload_bytes, p_size} = parse_varint.(bytes, content_start)
             binary_part(bytes, content_start + p_size, payload_bytes)
-  
+
           :leaf_table ->
             {payload_bytes, p_size} = parse_varint.(bytes, content_start)
             {rowid, i_size} = parse_varint.(bytes, content_start + p_size)
-  
+
             {
               rowid,
               binary_part(bytes, content_start + p_size + i_size, payload_bytes)
             }
         end
       end)
-  
+
     Map.put(page, :cells, cells)
   end
-  
+
   read_page = fn %{page_count: last_page} = db, i when i > 0 and i <= last_page ->
     :file.position(db.file, (i - 1) * db.page_size)
-  
+
     bytes = IO.binread(db.file, db.page_size)
     page = parse_page.(bytes, i)
     parse_cells.(bytes, page)
   end
-  
+
   open_db.(db_path, fn db -> read_page.(db, 1) end)
 #+end_src
 
@@ -354,7 +362,7 @@ FIXME
 #+begin_src elixir :session none
   parse_record = fn bytes ->
     {header_bytes, h_size} = parse_varint.(bytes, 0)
-  
+
     h_size
     |> Stream.unfold(fn read_bytes ->
       if read_bytes < header_bytes do
@@ -368,46 +376,46 @@ FIXME
     |> Enum.map_reduce(header_bytes, fn
       0, read_bytes ->
         {nil, read_bytes}
-  
+
       1, read_bytes ->
         <<int::1*8>> = binary_part(bytes, read_bytes, 1)
         {int, read_bytes + 1}
-  
+
       2, read_bytes ->
         <<int::2*8>> = binary_part(bytes, read_bytes, 2)
         {int, read_bytes + 2}
-  
+
       3, read_bytes ->
         <<int::3*8>> = binary_part(bytes, read_bytes, 3)
         {int, read_bytes + 3}
-  
+
       4, read_bytes ->
         <<int::4*8>> = binary_part(bytes, read_bytes, 4)
         {int, read_bytes + 4}
-  
+
       5, read_bytes ->
         <<int::6*8>> = binary_part(bytes, read_bytes, 6)
         {int, read_bytes + 6}
-  
+
       6, read_bytes ->
         <<int::8*8>> = binary_part(bytes, read_bytes, 8)
         {int, read_bytes + 8}
-  
+
       7, read_bytes ->
         <<flt::8*8>> = binary_part(bytes, read_bytes, 8)
         {flt, read_bytes + 8}
-  
+
       8, read_bytes ->
         {0, read_bytes}
-  
+
       9, read_bytes ->
         {1, read_bytes}
-  
+
       n, read_bytes when n >= 12 and rem(n, 2) == 0 ->
         size = div(n - 12, 2)
         text = binary_part(bytes, read_bytes, size)
         {text, read_bytes + size}
-  
+
       n, read_bytes when n >= 13 and rem(n, 2) == 1 ->
         size = div(n - 13, 2)
         text = binary_part(bytes, read_bytes, size)
@@ -415,14 +423,14 @@ FIXME
     end)
     |> elem(0)
   end
-  
+
   read_page = fn %{page_count: last_page} = db, i when i > 0 and i <= last_page ->
     :file.position(db.file, (i - 1) * db.page_size)
-  
+
     bytes = IO.binread(db.file, db.page_size)
     page = parse_page.(bytes, i)
     page = parse_cells.(bytes, page)
-  
+
     Map.update!(page, :cells, fn cells ->
       Enum.map(cells, fn
         bytes when is_binary(bytes) -> parse_record.(bytes)
@@ -431,7 +439,7 @@ FIXME
       end)
     end)
   end
-  
+
   open_db.(db_path, fn db -> read_page.(db, 1) end)
 #+end_src
 
@@ -468,7 +476,7 @@ FIXME
   type: :interior_table,
   cell_count: 1,
   right_most_pointer: 5,
-  cells: [{4, 80}]
+  cells: [{4, 79}]
 }
 #+end_example
 
@@ -486,7 +494,7 @@ FIXME
   type: :interior_index,
   cell_count: 1,
   right_most_pointer: 7,
-  cells: [{6, ["lizzie_barrows@morar.org", 7]}]
+  cells: [{6, ["micah_beahan@douglas.biz", 18]}]
 }
 #+end_example
 
@@ -502,54 +510,383 @@ FIXME
   index: 6,
   start: 0,
   type: :leaf_index,
-  cell_count: 79,
+  cell_count: 81,
   right_most_pointer: nil,
   cells: [
-    ["adan_white@thiel.info", 62],
-    ["addie_dickens@turner.org", 71],
-    ["adeline_bashirian@runte.com", 135],
-    ["adrianna_rowe@buckridge.com", 81],
-    ["agnes_zulauf@sanford.info", 80],
-    ["alanis_conroy_i@farrell.com", 39],
-    ["alia_sauer@welch.name", 34],
-    ["amiya_hane@lang.name", 105],
-    ["aracely_rolfson@boehm.info", 125],
-    ["ashlynn_rath@gaylord.com", 137],
-    ["asia_shanahan@conroy.name", 52],
-    ["barry_kuhn@hauck.net", 134],
-    ["bethel_davis_jr@walsh.name", 26],
-    ["betsy_howell@boyer.org", 113],
-    ["brandy_parker@lesch.biz", 88],
-    ["cali_reinger@wiza.biz", 20],
-    ["carey_rowe_phd@blick.biz", 13],
-    ["carmelo_o_reilly_sr@jones.com", 136],
-    ["carmen_brown@bernier.net", 107],
-    ["carole_senger@okuneva.com", 83],
-    ["chester_rice@feeney.com", 60],
-    ["clair_connelly@nienow.net", 49],
-    ["clay_quigley@mills.biz", 47],
-    ["cleora_hickle@streich.com", 3],
-    ["connie_anderson@west.biz", 31],
-    ["cory_reynolds@cruickshank.org", 66],
-    ["courtney_stiedemann@kirlin.org", 54],
-    ["creola_rippin@williamson.com", 17],
-    ["cristobal_ledner@quitzon.name", 89],
-    ["cullen_mann@heidenreich.org", 11],
-    ["damion_dach_ii@kutch.info", 94],
-    ["davin_streich@heathcote.com", 149],
-    ["dee_beatty@schneider.com", 43],
-    ["dejuan_ratke@padberg.com", 120],
-    ["dejuan_sporer@davis.info", 33],
-    ["delpha_funk@corkery.info", 129],
-    ["dennis_waelchi@kemmer.name", 139],
-    ["deron_wisozk@wintheiser.biz", 27],
-    ["domenica_sporer_iv@cronin.name", 138],
-    ["donato_hudson_md@oconner.com", 61],
-    ["dorthy_connelly@lynch.name", 28],
-    ["dr_gudrun_kub@mcclure.info", 59],
-    ["dr_luz_donnelly_dds@gaylord.net", ...],
+    ["ada_bauch@bechtelar.name", 144],
+    ["albin_weber@wyman.com", 113],
+    ["alexandra_morissette@mayer.info", 48],
+    ["alfonzo_gusikowski@osinski.org", 133],
+    ["ali_ortiz@fahey.info", 97],
+    ["anibal_hudson@streich.biz", 136],
+    ["ansel_kulas@leffler.biz", 150],
+    ["ara_glover@zboncak.com", 62],
+    ["arnoldo_hodkiewicz@thiel.info", 86],
+    ["ashleigh_dietrich@okon.biz", 74],
+    ["autumn_halvorson@conroy.biz", 106],
+    ["barney_walker@dooley.com", 63],
+    ["beth_fay@stiedemann.biz", 57],
+    ["bette_gottlieb@harber.info", 129],
+    ["blaise_sporer@bins.info", 56],
+    ["blake_kulas@wiza.org", 126],
+    ["bradford_schowalter@okeefe.biz", 100],
+    ["breana_bergnaum@von.com", 107],
+    ["cesar_schmidt@fahey.org", 75],
+    ["chelsey_waters@stanton.net", 82],
+    ["colten_kub_dds@nolan.info", 27],
+    ["dakota_d_amore@heidenreich.biz", 120],
+    ["dale_gorczany@jerde.com", 72],
+    ["daphney_carroll@jast.name", 80],
+    ["daren_keeling@collins.name", 7],
+    ["dario_brown@dibbert.net", 36],
+    ["darryl_dicki@sawayn.net", 142],
+    ["dayne_goodwin@gusikowski.net", 134],
+    ["deshaun_gutkowski@sipes.biz", 13],
+    ["donna_wuckert@mills.name", 31],
+    ["dr_lee_bruen_ii@bogisich.net", 22],
+    ["dr_taylor_frami@roberts.biz", 71],
+    ["dr_vidal_cartwright_i@cummerata.net", 127],
+    ["ed_goyette@wuckert.net", 76],
+    ["edward_cummerata@lockman.biz", 9],
+    ["edyth_medhurst@hauck.net", 146],
+    ["elouise_borer@ruecker.biz", 44],
+    ["erick_strosin@schneider.info", 95],
+    ["esteban_stracke@batz.biz", 110],
+    ["etha_mohr@kerluke.net", 102],
+    ["frances_grant_ii@vandervort.name", 24],
+    ["gage_schaefer@waters.name", 105],
+    ["gardner_fritsch_dvm@nicolas.info", ...],
     [...],
     ...
   ]
 }
 #+end_example
+
+FIXME
+
+#+begin_src elixir :session none
+  stream_table = fn db, root_page ->
+    Stream.resource(
+      fn -> [{read_page.(db, root_page), 0}] end,
+      fn
+        [] ->
+          {:halt, []}
+
+        [{%{type: :leaf_table} = page, 0} | rest] ->
+          {page.cells, rest}
+
+        [{%{cell_count: cell_count} = page, cell_count} | rest] ->
+          {[], [{read_page.(db, page.right_most_pointer), 0} | rest]}
+
+        [{page, i} | rest] ->
+          {next_page, _rowid} = Enum.at(page.cells, i)
+          {[], [{read_page.(db, next_page), 0}, {page, i + 1} | rest]}
+      end,
+      fn _stack -> :noop end
+    )
+  end
+
+  open_db.(db_path, fn db -> db |> stream_table.(1) |> Enum.to_list() end)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+[
+  {1,
+   ["table", "people", "people", 2,
+    "CREATE TABLE people (\n  id INTEGER PRIMARY KEY,\n  name TEXT NOT NULL,\n  age INTEGER NOT NULL,\n  email TEXT NOT NULL\n)"]},
+  {2,
+   ["index", "person_email", "people", 3,
+    "CREATE UNIQUE INDEX person_email ON people(email)"]}
+]
+#+end_example
+
+FIXME
+
+#+begin_src elixir :session none
+  parse_schema = fn db ->
+    sqlite_schema = [
+      type: "TEXT",
+      name: "TEXT",
+      tbl_name: "TEXT",
+      rootpage: "INTEGER",
+      sql: "TEXT"
+    ]
+
+    schema =
+      db
+      |> stream_table.(1)
+      |> Enum.into(%{"sqlite_schema" => {1, sqlite_schema}}, fn {_rowid, values} ->
+        row = Enum.zip(Keyword.keys(sqlite_schema), values)
+
+        fields =
+          case Keyword.fetch!(row, :type) do
+            "table" ->
+              ~r{(\w+)\s+([^,\(\)]+?)\s*[,\)]}
+              |> Regex.scan(Keyword.fetch!(row, :sql))
+              |> Enum.map(fn [_match, name, definition] ->
+                {String.to_atom(name), definition}
+              end)
+
+            "index" ->
+              ~r{(\w+)\s*[,\)]}
+              |> Regex.scan(Keyword.fetch!(row, :sql))
+              |> Enum.map(fn [_match, name] -> String.to_atom(name) end)
+
+            _other ->
+              []
+          end
+
+        key =
+          if Keyword.fetch!(row, :type) == "table" do
+            Keyword.fetch!(row, :name)
+          else
+            "#{Keyword.fetch!(row, :tbl_name)}:#{Keyword.fetch!(row, :name)}"
+          end
+
+        {key, {Keyword.fetch!(row, :rootpage), fields}}
+      end)
+
+    Map.put(db, :schema, schema)
+  end
+
+  open_db = fn path, func ->
+    File.open!(path, [:read, :binary], fn f ->
+      db =
+        f
+        |> IO.binread(100)
+        |> parse_header.(f)
+
+      db
+      |> parse_schema.()
+      |> func.()
+    end)
+  end
+
+  open_db.(db_path, fn db -> db end)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+%{
+  file: #PID<0.192.0>,
+  page_count: 7,
+  page_size: 4096,
+  schema: %{
+    "people" => {2,
+     [
+       id: "INTEGER PRIMARY KEY",
+       name: "TEXT NOT NULL",
+       age: "INTEGER NOT NULL",
+       email: "TEXT NOT NULL"
+     ]},
+    "people:person_email" => {3, [:email]},
+    "sqlite_schema" => {1,
+     [
+       type: "TEXT",
+       name: "TEXT",
+       tbl_name: "TEXT",
+       rootpage: "INTEGER",
+       sql: "TEXT"
+     ]}
+  }
+}
+#+end_example
+
+FIXME
+
+#+begin_src elixir :session none
+  build_table_row = fn fields, {rowid, values} ->
+    Enum.zip_with(fields, values, fn {name, definition}, v ->
+      v =
+        if is_nil(v) and definition == "INTEGER PRIMARY KEY" do
+          rowid
+        else
+          v
+        end
+
+      {name, v}
+    end)
+  end
+
+  scan_table = fn db, table_name ->
+    {root_page, fields} = Map.fetch!(db.schema, table_name)
+
+    db
+    |> stream_table.(root_page)
+    |> Stream.map(fn id_and_values -> build_table_row.(fields, id_and_values) end)
+  end
+
+  open_db.(db_path, fn db ->
+    db
+    |> scan_table.("people")
+    |> Enum.take(10)
+  end)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+[
+  [id: 1, name: "Margret Ebert", age: 39, email: "margret_ebert@bahringer.net"],
+  [id: 2, name: "Thad Pouros", age: 74, email: "thad_pouros@rodriguez.com"],
+  [id: 3, name: "Susana Torp", age: 50, email: "susana_torp@ebert.biz"],
+  [
+    id: 4,
+    name: "Mr. Michele Stroman",
+    age: 84,
+    email: "mr_michele_stroman@white.name"
+  ],
+  [id: 5, name: "Kenna Okuneva", age: 49, email: "kenna_okuneva@koch.biz"],
+  [id: 6, name: "Irwin Kohler", age: 61, email: "irwin_kohler@ledner.com"],
+  [id: 7, name: "Daren Keeling", age: 89, email: "daren_keeling@collins.name"],
+  [id: 8, name: "Viola Beer V", age: 73, email: "viola_beer_v@bayer.org"],
+  [
+    id: 9,
+    name: "Edward Cummerata",
+    age: 47,
+    email: "edward_cummerata@lockman.biz"
+  ],
+  [
+    id: 10,
+    name: "Nathan Halvorson",
+    age: 98,
+    email: "nathan_halvorson@kuhlman.biz"
+  ]
+]
+#+end_example
+
+FIXME
+
+#+begin_src elixir :session none
+  open_db.(db_path, fn db ->
+    db
+    |> scan_table.("people")
+    |> Enum.filter(fn row -> Keyword.fetch!(row, :age) >= 97 end)
+  end)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+[
+  [
+    id: 10,
+    name: "Nathan Halvorson",
+    age: 98,
+    email: "nathan_halvorson@kuhlman.biz"
+  ],
+  [id: 27, name: "Colten Kub DDS", age: 98, email: "colten_kub_dds@nolan.info"],
+  [id: 45, name: "Randy Grimes", age: 100, email: "randy_grimes@grant.com"],
+  [
+    id: 46,
+    name: "Mrs. Madisen Bashirian DVM",
+    age: 100,
+    email: "mrs_madisen_bashirian_dvm@prosacco.name"
+  ],
+  [id: 59, name: "Paula Larkin", age: 99, email: "paula_larkin@abshire.com"],
+  [id: 63, name: "Barney Walker", age: 98, email: "barney_walker@dooley.com"],
+  [
+    id: 80,
+    name: "Daphney Carroll",
+    age: 100,
+    email: "daphney_carroll@jast.name"
+  ],
+  [
+    id: 94,
+    name: "Rickey Balistreri DVM",
+    age: 97,
+    email: "rickey_balistreri_dvm@kuvalis.info"
+  ],
+  [
+    id: 100,
+    name: "Bradford Schowalter",
+    age: 100,
+    email: "bradford_schowalter@okeefe.biz"
+  ]
+]
+#+end_example
+
+FIXME
+
+#+begin_src elixir :session none
+  lookup_by_id = fn db, id ->
+    {root_page, fields} = Map.fetch!(db.schema, "people")
+
+    Stream.iterate(read_page.(db, root_page), fn
+      %{type: :leaf_table} = page ->
+        with id_and_values when is_tuple(id_and_values) <-
+               Enum.find(page.cells, fn {rowid, _values} -> rowid == id end) do
+          build_table_row.(fields, id_and_values)
+        end
+
+      page ->
+        next_page =
+          page.cells
+          |> Enum.find({page.right_most_pointer, nil}, fn {_pointer, rowid} ->
+            id <= rowid
+          end)
+          |> elem(0)
+
+        read_page.(db, next_page)
+    end)
+    |> Enum.find(fn found -> not is_map(found) end)
+  end
+
+  open_db.(db_path, fn db -> lookup_by_id.(db, 77) end)
+#+end_src
+
+#+RESULTS:
+: [
+:   id: 77,
+:   name: "Samanta Waelchi III",
+:   age: 88,
+:   email: "samanta_waelchi_iii@blanda.org"
+: ]
+
+FIXME
+
+#+begin_src elixir :session none
+  open_db.(db_path, fn db -> lookup_by_id.(db, 142) end)
+#+end_src
+
+#+RESULTS:
+: [id: 142, name: "Darryl Dicki", age: 62, email: "darryl_dicki@sawayn.net"]
+
+FIXME
+
+#+begin_src elixir :session none
+  lookup_by_email = fn db, email ->
+    {root_page, _fields} = Map.fetch!(db.schema, "people:person_email")
+
+    key =
+      Stream.iterate(read_page.(db, root_page), fn
+        %{type: :leaf_index} = page ->
+          Enum.find(page.cells, fn [e, _rowid] -> email == e end)
+
+        page ->
+          match =
+            Enum.find(
+              page.cells,
+              {page.right_most_pointer, nil},
+              fn {_pointer, [e, _rowid]} -> email <= e end
+            )
+
+          case match do
+            {_pointer, [e, rowid]} when email == e -> [email, rowid]
+            {pointer, _key} -> read_page.(db, pointer)
+          end
+      end)
+      |> Enum.find(fn found -> not is_map(found) end)
+
+    case key do
+      [_email, rowid] -> lookup_by_id.(db, rowid)
+      failed_match -> failed_match
+    end
+  end
+
+  open_db.(db_path, fn db ->
+    lookup_by_email.(db, "randy_grimes@grant.com")
+  end)
+#+end_src
+
+#+RESULTS:
+: [id: 45, name: "Randy Grimes", age: 100, email: "randy_grimes@grant.com"]
