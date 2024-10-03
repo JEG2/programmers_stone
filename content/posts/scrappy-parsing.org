@@ -78,6 +78,7 @@ sqlite> SELECT * FROM people LIMIT 10;
 8|Viola Beer V|73|viola_beer_v@bayer.org
 9|Edward Cummerata|47|edward_cummerata@lockman.biz
 10|Nathan Halvorson|98|nathan_halvorson@kuhlman.biz
+
 sqlite> SELECT * FROM people WHERE age >= 97;
 10|Nathan Halvorson|98|nathan_halvorson@kuhlman.biz
 27|Colten Kub DDS|98|colten_kub_dds@nolan.info
@@ -88,10 +89,13 @@ sqlite> SELECT * FROM people WHERE age >= 97;
 80|Daphney Carroll|100|daphney_carroll@jast.name
 94|Rickey Balistreri DVM|97|rickey_balistreri_dvm@kuvalis.info
 100|Bradford Schowalter|100|bradford_schowalter@okeefe.biz
+
 sqlite> SELECT * FROM people WHERE id = 77;
 77|Samanta Waelchi III|88|samanta_waelchi_iii@blanda.org
+
 sqlite> SELECT * FROM people WHERE id = 142;
 142|Darryl Dicki|62|darryl_dicki@sawayn.net
+
 sqlite> SELECT * FROM people WHERE email = 'randy_grimes@grant.com';
 45|Randy Grimes|100|randy_grimes@grant.com
 #+end_example
@@ -193,6 +197,14 @@ FIXME
 
 FIXME
 
+[[/images/scrappy_parsing_pages.png]]
+
+FIXME
+
+[[/images/scrappy_parsing_layout.png]]
+
+FIXME
+
 #+begin_src elixir :session none
   parse_page = fn bytes, i ->
     start = if i == 1, do: 100, else: 0
@@ -266,6 +278,10 @@ FIXME
   }
 ]
 #+end_example
+
+FIXME
+
+[[/images/scrappy_parsing_cells.gif]]
 
 FIXME
 
@@ -355,6 +371,20 @@ FIXME
        69, 65, 84, 69, 32, 85, 78, 73, ...>>}
   ]
 }
+#+end_example
+
+FIXME
+
+#+begin_example
+0bbbbbbb
+1bbbbbbb 0bbbbbbb
+1bbbbbbb 1bbbbbbb 0bbbbbbb
+1bbbbbbb 1bbbbbbb 1bbbbbbb 0bbbbbbb
+1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 0bbbbbbb
+1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 0bbbbbbb
+1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 0bbbbbbb
+1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 0bbbbbbb
+1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb bbbbbbbb
 #+end_example
 
 FIXME
@@ -479,6 +509,10 @@ FIXME
   cells: [{4, 79}]
 }
 #+end_example
+
+FIXME
+
+[[/images/scrappy_parsing_interiors.png]]
 
 FIXME
 
@@ -890,3 +924,5 @@ FIXME
 
 #+RESULTS:
 : [id: 45, name: "Randy Grimes", age: 100, email: "randy_grimes@grant.com"]
+
+FIXME
