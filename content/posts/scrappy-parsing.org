@@ -5,7 +5,7 @@
 
 I love parsing!  I really do.  There's something very satisfying about converting input into usable data structures that help me accomplish some task.
 
-Parsing is important.  How well we construct those data structures and the quality of the structures we choose can massively impact the work that comes after.  We should probably all be [[https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/][worrying about parsing]] a little more than we do.  
+Parsing is important.  How well we construct those data structures and the quality of the structures we choose can massively impact the work that comes after.  We should probably all be [[https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/][worrying about parsing]] a little more than we do.
 
 The good news is that Elixir is the best language I have ever worked with for doing serious parsing.  Let's prove it.  Let's pull the data out of a SQLite database file using vanilla Elixir and some tricks from my [[https://voyagesincode.com/products/how-to-train-your-scrappy-programmer][Scrappy Programmer Livebook series]].  (You don't need to have read that to follow along with this article.  Everyone is welcome.)
 
