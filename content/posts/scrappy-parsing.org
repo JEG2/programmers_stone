@@ -68,7 +68,7 @@ The good news is that Elixir is the best language I have ever worked with for do
 : Database path:  /tmp/db.sqlite3
 : :ok
 
-We're not really here to discuss this code, but, very briefly, it creates a new database table with four fields, adds on an index, and pumps 150 fake records into it.  The only things in this code that effect what we are about to do are the fields in the table and index and the ~db_path~ variable that holds the location of our database file in the temporary directory.
+We're not really here to discuss this code, but, very briefly, it creates a new database table with four fields, adds on an index, and pumps 150 fake records into it.  The only things in this code that effect what we are about to do are the fields in the table and index as well as the ~db_path~ variable that holds the location of our database file in the temporary directory.
 
 Let's now use the real SQLite to browse through what we've created:
 
@@ -112,7 +112,13 @@ These five queries represent our goal.  We want to recreate these operations usi
 
 * I Hope Someone Brought A Map
 
-  FIXME
+An entire SQLite database is stored in just one file.  That file contains the structure definitions for our table and index, all of the records we loaded into the table, the index that allows us to find records quickly by `email`, and a bit more.  How do we find exactly what we're after on this lush, tropical island?  We need a map!
+
+SQLite has got you covered.  The file is predictable.  While it can contain multitudes, it is constructed from simple abstractions that can be easily understood one by one.  As we work our way through those layers, a map will emerge showing us precisely where the treasure we seek can be found.
+
+The first abstraction is /pages/.  While a large database might yield a huge file, all SQLite files are divided into equally sized chunks.  One chunk is called a page.  Each page contains a certain kind of data and can be dealt with largely independently from the other pages.
+
+This means that the first step to understanding is just knowing the size of each page.  Once we know that size, we can carve up the entire file and begin to make sense of the individual pieces.  Therefore, it may not be too surprising to learn that all SQLite databases begin with a header that explains a handful of key details, including the page size!  Let's read that header:
 
 #+begin_src elixir :session none
   File.open!(db_path, [:read, :binary], fn f ->
@@ -153,7 +159,13 @@ These five queries represent our goal.  We want to recreate these operations usi
 #+RESULTS:
 : %{page_count: 7, page_size: 4096}
 
-FIXME
+The first 100 bytes of a SQLite database file are a collection of integers that explain the various features of the database contained within.  [[https://www.sqlite.org/fileformat2.html#the_database_header][The excellent documentation]] explains what each of those values indicate.  The most important one to us is the `raw_page_size`.  If you look through the pattern match above, you will see some other interesting details like a `page_count`.  That can also be helpful to see the structure of the database, but you could also get it by dividing the file size by the page size.
+
+Now it may look like we are ignoring many of these values.  To some extent that is true.  This tutorial is not going to concern itself with free pages, for example, as we would only need to know about those if we were looking for empty pages to write new data into.  However, don't make the mistake of assuming that the parser we are building is a fragile snowflake.  Pattern matching has allowed me to hardcode many expectations about the header.  In the places where you see me matching against literal integer values I am ensuring that the database has the formats, schema versions, and text encoding that I expect.  The final value even encodes the exact version of SQLite used to create the file `3_046_000` ("3.46.0").  If you try to use this code on anything it wasn't prepared to handle, it will bail out noisily at this very first step.  That makes it a lot easier to trust the results we are getting.
+
+The rest of the code performs a trivial conversion to produce the actual page size and the output shows us that our file contains seven 4k pages.
+
+The above pattern match was purposefully done in a very verbose format to specifically match the values given in the documentation.  Many of those options are defaults though and others have much shorter forms.  Let's rewrite it into what we are more likely to encounter in the wild and wrap it in a function for easy reuse:
 
 #+begin_src elixir :session none
   parse_header = fn bytes, f ->
@@ -207,15 +219,25 @@ FIXME
 #+RESULTS:
 : %{file: #PID<0.184.0>, page_count: 7, page_size: 4096}
 
-FIXME
+The code above also includes a new function that opens a file, parses the header, and passes the key database details into an anonymous function we can provide for further processing of the contents.
+
+We've found the pages.  Now we have to make sense of them.
+
+* Climb a Tree, Dear
+
+Somewhere in the seven pages of our database we know that we will find a table full of data and an index mapping email addresses to records in that table.  Tables and indexes are stored in the second of SQLite's abstractions:  [[https://en.wikipedia.org/wiki/B-tree][the B-tree]].  A B-tree is a handy tree format for efficiently storing large chunks of data (like pages) in a branching structure that can quickly get you to the data you seek.  The tree itself is made of pages that point to other pages.  If you know where the root page of a tree is, you can find all of the other pages.
+
+Three of the seven pages are the tree that holds the data in our table.  Another three are a tree that holds the index.  The only other page, the first one in the database, holds an abstraction we'll look at a bit later that allows us to find both of those trees.  The following image shows how these pages map to one another.
 
 [[/images/scrappy_parsing_pages.png]]
 
-FIXME
+In order to follow the map of pages, we need to be able to read what is actually on them.  Unsurprisingly, pages also have [[https://www.sqlite.org/fileformat2.html#b_tree_pages][a predictable format]] including a header of their own that provides some key details about what you will find in its contents.  The only gotcha when looking for this page header is to remember that the first 100 bytes of the database are the database header.  That means that the header for page one starts 100 bytes in, but the header for all other pages is at the beginning of the page.
 
 [[/images/scrappy_parsing_layout.png]]
 
-FIXME
+Again, we really only need a couple of key details from the page header to make sense of it.  The first value we're interested in is the type of page that it is.  Does it hold a table or an index?  Is it the actual table data or does it just point to other pages that hold the table data?
+
+We saw before that SQLite databases are just a collection of pages.  Well, pages are just a collection of /cells/.  That means the other key element we need to know are how many cells are on this page.  That's in the header too.  Let's parse them out:
 
 #+begin_src elixir :session none
   parse_page = fn bytes, i ->
@@ -291,7 +313,13 @@ FIXME
 ]
 #+end_example
 
-FIXME
+This code is pretty similar to the earlier code that parsed the database header.  We match some raw values, do some minor clean up, and return them in a data structure telling you what you need to know.  You can see that I've pulled out some other details, like the `right_most_pointer`.  We'll get to what that is in a bit.
+
+Here we also see a new function for reading pages out of the file.  Given the index on any page we want to see, some simple math can tell us how many bytes of other pages to skip past.  We can then read one chunk of page size bytes to get that page.
+
+The end of this example uses that header parser and that page reading function to extract some details about the first three pages.  Don't worry too much about the first page just yet, but take note of `2` and `3`.  One of them is a table page that will eventually lead us to the other two table pages and the other is the index counterpart.  To follow those leads, we will need to make sense of the cells.
+
+* Living Things Are Made Of Cells
 
 [[/images/scrappy_parsing_cells.gif]]
 
