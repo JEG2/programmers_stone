@@ -68,7 +68,7 @@ The good news is that Elixir is the best language I have ever worked with for do
 : Database path:  /tmp/db.sqlite3
 : :ok
 
-We're not really here to discuss this code, but, very briefly, it creates a new database table with four fields, adds on an index, and pumps 150 fake records into it.  The only things in this code that effect what we are about to do are the fields in the table and index as well as the ~db_path~ variable that holds the location of our database file in the temporary directory.
+We're not really here to discuss this code, but, very briefly, it creates a new database table with four fields, adds on an index, and pumps 150 fake records into it.  The only things in this code that effect what we are about to do are the fields in the table and index as well as the ~db_path~ variable.  That holds the location of our database file in the temporary directory.
 
 Let's now use the real SQLite to browse through what we've created:
 
@@ -112,11 +112,11 @@ These five queries represent our goal.  We want to recreate these operations usi
 
 * I Hope Someone Brought A Map
 
-An entire SQLite database is stored in just one file.  That file contains the structure definitions for our table and index, all of the records we loaded into the table, the index that allows us to find records quickly by ~email~, and a bit more.  How do we find exactly what we're after on this lush, tropical island?  We need a map!
+An entire SQLite database is stored in just one file.  That file contains the structural definitions for our table and index, all of the records we loaded into the table, the index that allows us to find records quickly by ~email~, and a bit more.  How do we find exactly what we're after on this lush, tropical island?  We need a map!
 
 SQLite has got you covered.  The file is predictable.  While it can contain multitudes, it is constructed from simple abstractions that can be easily understood one by one.  As we work our way through those layers, a map will emerge showing us precisely where the treasure we seek can be found.
 
-The first abstraction is /pages/.  While a large database might yield a huge file, all SQLite files are divided into equally sized chunks.  One chunk is called a page.  Each page contains a certain kind of data and can be dealt with largely independently from the other pages.
+The first abstraction is /pages/.  While a large database might produce a huge file, all SQLite files are divided into equally sized chunks.  One chunk is called a page.  Each page contains a certain kind of data and can be dealt with largely independently from the other pages.
 
 This means that the first step to understanding is just knowing the size of each page.  Once we know that size, we can carve up the entire file and begin to make sense of the individual pieces.  Therefore, it may not be too surprising to learn that all SQLite databases begin with a header that explains a handful of key details, including the page size!  Let's read that header:
 
@@ -159,9 +159,9 @@ This means that the first step to understanding is just knowing the size of each
 #+RESULTS:
 : %{page_count: 7, page_size: 4096}
 
-The first 100 bytes of a SQLite database file are a collection of integers that explain the various features of the database contained within.  [[https://www.sqlite.org/fileformat2.html#the_database_header][The excellent documentation]] explains what each of those values indicate.  The most important one to us is the ~raw_page_size~.  If you look through the pattern match above, you will see some other interesting details like a ~page_count~.  That can also be helpful to see the structure of the database, but you could also get it by dividing the file size by the page size.
+The first 100 bytes of a SQLite database file are a collection of integers that explain the various features contained within.  [[https://www.sqlite.org/fileformat2.html#the_database_header][The excellent documentation]] explains what each of those values indicate.  The most important one to us is the ~raw_page_size~.  If you look through the pattern match above, you will see some other interesting details like a ~page_count~.  That can also be helpful to see the structure of the database, but you could also get it by dividing the file size by the page size.
 
-Now it may look like we are ignoring many of these values.  To some extent that is true.  This tutorial is not going to concern itself with free pages, for example, as we would only need to know about those if we were looking for empty pages to write new data into.  However, don't make the mistake of assuming that the parser we are building is a fragile snowflake.  Pattern matching has allowed me to hardcode many expectations about the header.  In the places where you see me matching against literal integer values I am ensuring that the database has the formats, schema versions, and text encoding that I expect.  The final value even encodes the exact version of SQLite used to create the file ~3_046_000~ ("3.46.0").  If you try to use this code on anything it wasn't prepared to handle, it will bail out noisily at this very first step.  That makes it a lot easier to trust the results we are getting.
+Now, it may look like we are ignoring many of these values.  To some extent that is true.  This tutorial is not going to concern itself with free pages, for example, as we would only need to know about those if we were looking for empty pages to write new data into.  However, don't make the mistake of assuming that the parser we are building is a fragile snowflake.  Pattern matching has allowed me to hardcode many expectations about the header.  In the places where you see me matching against literal integer values I am ensuring that the database has the formats, schema versions, and text encoding that I expect.  The final value even encodes the exact version of SQLite used to create the file ~3_046_000~ ("3.46.0").  If you try to use this code on anything it wasn't prepared to handle, it will bail out noisily at this very first step.  That makes it a lot easier to trust the results we are getting.
 
 The rest of the code performs a trivial conversion to produce the actual page size and the output shows us that our file contains seven 4k pages.
 
@@ -225,7 +225,7 @@ We've found the pages.  Now we have to make sense of them.
 
 * Climb a Tree, Dear
 
-Somewhere in the seven pages of our database we know that we will find a table full of data and an index mapping email addresses to records in that table.  Tables and indexes are stored in the second of SQLite's abstractions:  [[https://en.wikipedia.org/wiki/B-tree][the B-tree]].  A B-tree is a handy tree format for efficiently storing large chunks of data (like pages) in a branching structure that can quickly get you to the data you seek.  The tree itself is made of pages that point to other pages.  If you know where the root page of a tree is, you can find all of the other pages.
+Somewhere in the seven pages of our database we know that we will find a table full of data and an index mapping email addresses to records in that table.  Tables and indexes are stored in the second of SQLite's abstractions:  [[https://en.wikipedia.org/wiki/B-tree][B-trees]].  A B-tree is a handy tree format for efficiently storing large chunks of data (like pages) in a branching structure that can quickly get you to the data you seek.  The tree itself is made of pages that point to other pages.  If you know where the root page of a tree is, you can find all of the other pages.
 
 Three of the seven pages are the tree that holds the data in our table.  Another three are a tree that holds the index.  The only other page, the first one in the database, holds an abstraction we'll look at a bit later that allows us to find both of those trees.  The following image shows how these pages map to one another.
 
@@ -243,8 +243,12 @@ We saw before that SQLite databases are just a collection of pages.  Well, pages
   parse_page = fn bytes, i ->
     start = if i == 1, do: 100, else: 0
 
-    <<raw_type::1*8, _first_page_freeblock::2*8, cell_count::2*8, _raw_cell_content_start::2*8,
-      _fragmented_free_bytes::1*8, rest::binary>> = binary_slice(bytes, start, 12)
+    <<raw_type::1*8,
+      _first_page_freeblock::2*8,
+      cell_count::2*8,
+      _raw_cell_content_start::2*8,
+      _fragmented_free_bytes::1*8,
+      rest::binary>> = binary_slice(bytes, start, 12)
 
     type =
       case raw_type do
@@ -335,7 +339,7 @@ Cells could just be laid out in order after the header.  Each cell could begin w
 
 In order to accommodate this change most of the page has to be relaid out.  All later values had to be shifted in order to make space for the now larger field.  SQLite wants to minimize the need for changes due to edits.
 
-To support that, it stores two things for each cell.  The first is a pointer to where the cell content is in the page and then, at that location, it stored the actual content of the cell.  When changes modify cells, SQLite can place the new content in any convenient space and simply adjust the pointer numbers to direct us to the right things.  Have a fresh look at this earlier diagram:
+To support that, it stores two things for each cell.  The first is a pointer to where the cell content is in the page and then, at that location, it stores the actual content of the cell.  When changes modify cells, SQLite can place the new content in any convenient space and simply adjust the pointer numbers to direct us to the right things.  Have a fresh look at this earlier diagram:
 
 [[/images/scrappy_parsing_layout.png]]
 
@@ -435,13 +439,17 @@ This does require another new element of the SQLite format called a /varint/.  Y
 }
 #+end_example
 
-That's a lot of code, so let's break it down.  Again, for now, just think of the code that parses varints as a magical number reader.  Inside the cell parsing code, we first half to check if this is a kind of page that would include a ~right_most_pointer~.  When that's present, it pushes the start of the cells a little further into the page.
+That's a lot of code, so let's break it down.  Again, for now, just think of the code that parses varints as a magical number reader.  Inside the cell parsing code, we first check if this is a kind of page that would include a ~right_most_pointer~.  When that's present, it pushes the start of the cells a little further into the page.
 
-Immediately after that check is where the action is.  That first call to ~Enum.map/2~ is what reads all the cell pointers, converting them into simple integers that show where the content for that cell starts.  The following call to ~Enum.map/2~ is what actually reads those contents.  Unfortunately, cell contents are slightly different for the four different types of pages in our database.  That's why this section branches on the page type and uses four different techniques.  We will talk about what those cells actually hold in a moment, but you can already see from the output that we have managed to extract some kind of structured data pairs of numbered binary blobs.  Onward to deblobification!
+Immediately after that check is where the action is.  That first call to ~Enum.map/2~ is what reads all the cell pointers, converting them into simple integers that show where the content for that cell starts.  The following call to ~Enum.map/2~ is what actually reads those contents.  Unfortunately, cell contents are slightly different for [[https://www.sqlite.org/fileformat2.html#b_tree_pages][the four different types of pages]] in our database.  That's why this section branches on the page type and uses four different techniques.
+
+This code redefines ~read_page/2~ to add in cell parsing whenever we fetch one.
+
+We will talk about what those cells actually hold in a moment, but you can already see from the output that we have managed to extract some kind of structured data pairs of numbered binary blobs.  Onward to deblobification!
 
 ** Integers of Varying Sizes
 
-Many things in binary formats involve telling you what you are about to read, and potentially the size of it, and then giving you the thing to read.  The way to tell you what to read is to put some magic number in front of it.  That number can probably be pretty small.  If there are less than 256 things you could need to read, one byte will do.  Of course, let's say you are told to read some arbitrarily long text that the user typed in.  Now we need another number to tell you how long the text is.  How large does that size indicator need to be?  Well, it would have to be large enough to encode the maximally large text that a user could enter.  But if we throw this large numbers around everywhere and users only enter ten digits at a time, we're wasting some serious space.
+Many things in binary formats involve telling you what you are about to read, and potentially the size of it, and then giving you the thing to read.  The way to tell you what to read is to put some magic number in front of it.  That number can probably be pretty small.  If there are less than 256 things you could need to read, one byte will do.  Of course, let's say you are told to read some arbitrarily long text that the user typed in.  Now we need another number to tell you how long the text is.  How large does that size indicator need to be?  Well, it would have to be large enough to encode the maximally large text that a user could enter.  But if we throw these large numbers around everywhere and users only enter ten digits at a time, we're wasting some serious space.
 
 [[https://www.sqlite.org/fileformat2.html#varint][Varints]] are the cure for this disease.  They are a way to encode an integer of varying lengths.  If you only need a small number, they take up one byte.  They scale all the way up to nine bytes for the largest values that SQLite supports.  To read one, you keep going until you read a byte where the highest-order bit is a ~0~ or you reach the ninth byte.  That sounds more complex than it is.  Here are all of the possible combinations:
 
@@ -463,9 +471,9 @@ This system makes it easy for SQLite to encode values using only the number of b
 
 ** Building a Record Player
 
-Databases are made up of pages.  Pages are made up of cells.  Cells are made up of records.  Are we having fun yet?
+Databases are made up of pages, organized into B-trees.  Pages are made up of cells.  Cells are made up of records.  Are we having fun yet?
 
-That binary blob we saw when we parsed out the cell values is a [[https://www.sqlite.org/fileformat2.html#record_format][record]].  A record is a header indicating the types and sizes of all the fields that follow immediately followed by the contents of those fields.  As the table at the link shows, a type ~1~ means you are reading a single byte integer for that field while a ~6~ is an eight byte integer.  Odd values above ~13~ are a way to indicate textual content and a size with one number.  Be sure to look at the table.  It's clever!
+That binary blob we saw when we parsed out the cell values is a [[https://www.sqlite.org/fileformat2.html#record_format][record]].  A record is a header indicating the types and sizes of all the fields that follow, immediately followed by the contents of those fields.  As the table at the link shows, a type ~1~ means you are reading a single byte integer for that field while a ~6~ is an eight byte integer.  Odd values above ~13~ are a way to indicate textual content and a size with one number.  Be sure to look at the table.  It's clever!
 
 The following code is an Elixirification of that table:
 
@@ -572,7 +580,13 @@ The following code is an Elixirification of that table:
 }
 #+end_example
 
-As you can see from the output, cell blob content has turned into meaningful data.  
+The function heads inside of the ~Enum.map_reduce/3~ call line up perfectly with the table from the documentation.  This code also redefines ~read_page/2~ yet again to add in the new cell decoding functionality.
+
+As you can see from the output, cell blob content has turned into meaningful data.  Page one of a SQLite database is another B-tree.  It just so happens that ours is small enough for the whole thing to fit on one page without any redirecting pages needed.  That initial B-tree points to [[https://www.sqlite.org/fileformat2.html#storage_of_the_sql_database_schema][a SQL table]] describing all of the SQL objects encoded in this database file.  It includes the page each item starts on among other details.  This finally shows how I knew that our table began on page two and our index was on page three.
+
+* Lookup Tables
+
+Now that we understand the first page, let's look at a SQL table that spans multiple pages:
 
 #+begin_src elixir :session none
   open_db.(db_path, fn db -> read_page.(db, 2) end)
@@ -590,11 +604,13 @@ As you can see from the output, cell blob content has turned into meaningful dat
 }
 #+end_example
 
-FIXME
+We know from earlier diagrams in this post that the content of our database table begins on page two and continues on pages four and five.  If you look closely at the data structure above for page two, you will see that it does point to ~4~ and ~5~.
+
+Cells of interior pages, the pages that lead to other pages, are pairs of page numbers (called a /left child pointer/) and keys.  For the table above, there is only one cell and it contains the page number ~4~ paired with the key ~79~.  These pairs form a conceptual mapping where the page number preceding each key is the page where you will find all records with a [[https://www.sqlite.org/lang_createtable.html#rowid][rowid]], an autoincrementing integer key, less than or equal to that key.  When none of those cells contains the key you are looking for, you follow the ~right_most_pointer~ to the last page in the list.  Here's a diagram of how the lookup cells relate to each other:
 
 [[/images/scrappy_parsing_interiors.png]]
 
-FIXME
+Indexes have a very similar structure for their pages that point to other pages.  Let's look at our index to see this:
 
 #+begin_src elixir :session none
   open_db.(db_path, fn db -> read_page.(db, 3) end)
@@ -612,7 +628,11 @@ FIXME
 }
 #+end_example
 
-FIXME
+The above is still a pair of page number and "key."  However, the key is a little more complex.  It now contains all of the fields we are indexing on (just ~email~ in our case) followed by the rowid of the matching record in the actual table.
+
+This is used in pretty much the same way.  Emails less than (speaking in a manner of textual sorting) would be on the page number on the left, while greater emails would be on the ~right_most_pointer~ page.  In indexes, the record that exactly matches the key would not appear on a deeper page, because finding it during a lookup means you already know what you need to know:  the rowid to lookup in the actual table.
+
+The rest of the index is pretty unsurprising.  It just contains that email and rowid pairs.  Here's a look at one of those pages:
 
 #+begin_src elixir :session none
   open_db.(db_path, fn db -> read_page.(db, 6) end)
@@ -676,7 +696,9 @@ FIXME
 }
 #+end_example
 
-FIXME
+* Query Time
+
+We now understand all of the abstractions needed to make sense of this database.  Let's reproduce the five queries at the beginning of this article using Elixir.  The first thing that we need is a function that can walk through an entire B-tree yielding the contents as they are passed:
 
 #+begin_src elixir :session none
   stream_table = fn db, root_page ->
@@ -715,7 +737,9 @@ FIXME
 ]
 #+end_example
 
-FIXME
+I've decided to represent table B-trees as Elixir Streams.  This allows us to use the full suite of iterators to dig through them as needed.
+
+The second thing we need is a way to link field definitions with the values we find in the tables.  SQLite handles this by giving you the SQL used to create the table in the database schema listing.  Let's add some code to parse those out when the database is opened:
 
 #+begin_src elixir :session none
   parse_schema = fn db ->
@@ -807,7 +831,9 @@ FIXME
 }
 #+end_example
 
-FIXME
+Don't loose a lot of sleep over this crude parsing code.  I used regular expressions to pull out the values we need to care about for these examples.  Obviously, SQLite has a SQL parser that it can leverage to understand these definitions.  That's outside the scope of what we are trying to do here.
+
+The above code redefines ~open_db/2~ to always perform this schema parsing and add the yielded field definitions along with the root page numbers to the database data structure.  We can combine those definitions with the table records to produce a full table scan:
 
 #+begin_src elixir :session none
   build_table_row = fn fields, {rowid, values} ->
@@ -869,7 +895,7 @@ FIXME
 ]
 #+end_example
 
-FIXME
+This is the first query we ran back at the beginning of this article.  It's worth noting that now that we have all the needed abstractions, the final call is essentially ~Enum.take(table, 10)~.  Scanning for specific ages isn't much harder:
 
 #+begin_src elixir :session none
   open_db.(db_path, fn db ->
@@ -919,7 +945,9 @@ FIXME
 ]
 #+end_example
 
-FIXME
+* Maximum Warp, Engage
+
+The three remaining queries are meant to be more efficient than a table scan.  They can skip right to the needed data using primary keys or supporting indexes.  As we've seen, the way SQLite tables are stored, they are basically their own index for autoincrementing integer primary keys.  Let's write the code to walk those B-trees efficiently:
 
 #+begin_src elixir :session none
   lookup_by_id = fn db, id ->
@@ -956,7 +984,9 @@ FIXME
 :   email: "samanta_waelchi_iii@blanda.org"
 : ]
 
-FIXME
+This code still streams the content, but it's smarter about how it moves from page to page.  Since we pass in an ~id~, it can check the keys to see which branches of the tree to follow, skipping any pages that won't lead to what we're after.  When it reaches a leaf page, it knows the desired value must be on this page (assuming it exists) and a simple ~Enum.find/2~ is used to retrieve it.
+
+We know this first lookup was on page ~4~, because the ~id~ was less than ~79~.  Let's do one more lookup to force it to take the other path to page ~5~:
 
 #+begin_src elixir :session none
   open_db.(db_path, fn db -> lookup_by_id.(db, 142) end)
@@ -965,7 +995,13 @@ FIXME
 #+RESULTS:
 : [id: 142, name: "Darryl Dicki", age: 62, email: "darryl_dicki@sawayn.net"]
 
-FIXME
+This final query uses a very similar strategy, but for the email index.  The differences are:
+
+- We are checking emails instead of ID's
+- Exactly matching the key on an interior page ends the search without continuing to a leaf page
+- When the email lookup succeeds, we use the resulting ID to perform a table lookup and get the actual record
+
+Here's the code:
 
 #+begin_src elixir :session none
   lookup_by_email = fn db, email ->
@@ -1005,4 +1041,10 @@ FIXME
 #+RESULTS:
 : [id: 45, name: "Randy Grimes", age: 100, email: "randy_grimes@grant.com"]
 
-FIXME
+* Go Forth and Parse Things
+
+The code above doesn't handle every possible situation in a SQLite database.  The most notable omission is that it's possible for large content to overflow a page and end up on subsequent pages.  A real solution needs to identify those cases and follow the leads.
+
+However, we've handled a huge chunk of the SQLite file specification, securely and efficiently.  We used some random file access, streaming content, and some seriously powerful binary pattern matching to make sense of a lot of data.  These simple tools are very powerful ways to break down the content we are faced with.
+
+If you enjoyed this post, I compare the parsing strategies used here with other techniques, like lexer and parser generators, in [[https://voyagesincode.com/products/the-wild-world-of-parsing][The Wild World of Parsing]] Livebook from my [[https://voyagesincode.com/products/how-to-train-your-scrappy-programmer][How to Train Your Scrappy Programmer]] series.
