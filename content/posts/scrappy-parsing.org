@@ -112,7 +112,7 @@ These five queries represent our goal.  We want to recreate these operations usi
 
 * I Hope Someone Brought A Map
 
-An entire SQLite database is stored in just one file.  That file contains the structure definitions for our table and index, all of the records we loaded into the table, the index that allows us to find records quickly by `email`, and a bit more.  How do we find exactly what we're after on this lush, tropical island?  We need a map!
+An entire SQLite database is stored in just one file.  That file contains the structure definitions for our table and index, all of the records we loaded into the table, the index that allows us to find records quickly by ~email~, and a bit more.  How do we find exactly what we're after on this lush, tropical island?  We need a map!
 
 SQLite has got you covered.  The file is predictable.  While it can contain multitudes, it is constructed from simple abstractions that can be easily understood one by one.  As we work our way through those layers, a map will emerge showing us precisely where the treasure we seek can be found.
 
@@ -159,9 +159,9 @@ This means that the first step to understanding is just knowing the size of each
 #+RESULTS:
 : %{page_count: 7, page_size: 4096}
 
-The first 100 bytes of a SQLite database file are a collection of integers that explain the various features of the database contained within.  [[https://www.sqlite.org/fileformat2.html#the_database_header][The excellent documentation]] explains what each of those values indicate.  The most important one to us is the `raw_page_size`.  If you look through the pattern match above, you will see some other interesting details like a `page_count`.  That can also be helpful to see the structure of the database, but you could also get it by dividing the file size by the page size.
+The first 100 bytes of a SQLite database file are a collection of integers that explain the various features of the database contained within.  [[https://www.sqlite.org/fileformat2.html#the_database_header][The excellent documentation]] explains what each of those values indicate.  The most important one to us is the ~raw_page_size~.  If you look through the pattern match above, you will see some other interesting details like a ~page_count~.  That can also be helpful to see the structure of the database, but you could also get it by dividing the file size by the page size.
 
-Now it may look like we are ignoring many of these values.  To some extent that is true.  This tutorial is not going to concern itself with free pages, for example, as we would only need to know about those if we were looking for empty pages to write new data into.  However, don't make the mistake of assuming that the parser we are building is a fragile snowflake.  Pattern matching has allowed me to hardcode many expectations about the header.  In the places where you see me matching against literal integer values I am ensuring that the database has the formats, schema versions, and text encoding that I expect.  The final value even encodes the exact version of SQLite used to create the file `3_046_000` ("3.46.0").  If you try to use this code on anything it wasn't prepared to handle, it will bail out noisily at this very first step.  That makes it a lot easier to trust the results we are getting.
+Now it may look like we are ignoring many of these values.  To some extent that is true.  This tutorial is not going to concern itself with free pages, for example, as we would only need to know about those if we were looking for empty pages to write new data into.  However, don't make the mistake of assuming that the parser we are building is a fragile snowflake.  Pattern matching has allowed me to hardcode many expectations about the header.  In the places where you see me matching against literal integer values I am ensuring that the database has the formats, schema versions, and text encoding that I expect.  The final value even encodes the exact version of SQLite used to create the file ~3_046_000~ ("3.46.0").  If you try to use this code on anything it wasn't prepared to handle, it will bail out noisily at this very first step.  That makes it a lot easier to trust the results we are getting.
 
 The rest of the code performs a trivial conversion to produce the actual page size and the output shows us that our file contains seven 4k pages.
 
@@ -313,17 +313,39 @@ We saw before that SQLite databases are just a collection of pages.  Well, pages
 ]
 #+end_example
 
-This code is pretty similar to the earlier code that parsed the database header.  We match some raw values, do some minor clean up, and return them in a data structure telling you what you need to know.  You can see that I've pulled out some other details, like the `right_most_pointer`.  We'll get to what that is in a bit.
+This code is pretty similar to the earlier code that parsed the database header.  We match some raw values, do some minor clean up, and return them in a data structure telling you what you need to know.  You can see that I've pulled out some other details, like the ~right_most_pointer~.  We'll get to what that is in a bit.
 
 Here we also see a new function for reading pages out of the file.  Given the index on any page we want to see, some simple math can tell us how many bytes of other pages to skip past.  We can then read one chunk of page size bytes to get that page.
 
-The end of this example uses that header parser and that page reading function to extract some details about the first three pages.  Don't worry too much about the first page just yet, but take note of `2` and `3`.  One of them is a table page that will eventually lead us to the other two table pages and the other is the index counterpart.  To follow those leads, we will need to make sense of the cells.
+The end of this example uses that header parser and that page reading function to extract some details about the first three pages.  Don't worry too much about the first page just yet, but take note of ~2~ and ~3~.  One of them is a table page that will eventually lead us to the other two table pages and the other is the index counterpart.  To follow those leads, we will need to make sense of the cells.
 
 * Living Things Are Made Of Cells
 
+Conceptually, the cells in a page are just a list of values.  When I show you how those values are laid out it may initially seem strange, but it makes a lot more sense when you think about how databases can change.  Let's look at a trivial example:
+
+#+begin_example
+8whatever5small8whatever8whatever8whatever
+#+end_example
+
+Cells could just be laid out in order after the header.  Each cell could begin with a number telling you how many bytes to read and be immediately followed by that content.  The example above shows roughly what this would look like (although it is not in binary).  Now consider that someone issues a SQL statement to modify the ~small~ field to be ~quiteabitbigger~:
+
+#+begin_example
+8whatever15quiteabitbigger8whatever8whatever8whatever
+#+end_example
+
+In order to accommodate this change most of the page has to be relaid out.  All later values had to be shifted in order to make space for the now larger field.  SQLite wants to minimize the need for changes due to edits.
+
+To support that, it stores two things for each cell.  The first is a pointer to where the cell content is in the page and then, at that location, it stored the actual content of the cell.  When changes modify cells, SQLite can place the new content in any convenient space and simply adjust the pointer numbers to direct us to the right things.  Have a fresh look at this earlier diagram:
+
+[[/images/scrappy_parsing_layout.png]]
+
+The cell pointers are those simple numbers following immediately after the header and growing towards the end of the page.  The cell contents themselves will start at the end of the page and grow backwards toward the beginning.  This leaves a large chunk of empty space in the middle for use when edits cause changes.  Here's an animation of how SQLite will layout the first three cells as they are added:
+
 [[/images/scrappy_parsing_cells.gif]]
 
-FIXME
+Luckily, understanding cell layout is harder than actually parsing the cells.  We just need to read some numbers after the header and follow those to extract the contents.
+
+This does require another new element of the SQLite format called a /varint/.  You'll see the code to parse these special numbers in the following example, but I'm not going to explain them just yet.  I promise that we will get there soon.  In the meantime, let's read some cell contents:
 
 #+begin_src elixir :session none
   parse_varint = fn bytes, start ->
@@ -413,7 +435,15 @@ FIXME
 }
 #+end_example
 
-FIXME
+That's a lot of code, so let's break it down.  Again, for now, just think of the code that parses varints as a magical number reader.  Inside the cell parsing code, we first half to check if this is a kind of page that would include a ~right_most_pointer~.  When that's present, it pushes the start of the cells a little further into the page.
+
+Immediately after that check is where the action is.  That first call to ~Enum.map/2~ is what reads all the cell pointers, converting them into simple integers that show where the content for that cell starts.  The following call to ~Enum.map/2~ is what actually reads those contents.  Unfortunately, cell contents are slightly different for the four different types of pages in our database.  That's why this section branches on the page type and uses four different techniques.  We will talk about what those cells actually hold in a moment, but you can already see from the output that we have managed to extract some kind of structured data pairs of numbered binary blobs.  Onward to deblobification!
+
+** Integers of Varying Sizes
+
+Many things in binary formats involve telling you what you are about to read, and potentially the size of it, and then giving you the thing to read.  The way to tell you what to read is to put some magic number in front of it.  That number can probably be pretty small.  If there are less than 256 things you could need to read, one byte will do.  Of course, let's say you are told to read some arbitrarily long text that the user typed in.  Now we need another number to tell you how long the text is.  How large does that size indicator need to be?  Well, it would have to be large enough to encode the maximally large text that a user could enter.  But if we throw this large numbers around everywhere and users only enter ten digits at a time, we're wasting some serious space.
+
+[[https://www.sqlite.org/fileformat2.html#varint][Varints]] are the cure for this disease.  They are a way to encode an integer of varying lengths.  If you only need a small number, they take up one byte.  They scale all the way up to nine bytes for the largest values that SQLite supports.  To read one, you keep going until you read a byte where the highest-order bit is a ~0~ or you reach the ninth byte.  That sounds more complex than it is.  Here are all of the possible combinations:
 
 #+begin_example
 0bbbbbbb
@@ -427,7 +457,17 @@ FIXME
 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb bbbbbbbb
 #+end_example
 
-FIXME
+The ~1~ or ~0~ at the beginning of each byte tells you whether to keep reading or stop respectively.  You don't need it for the bottom case because you always stop if you read nine bytes.  The ~b~ bits are what you actually combine to form the numbers.
+
+This system makes it easy for SQLite to encode values using only the number of bytes needed, without a lot of extra padding.  And why does that matter?  Records, my good friend.  Records.
+
+** Building a Record Player
+
+Databases are made up of pages.  Pages are made up of cells.  Cells are made up of records.  Are we having fun yet?
+
+That binary blob we saw when we parsed out the cell values is a [[https://www.sqlite.org/fileformat2.html#record_format][record]].  A record is a header indicating the types and sizes of all the fields that follow immediately followed by the contents of those fields.  As the table at the link shows, a type ~1~ means you are reading a single byte integer for that field while a ~6~ is an eight byte integer.  Odd values above ~13~ are a way to indicate textual content and a size with one number.  Be sure to look at the table.  It's clever!
+
+The following code is an Elixirification of that table:
 
 #+begin_src elixir :session none
   parse_record = fn bytes ->
@@ -532,7 +572,7 @@ FIXME
 }
 #+end_example
 
-FIXME
+As you can see from the output, cell blob content has turned into meaningful data.  
 
 #+begin_src elixir :session none
   open_db.(db_path, fn db -> read_page.(db, 2) end)
