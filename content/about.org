@@ -14,7 +14,7 @@ My name is James Edward Gray II — JEG2 around some parts of the Internet. I ha
 
 When programming, I'm passionate about design.  When managing, I try to empower teams of self-organizing Musketeers.  When teaching, I care deeply about practical examples, visualization of algorithms, and how to train fluency.
 
-I co-wrote [[https://pragprog.com/titles/jgotp/designing-elixir-systems-with-otp/][Designing Elixir Systems with OTP]] with Bruce Tate, who's one heck of a nice guy.  I'm developing a strong appreciation for [[https://livebook.dev/][Livebook]] and I have always loved regular expressions and board games.
+I co-wrote [[https://pragprog.com/titles/jgotp/designing-elixir-systems-with-otp/][Designing Elixir Systems with OTP]] with Bruce Tate, who's one heck of a nice guy.  I'm developing a strong appreciation for [[https://livebook.dev/][Livebook]] that I am busy turning into [[https://voyagesincode.com/collections/livebooks][interactive educational guides]] for programmers.  I have always loved regular expressions and board games.
 
 * How this Blog is Built
 
