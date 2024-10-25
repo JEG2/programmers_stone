@@ -1047,3 +1047,5 @@ The code above doesn't handle every possible situation in a SQLite database.  Th
 However, we've handled a huge chunk of the SQLite file specification, securely and efficiently.  We used some random file access, streaming content, and some seriously powerful binary pattern matching to make sense of a lot of data.  These simple tools are very powerful ways to break down the content we are faced with.
 
 If you enjoyed this post, I compare the parsing strategies used here with other techniques, like lexer and parser generators, in [[https://voyagesincode.com/products/the-wild-world-of-parsing][The Wild World of Parsing]] Livebook from my [[https://voyagesincode.com/products/how-to-train-your-scrappy-programmer][How to Train Your Scrappy Programmer]] series.
+
+Discussion of this article is welcome [[https://elixirforum.com/t/blog-post-parse-a-sqlite-database-file-with-elixir/67023][on Elixir Forum]].
