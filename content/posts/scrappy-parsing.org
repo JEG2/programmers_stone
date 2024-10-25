@@ -1,7 +1,6 @@
 #+title: Scrappy Parsing
 #+author: JEG2
-#+date: <2024-09-20 Fri>
-#+draft: true
+#+date: <2024-10-25 Fri>
 
 I love parsing!  I really do.  There's something very satisfying about converting input into usable data structures that help me accomplish some task.
 
@@ -159,7 +158,7 @@ This means that the first step to understanding is just knowing the size of each
 #+RESULTS:
 : %{page_count: 7, page_size: 4096}
 
-The first 100 bytes of a SQLite database file are a collection of integers that explain the various features contained within.  [[https://www.sqlite.org/fileformat2.html#the_database_header][The excellent documentation]] explains what each of those values indicate.  The most important one to us is the ~raw_page_size~.  If you look through the pattern match above, you will see some other interesting details like a ~page_count~.  That can also be helpful to see the structure of the database, but you could also get it by dividing the file size by the page size.
+The first 100 bytes of a SQLite database file are a collection of integers that explain the various features contained within.  [[https://www.sqlite.org/fileformat2.html#the_database_header][The excellent documentation]] explains what each of those values indicate.  The most important one to us is the ~raw_page_size~.  If you look through the pattern match above, you will see some other interesting details like a ~page_count~.  That can be helpful to see the structure of the database, but you could also get it by dividing the file size by the page size.
 
 Now, it may look like we are ignoring many of these values.  To some extent that is true.  This tutorial is not going to concern itself with free pages, for example, as we would only need to know about those if we were looking for empty pages to write new data into.  However, don't make the mistake of assuming that the parser we are building is a fragile snowflake.  Pattern matching has allowed me to hardcode many expectations about the header.  In the places where you see me matching against literal integer values I am ensuring that the database has the formats, schema versions, and text encoding that I expect.  The final value even encodes the exact version of SQLite used to create the file ~3_046_000~ ("3.46.0").  If you try to use this code on anything it wasn't prepared to handle, it will bail out noisily at this very first step.  That makes it a lot easier to trust the results we are getting.
 
@@ -319,7 +318,7 @@ We saw before that SQLite databases are just a collection of pages.  Well, pages
 
 This code is pretty similar to the earlier code that parsed the database header.  We match some raw values, do some minor clean up, and return them in a data structure telling you what you need to know.  You can see that I've pulled out some other details, like the ~right_most_pointer~.  We'll get to what that is in a bit.
 
-Here we also see a new function for reading pages out of the file.  Given the index on any page we want to see, some simple math can tell us how many bytes of other pages to skip past.  We can then read one chunk of page size bytes to get that page.
+Here we also see a new function for reading pages out of the file.  Given the index of any page we want to see, some simple math can tell us how many bytes of other pages to skip past.  We can then read one chunk of page size bytes to get that page.
 
 The end of this example uses that header parser and that page reading function to extract some details about the first three pages.  Don't worry too much about the first page just yet, but take note of ~2~ and ~3~.  One of them is a table page that will eventually lead us to the other two table pages and the other is the index counterpart.  To follow those leads, we will need to make sense of the cells.
 
@@ -337,7 +336,7 @@ Cells could just be laid out in order after the header.  Each cell could begin w
 8whatever15quiteabitbigger8whatever8whatever8whatever
 #+end_example
 
-In order to accommodate this change most of the page has to be relaid out.  All later values had to be shifted in order to make space for the now larger field.  SQLite wants to minimize the need for changes due to edits.
+In order to accommodate this change most of the page has to be moved.  All later values had to be shifted in order to make space for the now larger field.  SQLite wants to minimize the need for changes due to edits.
 
 To support that, it stores two things for each cell.  The first is a pointer to where the cell content is in the page and then, at that location, it stores the actual content of the cell.  When changes modify cells, SQLite can place the new content in any convenient space and simply adjust the pointer numbers to direct us to the right things.  Have a fresh look at this earlier diagram:
 
@@ -449,7 +448,7 @@ We will talk about what those cells actually hold in a moment, but you can alrea
 
 ** Integers of Varying Sizes
 
-Many things in binary formats involve telling you what you are about to read, and potentially the size of it, and then giving you the thing to read.  The way to tell you what to read is to put some magic number in front of it.  That number can probably be pretty small.  If there are less than 256 things you could need to read, one byte will do.  Of course, let's say you are told to read some arbitrarily long text that the user typed in.  Now we need another number to tell you how long the text is.  How large does that size indicator need to be?  Well, it would have to be large enough to encode the maximally large text that a user could enter.  But if we throw these large numbers around everywhere and users only enter ten digits at a time, we're wasting some serious space.
+Many things in binary formats involve telling you what you are about to read, and potentially the size of it, then giving you the thing to read.  The way to tell you what to read is to put some magic number in front of it.  That number can probably be pretty small.  If there are less than 256 things you could need to read, one byte will do.  Of course, let's say you are told to read some arbitrarily long text that the user typed in.  Now we need another number to tell you how long the text is.  How large does that size indicator need to be?  Well, it would have to be large enough to encode the maximally large text that a user could enter.  But if we throw these large numbers around everywhere and users only enter ten digits at a time, we're wasting some serious space.
 
 [[https://www.sqlite.org/fileformat2.html#varint][Varints]] are the cure for this disease.  They are a way to encode an integer of varying lengths.  If you only need a small number, they take up one byte.  They scale all the way up to nine bytes for the largest values that SQLite supports.  To read one, you keep going until you read a byte where the highest-order bit is a ~0~ or you reach the ninth byte.  That sounds more complex than it is.  Here are all of the possible combinations:
 
@@ -471,7 +470,7 @@ This system makes it easy for SQLite to encode values using only the number of b
 
 ** Building a Record Player
 
-Databases are made up of pages, organized into B-trees.  Pages are made up of cells.  Cells are made up of records.  Are we having fun yet?
+Databases are made up of pages, organized into B-trees.  Pages are made up of cells.  Cells are made up of /records/.  Are we having fun yet?
 
 That binary blob we saw when we parsed out the cell values is a [[https://www.sqlite.org/fileformat2.html#record_format][record]].  A record is a header indicating the types and sizes of all the fields that follow, immediately followed by the contents of those fields.  As the table at the link shows, a type ~1~ means you are reading a single byte integer for that field while a ~6~ is an eight byte integer.  Odd values above ~13~ are a way to indicate textual content and a size with one number.  Be sure to look at the table.  It's clever!
 
@@ -895,7 +894,7 @@ The above code redefines ~open_db/2~ to always perform this schema parsing and a
 ]
 #+end_example
 
-This is the first query we ran back at the beginning of this article.  It's worth noting that now that we have all the needed abstractions, the final call is essentially ~Enum.take(table, 10)~.  Scanning for specific ages isn't much harder:
+This is the first query we ran back at the beginning of this article.  It's worth noting that, now that we have all the needed abstractions, the final call is essentially ~Enum.take(table, 10)~.  Scanning for specific ages isn't much harder:
 
 #+begin_src elixir :session none
   open_db.(db_path, fn db ->
