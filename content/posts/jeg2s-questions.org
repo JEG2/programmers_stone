@@ -1,0 +1,60 @@
+#+title: JEG2's Questions
+#+author: JEG2
+#+date: <2025-08-04 Mon>
+#+draft: True
+
+[[https://en.wikipedia.org/wiki/My_System][My System]] by [[https://en.wikipedia.org/wiki/Aron_Nimzowitsch][Aron Nimzowitsch]] was one of the early chess books that had a big impact on me.  The first part of the book, called /The Elements/, is where Nimzowitsch lays out the specific criteria he is monitoring to evaluate chess games.
+
+Do I have any open files?  Have I created any passed pawns?  Am I pressing the attack on the back ranks?  This tells Nimzowitsch and his readers that a chess game where they have managed to create a passed pawn on an open file that they control and push it to the seventh rank is probably going pretty well for them.
+
+That's chess.  Let's talk about programming…
+
+# more
+
+* "My System"
+
+I've been a developer or manager of developers for over two decades now.  I've spent some of that time consulting for many different companies and some of that time working for one particular company for a stretch of years.  I've worked on dozens of web applications that made it to production.  I've built software for education, finance, healthcare, and many other domains.
+
+I've worked on a lot of teams in many different positions.  I'm confident that some of the teams I worked on would meet most definitions of "high performance."  Almost every team that I've contributed to had at least a few things that they did very well.  Some also struggled with other things.  The struggles over my career have had quite a bit of overlap, regardless of the team.
+
+I've seen a lot.  I don't tell you this to brag.  If I'm going to tell you what I believe about the process of building software, you're going to have to understand a little bit about what I've come to value.  For example, in the best job of my career, I worked side by side with the Head of Product on a daily basis, in addition to a handful of engineers and a designer.  This is when I finally began to understand what a Product Dev team is and why it's so important.  Any advice I'm going to share is going to be colored by my belief that great developers strive to raise all ships in that role.
+
+Speaking of advice, I've been given a lot of it during my time in the trenches.  I've found even more of it in blog posts, videos, and other corners of the internet.  I record my favorite exerpts and links in a notes file that I keep.  Today, it holds over 2,400 lines of things that I value.  You might not be surprised to learn that I call it "My System."
+
+* Distillation
+
+I recently read back through my notes and it made me feel like there were definitely parts worth sharing.  All of it's important to me, but a lot of it would require significant context to appreciate or be highly situational.  I don't think you would get much out of it if I just offered up the file for download.
+
+That realization led me to wonder if I could reduce it down to the essential elements of what I believe about software development.  I gave myself a challenge:  could I get it under ten items?
+
+I trimmed, combined, trimmed, categorized, trimmed, and — you better believe it — cheated, but I got the list down to five.  Just don't count too closely.
+
+I had to come up with some criteria for what was most important to share.  I wanted the concepts that give you the most bang for your buck across several situations and disciplines.  In the end, I focused on these three guiding lights:
+
+- The idea has to be fundamental to what we do as developers
+- The idea needs to apply to more than one aspect (programming, planning, design, etc.) of our work
+- Recognizing the idea in the moment should guide teams to better outcomes
+
+* Magic Words
+
+Once I knew what I wanted to share, I spent some energy on thinking about the best ways to present it.  At their core, they are a list of principles that you can watch for in your work and hopefully use for assistance in the decisions you have to make.
+
+However, I'm always impatient and most interested in the shortcuts that will get me to great results.  Just give me the magic words!
+
+I was lucky enough to work with [[http://larahogan.me/][Lara Hogan]] for a few years as my management coach.  It was an incredible opportunity and I can't overstate how much I learned from her.  One lesson that took me far too long to realize the power of was the use of open questions, like those she recommends for [[https://larahogan.me/blog/creative-coaching-questions/][coaching direct reports]].
+
+Her great insight is how they can turn one-way communication into two-way collaboration.  She also notes how it can transform advice dissemination into active learning.  I have come to realize that applies to the giver as well as the receiver.
+
+Think of it this way, when I'm in a conversation with a team of developers about how we are going to do something, I could choose to offer what is the best idea I can think of.  If I do, we are now discussing that idea and it's merits.  I've essentially trapped us in a local maximum with my first move.  If I choose to ask an open question instead, several ideas may be offered up and I can still contribute my own.  Now we are considering a whole universe of possibilities.  We may choose a favorite, try experiments to evaluate some, or combine multiple options that we think have promise.  This is almost sure to lead to more possibilities.
+
+Given that, I have elected to present my essential elements as open questions with advice about when and how they are best deployed.  My hope is that will give you shortcuts straight to the benefits.
+
+* My Questions
+
+With that introduction out of the way, here are the five questions most important to me for developing software:
+
+1. How will we know it works?
+2. Coming Soon
+3. Coming Soon
+4. Coming Soon
+5. Coming Soon

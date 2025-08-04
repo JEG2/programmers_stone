@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  
+    <title>JEG2&#39;s Questions :: The Programmer&#39;s Stone</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=" My System by Aron Nimzowitsch was one of the early chess books that had a big impact on me. The first part of the book, called The Elements, is where Nimzowitsch lays out the specific criteria he is monitoring to evaluate chess games.
+Do I have any open files? Have I created any passed pawns? Am I pressing the attack on the back ranks? This tells Nimzowitsch and his readers that a chess game where they have managed to create a passed pawn on an open file that they control and push it to the seventh rank is probably going pretty well for them.
+That&#39;s chess. Let&#39;s talk about programming…
+" />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="http://localhost:1313/posts/jeg2s-questions/" />
+
+
+
+
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/code.min.d529ea4b2fb8d34328d7d31afc5466d5f7bc2f0bc9abdd98b69385335d7baee4.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/main.min.36833afd348409fc6c3d09d0897c5833d9d5bf1ff31f5e60ea3ee42ce2b1268c.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/menu.min.3c17467ebeb3d38663dce68f71f519901124fa5cbb4519b2fb0667a21e9aca39.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="http://localhost:1313/terminal.css">
+
+
+
+
+<link rel="shortcut icon" href="http://localhost:1313/favicon.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="JEG2&#39;s Questions">
+<meta property="og:description" content=" My System by Aron Nimzowitsch was one of the early chess books that had a big impact on me. The first part of the book, called The Elements, is where Nimzowitsch lays out the specific criteria he is monitoring to evaluate chess games.
+Do I have any open files? Have I created any passed pawns? Am I pressing the attack on the back ranks? This tells Nimzowitsch and his readers that a chess game where they have managed to create a passed pawn on an open file that they control and push it to the seventh rank is probably going pretty well for them.
+That&#39;s chess. Let&#39;s talk about programming…
+" />
+<meta property="og:url" content="http://localhost:1313/posts/jeg2s-questions/" />
+<meta property="og:site_name" content="The Programmer&#39;s Stone" />
+
+  <meta property="og:image" content="http://localhost:1313/og-image.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2025-08-04 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="container center">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="http://localhost:1313/">
+  <div class="logo">
+    The Programmer&#39;s Stone
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="http://localhost:1313/about">About</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="http://localhost:1313/about" >About</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="http://localhost:1313/posts/jeg2s-questions/">JEG2&rsquo;s Questions</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2025-08-04</time><span class="post-author">JEG2</span></div>
+
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <p>
+<a href="https://en.wikipedia.org/wiki/My_System">My System</a> by <a href="https://en.wikipedia.org/wiki/Aron_Nimzowitsch">Aron Nimzowitsch</a> was one of the early chess books that had a big impact on me.  The first part of the book, called <em>The Elements</em>, is where Nimzowitsch lays out the specific criteria he is monitoring to evaluate chess games.</p>
+<p>
+Do I have any open files?  Have I created any passed pawns?  Am I pressing the attack on the back ranks?  This tells Nimzowitsch and his readers that a chess game where they have managed to create a passed pawn on an open file that they control and push it to the seventh rank is probably going pretty well for them.</p>
+<p>
+That&#39;s chess.  Let&#39;s talk about programming…</p>
+<div id="outline-container-headline-1" class="outline-2">
+<h2 id="headline-1">
+&#34;My System&#34;
+</h2>
+<div id="outline-text-headline-1" class="outline-text-2">
+<p>
+I&#39;ve been a developer or manager of developers for over two decades now.  I&#39;ve spent some of that time consulting for many different companies and some of that time working for one particular company for a stretch of years.  I&#39;ve worked on dozens of web applications that made it to production.  I&#39;ve built software for education, finance, healthcare, and many other domains.</p>
+<p>
+I&#39;ve worked on a lot of teams in many different positions.  I&#39;m confident that some of the teams I worked on would meet most definitions of &#34;high performance.&#34;  Almost every team that I&#39;ve contributed to had at least a few things that they did very well.  Some also struggled with other things.  The struggles over my career have had quite a bit of overlap, regardless of the team.</p>
+<p>
+I&#39;ve seen a lot.  I don&#39;t tell you this to brag.  If I&#39;m going to tell you what I believe about the process of building software, you&#39;re going to have to understand a little bit about what I&#39;ve come to value.  For example, in the best job of my career, I worked side by side with the Head of Product on a daily basis, in addition to a handful of engineers and a designer.  This is when I finally began to understand what a Product Dev team is and why it&#39;s so important.  Any advice I&#39;m going to share is going to be colored by my belief that great developers strive to raise all ships in that role.</p>
+<p>
+Speaking of advice, I&#39;ve been given a lot of it during my time in the trenches.  I&#39;ve found even more of it in blog posts, videos, and other corners of the internet.  I record my favorite exerpts and links in a notes file that I keep.  Today, it holds over 2,400 lines of things that I value.  You might not be surprised to learn that I call it &#34;My System.&#34;</p>
+</div>
+</div>
+<div id="outline-container-headline-2" class="outline-2">
+<h2 id="headline-2">
+Distillation
+</h2>
+<div id="outline-text-headline-2" class="outline-text-2">
+<p>
+I recently read back through my notes and it made me feel like there were definitely parts worth sharing.  All of it&#39;s important to me, but a lot of it would require significant context to appreciate or be highly situational.  I don&#39;t think you would get much out of it if I just offered up the file for download.</p>
+<p>
+That realization led me to wonder if I could reduce it down to the essential elements of what I believe about software development.  I gave myself a challenge:  could I get it under ten items?</p>
+<p>
+I trimmed, combined, trimmed, categorized, trimmed, and — you better believe it — cheated, but I got the list down to five.  Just don&#39;t count too closely.</p>
+<p>
+I had to come up with some criteria for what was most important to share.  I wanted the concepts that give you the most bang for your buck across several situations and disciplines.  In the end, I focused on these three guiding lights:</p>
+<ul>
+<li>The idea has to be fundamental to what we do as developers</li>
+<li>The idea needs to apply to more than one aspect (programming, planning, design, etc.) of our work</li>
+<li>Recognizing the idea in the moment should guide teams to better outcomes</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-3" class="outline-2">
+<h2 id="headline-3">
+Magic Words
+</h2>
+<div id="outline-text-headline-3" class="outline-text-2">
+<p>
+Once I knew what I wanted to share, I spent some energy on thinking about the best ways to present it.  At their core, they are a list of principles that you can watch for in your work and hopefully use for assistance in the decisions you have to make.</p>
+<p>
+However, I&#39;m always impatient and most interested in the shortcuts that will get me to great results.  Just give me the magic words!</p>
+<p>
+I was lucky enough to work with <a href="http://larahogan.me/">Lara Hogan</a> for a few years as my management coach.  It was an incredible opportunity and I can&#39;t overstate how much I learned from her.  One lesson that took me far too long to realize the power of was the use of open questions, like those she recommends for <a href="https://larahogan.me/blog/creative-coaching-questions/">coaching direct reports</a>.</p>
+<p>
+Her great insight is how they can turn one-way communication into two-way collaboration.  She also notes how it can transform advice dissemination into active learning.  I have come to realize that applies to the giver as well as the receiver.</p>
+<p>
+Think of it this way, when I&#39;m in a conversation with a team of developers about how we are going to do something, I could choose to offer what is the best idea I can think of.  If I do, we are now discussing that idea and it&#39;s merits.  I&#39;ve essentially trapped us in a local maximum with my first move.  If I choose to ask an open question instead, several ideas may be offered up and I can still contribute my own.  Now we are considering a whole universe of possibilities.  We may choose a favorite, try experiments to evaluate some, or combine multiple options that we think have promise.  This is almost sure to lead to more possibilities.</p>
+<p>
+Given that, I have elected to present my essential elements as open questions with advice about when and how they are best deployed.  My hope is that will give you shortcuts straight to the benefits.</p>
+</div>
+</div>
+<div id="outline-container-headline-4" class="outline-2">
+<h2 id="headline-4">
+My Questions
+</h2>
+<div id="outline-text-headline-4" class="outline-text-2">
+<p>
+With that introduction out of the way, here are the five questions most important to me for developing software:</p>
+<ol>
+<li>How will we know it works?</li>
+<li>Coming Soon</li>
+<li>Coming Soon</li>
+<li>Coming Soon</li>
+<li>Coming Soon</li>
+</ol>
+</div>
+</div>
+      </div></div>
+
+  
+    
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h">Read other posts</span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+      <a href="http://localhost:1313/posts/how-will-we-know-it-works/" class="button inline prev">
+        &lt; [<span class="button__text">How will we know it works?</span>]
+      </a>
+    
+    
+      ::
+    
+    
+      <a href="http://localhost:1313/posts/scrappy-parsing/" class="button inline next">
+         [<span class="button__text">Scrappy Parsing</span>] &gt;
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="http://localhost:1313/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

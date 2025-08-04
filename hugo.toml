@@ -6,15 +6,14 @@ defaultContentLanguage = "en"
 
 # https://themes.gohugo.io/themes/hugo-theme-terminal/
 theme = "terminal"
-paginate = 10
+pagination.paperSize = 10
 
 [params]
   # dir name of your main content (default is `content/posts`).
   # the list of set content will show up on your index page (baseurl).
   contentTypeName = "posts"
 
-  # ["orange", "blue", "red", "green", "pink"]
-  themeColor = "pink"
+  themeColor = "Studio"
 
   # if you set this to 0, only submenu trigger will be visible
   showMenuItems = 2

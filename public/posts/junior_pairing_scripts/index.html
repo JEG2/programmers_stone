@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  
+    <title>Junior Pairing Scripts :: The Programmer&#39;s Stone</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=" When there&#39;s a large skill gap between two or more pairing developers, it can become a frustrating experience for everyone involved. I suspect this happens more often when more junior folks are at the keyboard.
+Experienced developers have learned a high level language to communicate with their peers about problems that their less skilled partners may not yet be fluent in. If they are forced to downgrade from, &#34;Let&#39;s make a map,&#34; to, &#34;Type a percent sign followed by an opening curly brace,&#34; they are now operating with one brain tied behind their back. That&#39;s the simple stuff too. Rope data structures, Schwartzian transforms, and adding a custom GenServer to the application&#39;s supervision tree are right out!
+The junior is not in a better position. They often feel like their job is to understand as much as possible of what the other person is doing to learn from it. Of course, it&#39;s common for most problems to quickly exceed their capacity for taking things in and, once they are overwhelmed, it&#39;s easy to feel like they can&#39;t bring any knowledge they&#39;ve acquired to bear in a useful manner. It&#39;s totally understandable if they essentially shut down in such circumstances. The hope of learning is no longer on the table.
+The good news is that I believe there is a better and easier way.
+" />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="http://localhost:1313/posts/junior_pairing_scripts/" />
+
+
+
+
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/code.min.d529ea4b2fb8d34328d7d31afc5466d5f7bc2f0bc9abdd98b69385335d7baee4.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/main.min.36833afd348409fc6c3d09d0897c5833d9d5bf1ff31f5e60ea3ee42ce2b1268c.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/menu.min.3c17467ebeb3d38663dce68f71f519901124fa5cbb4519b2fb0667a21e9aca39.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="http://localhost:1313/terminal.css">
+
+
+
+
+<link rel="shortcut icon" href="http://localhost:1313/favicon.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Junior Pairing Scripts">
+<meta property="og:description" content=" When there&#39;s a large skill gap between two or more pairing developers, it can become a frustrating experience for everyone involved. I suspect this happens more often when more junior folks are at the keyboard.
+Experienced developers have learned a high level language to communicate with their peers about problems that their less skilled partners may not yet be fluent in. If they are forced to downgrade from, &#34;Let&#39;s make a map,&#34; to, &#34;Type a percent sign followed by an opening curly brace,&#34; they are now operating with one brain tied behind their back. That&#39;s the simple stuff too. Rope data structures, Schwartzian transforms, and adding a custom GenServer to the application&#39;s supervision tree are right out!
+The junior is not in a better position. They often feel like their job is to understand as much as possible of what the other person is doing to learn from it. Of course, it&#39;s common for most problems to quickly exceed their capacity for taking things in and, once they are overwhelmed, it&#39;s easy to feel like they can&#39;t bring any knowledge they&#39;ve acquired to bear in a useful manner. It&#39;s totally understandable if they essentially shut down in such circumstances. The hope of learning is no longer on the table.
+The good news is that I believe there is a better and easier way.
+" />
+<meta property="og:url" content="http://localhost:1313/posts/junior_pairing_scripts/" />
+<meta property="og:site_name" content="The Programmer&#39;s Stone" />
+
+  <meta property="og:image" content="http://localhost:1313/og-image.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2024-06-14 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="container center">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="http://localhost:1313/">
+  <div class="logo">
+    The Programmer&#39;s Stone
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="http://localhost:1313/about">About</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="http://localhost:1313/about" >About</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="http://localhost:1313/posts/junior_pairing_scripts/">Junior Pairing Scripts</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2024-06-14</time><span class="post-author">JEG2</span></div>
+
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <p>
+When there&#39;s a large skill gap between two or more pairing developers, it can become a frustrating experience for everyone involved.  I suspect this happens more often when more junior folks are at the keyboard.</p>
+<p>
+Experienced developers have learned a high level language to communicate with their peers about problems that their less skilled partners may not yet be fluent in.  If they are forced to downgrade from, &#34;Let&#39;s make a map,&#34; to, &#34;Type a percent sign followed by an opening curly brace,&#34; they are now operating with one brain tied behind their back.  That&#39;s the simple stuff too.  <a href="https://en.wikipedia.org/wiki/Rope_(data_structure)">Rope data structures</a>, <a href="https://en.wikipedia.org/wiki/Schwartzian_transform">Schwartzian transforms</a>, and <a href="https://hexdocs.pm/elixir/genservers.html">adding a custom GenServer to the application&#39;s supervision tree</a> are right out!</p>
+<p>
+The junior is not in a better position.  They often feel like their job is to understand as much as possible of what the other person is doing to learn from it.  Of course, it&#39;s common for most problems to quickly exceed their capacity for taking things in and, once they are overwhelmed, it&#39;s easy to feel like they can&#39;t bring any knowledge they&#39;ve acquired to bear in a useful manner.  It&#39;s totally understandable if they essentially shut down in such circumstances.  The hope of learning is no longer on the table.</p>
+<p>
+The good news is that I believe there is a better and easier way.</p>
+<div id="outline-container-headline-1" class="outline-2">
+<h2 id="headline-1">
+Better Goals
+</h2>
+<div id="outline-text-headline-1" class="outline-text-2">
+<p>
+Juniors, I&#39;ve got great news for you!  You don&#39;t need any skill to be useful to another developer.  In fact, you could be <a href="https://en.wikipedia.org/wiki/Rubber_duck_debugging">an inanimate object</a> and still help.  It&#39;s also perfectly normal for a less skilled developer to pair with a more skilled developer.  There are entire strategies for how to do this well, like <a href="https://stackify.com/pair-programming-styles/#backseat-navigator">Backseat Navigator</a>.</p>
+<p>
+So the bar is low.  You don&#39;t have to expect a ton from yourself.  However, the great thing about low bars is that they are pretty easy to step over.  With a few simple tricks, you can be out performing precious rubber ducks in no time.</p>
+<p>
+Here&#39;s what you need to do.</p>
+<p>
+First, stop trying so hard to keep track of everything that&#39;s going on.  In fact, especially in the beginning, just don&#39;t.  It may seem counter-intuitive, but you can&#39;t remember to be useful when you&#39;re struggling not to drown.</p>
+<p>
+My daughter tells this hilarious story about another girl on her swim club, that we will call Sam.  When Sam told the coach that she had signed up to swim the breaststroke in an upcoming meet, the coach said, &#34;Sam, why would you do that?  You need to think about me!  You suck at the breaststroke and I have to watch you swim it!&#34;  That&#39;s great advice, you juniors need to think more about me, or at least your pairs.</p>
+<p>
+Here&#39;s how you do that.  You develop small scripts of preprogrammed actions that you&#39;re going to take when certain cues are met.  You will know when to do this by listening for magic words that are extremely common in programming.  Whenever you identify a set of these magic words, you&#39;ll begin alternating between prewritten questions and purely mechanical actions.  Neither of those require much thought and they are tuned to maximize the benefit your pair is receiving.</p>
+<p>
+Don&#39;t worry, this doesn&#39;t mean you aren&#39;t going to learn anything anymore.  As time goes on with you practicing these simple scripts, they should slowly fade into the background and free you up to participate more and more in the actual process.  Even before you are ready to lend a hand, you can <a href="https://animalearning.com/chicken-sexers-plane-spotters-and-the-elegance-of-tagteaching/">learn just by watching the experts work</a>.</p>
+</div>
+</div>
+<div id="outline-container-headline-2" class="outline-2">
+<h2 id="headline-2">
+Starter Scripts
+</h2>
+<div id="outline-text-headline-2" class="outline-text-2">
+<p>
+Below you will find five scripts that I feel are useful in pretty much every pairing scenario.  While they certainly don&#39;t cover everything you will face when programming, you should be able to get considerable mileage out of these starting points.</p>
+<div id="outline-container-headline-3" class="outline-3">
+<h3 id="headline-3">
+Magic Words:  &#34;Let&#39;s define a function…&#34;
+</h3>
+<div id="outline-text-headline-3" class="outline-text-3">
+<div id="outline-container-headline-4" class="outline-4">
+<h4 id="headline-4">
+Variations
+</h4>
+<div id="outline-text-headline-4" class="outline-text-4">
+<ul>
+<li>&#34;We need a function…&#34;</li>
+<li>&#34;We need to name this operation to make it more obvious what it does…&#34;</li>
+<li>&#34;Let&#39;s extract this code…&#34;</li>
+<li>&#34;We need to be able to reuse this in several places…&#34;</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-5" class="outline-4">
+<h4 id="headline-5">
+Actions
+</h4>
+<div id="outline-text-headline-5" class="outline-text-4">
+<ol>
+<li>Question:  &#34;Which module does it belong in?&#34; / &#34;In this file?&#34;</li>
+<li>Mechanical:  Add the boilerplate code for a function (<code>def … do … end</code> in Elixir) in the proper file.</li>
+<li>Question:  &#34;What should we call it?&#34;</li>
+<li>Mechanical:  Type the selected name after <code>def</code> and space, then add an empty set of parentheses to hold the parameters.</li>
+<li>Question:  &#34;How many arguments will it take and what should we name those?&#34;</li>
+<li>Mechanical:  Add the parameter definitions with commas between them.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-headline-6" class="outline-4">
+<h4 id="headline-6">
+Discussion
+</h4>
+<div id="outline-text-headline-6" class="outline-text-4">
+<p>
+Creating a chunk of reusable code is one of the most fundamental actions in all of programming.  It&#39;s universal and we do it all the time.  What&#39;s great is that it&#39;s harder than it looks, which makes it a perfect opportunity for a pair to lend a hand in easing the burden.</p>
+<p>
+It may sound silly, but if your pair utters, &#34;we should probably extract this,&#34; and you just start walking them through the steps like you&#39;re a government employee helping them fill out an application, you will seem like a mind reader.  Even better, we&#39;ve baked in the hard hitting questions like naming.  Naming things is probably the worst never-ending responsibility that programmers wrestle with.  You reminding them when it&#39;s time to take that step and making space for the ensuing discussion is the very definition of helping them do their job.</p>
+<p>
+Remember that it&#39;s on the person at the keyboard to take care of syntactical details like placing parentheses around the parameter list and separating those parameters with commas.  Practice those steps until they are truly mechanical!</p>
+</div>
+</div>
+<div id="outline-container-headline-7" class="outline-4">
+<h4 id="headline-7">
+Growth Opportunities
+</h4>
+<div id="outline-text-headline-7" class="outline-text-4">
+<p>
+As you gain practice and skill applying this script, you can provide more help along the way.  One of the best ways to do that is to start participating in the naming discussions.  Remember that functions are the actions or verbs of the programming world, so try to think of words like that which fit your current situation.  What if you don&#39;t know what your current situation is?  Ask!  &#34;What will this chunk of code actually do in plain English?&#34;  If you listen closely, the answer will likely be in your partner&#39;s explanation.</p>
+<p>
+If your project uses type specifications, add-on questions about them and a step to put them in place.  Aside from dialing in the parameters further, this is the perfect chance to think through the possible return values before you implement.</p>
+<p>
+If your programming language supports multiple function heads, this script will also cover a significant amount of the code&#39;s conditional logic.  You can merge in the later branching script to kill two birds with one stone.  See that script for details.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-8" class="outline-3">
+<h3 id="headline-8">
+Magic Words:  &#34;Let&#39;s iterate over these items…&#34;
+</h3>
+<div id="outline-text-headline-8" class="outline-text-3">
+<div id="outline-container-headline-9" class="outline-4">
+<h4 id="headline-9">
+Variations
+</h4>
+<div id="outline-text-headline-9" class="outline-text-4">
+<ul>
+<li>&#34;We need to walk over the collection…&#34;</li>
+<li>&#34;We have to remove those items from the list…&#34;  (<code>Enum.filter(…)</code>)</li>
+<li>&#34;We have some X, but what we really want is some Y…&#34;  (<code>Enum.map(…)</code>)</li>
+<li>&#34;We need to know how many are…&#34;  (<code>Enum.count(…)</code>)</li>
+<li>&#34;Let&#39;s group those together…&#34;  (<code>Enum.group_by(…)</code>)</li>
+<li>&#34;Now we need to summarize all of that…&#34;  (<code>Enum.reduce(…)</code>)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-10" class="outline-4">
+<h4 id="headline-10">
+Actions
+</h4>
+<div id="outline-text-headline-10" class="outline-text-4">
+<ol>
+<li>Question:  &#34;Which iterator do we need?&#34;  (Skip this if the magic words gave it away.)</li>
+<li>Mechanical:  Start the function call (<code>Enum.whatever(…)</code>).</li>
+<li>Mechanical:  Open the documentation for that function, if your editor does not show you which parameters are needed.</li>
+<li>Question:  &#34;What are we iterating over?&#34;  (Again, skip this if you already know.)</li>
+<li>Mechanical:  Just inside the parentheses type the name of the variable holding the collection that you are iterating over.</li>
+<li>Question:  &#34;What do we pass in this argument?&#34;  (Repeat this and the following step for any arguments before the anonymous function.)</li>
+<li>Mechanical:  Type a comma followed by the argument or expression.</li>
+<li>Question:  &#34;And what do we need to do in here?&#34;  (Only if the iterator needs an anonymous function.)</li>
+<li>Mechanical:  Type <code>fn … -&gt; … end</code>, and then work through the function definition script above, skipping the naming bit.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-headline-11" class="outline-4">
+<h4 id="headline-11">
+Discussion
+</h4>
+<div id="outline-text-headline-11" class="outline-text-4">
+<p>
+The other half of defining functions is calling them, and we do that even more often.  While you could absolutely define a generic function calling script, it may be more useful to think of them in terms of specialized operations.  Here the focus is on iteration, which is often very similar across many of those calls.  Other areas worth scripting might be string parsing, mathematical operations, and data manipulation.</p>
+<p>
+Also remember that the largest aspect of iteration is typically defining the anonymous function that the iterator will call.  As noted in the script, we already have an entire process for resolving that.  Don&#39;t forget to use it!</p>
+</div>
+</div>
+<div id="outline-container-headline-12" class="outline-4">
+<h4 id="headline-12">
+Growth Opportunities
+</h4>
+<div id="outline-text-headline-12" class="outline-text-4">
+<p>
+Work out similar scripts for the other common uses mentioned above, a generic function call script to fall back on, and any other common use cases specific to your work.  At my company, database queries would definitely make the cut, just to give one example.</p>
+<p>
+As you master more and more of this mechanical process, turn your focus to trying to follow which data structure results from each iterator call.  Maybe you start with a map, but drop it down to just a list of values, remove some of those (still a list), and then count (now a number).  It&#39;s very common to sling several iterators together to accomplish some task, so getting to where you can follow what&#39;s popping out the other side will give you huge hints about what&#39;s most likely to come next.</p>
+<p>
+Speaking of slinging iterators together, in Elixir and other languages like it, that probably means that you&#39;ll be building pipelines.  See the script below for details on that.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-13" class="outline-3">
+<h3 id="headline-13">
+Magic Words:  &#34;Now we need to handle each of those cases…&#34;
+</h3>
+<div id="outline-text-headline-13" class="outline-text-3">
+<div id="outline-container-headline-14" class="outline-4">
+<h4 id="headline-14">
+Variations
+</h4>
+<div id="outline-text-headline-14" class="outline-text-4">
+<ul>
+<li>&#34;Let&#39;s handle some edge cases…&#34;</li>
+<li>&#34;There are a couple of ways this can go…&#34;</li>
+<li>&#34;We need to extract a few values…&#34;  (Use pattern matching.)</li>
+<li>
+<p>&#34;Let&#39;s perform a few (boolean) checks…&#34;  (Use a <code>cond</code> statement.)</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#75715e"># example</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">cond</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    a_test?(var) <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    another_test?(var) <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">true</span> <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span></span></span></code></pre></div>
+</div>
+</li>
+<li>
+<p>&#34;We should handle the errors this call can return…&#34;  (Use a <code>case</code> statement.)</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#75715e"># example</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">case</span> var <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">:ok</span>, result} <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">:error</span>, message} <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span></span></span></code></pre></div>
+</div>
+</li>
+<li>
+<p>&#34;There are a couple of inputs we could receive here…&#34;  (Use multiple function heads.)</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#75715e"># example</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">defmodule</span> <span style="color:#a6e22e">Serializer</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> serialize(map) <span style="color:#f92672">when</span> is_map(map), <span style="color:#e6db74">do</span>: <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> serialize(list) <span style="color:#f92672">when</span> is_list(list), <span style="color:#e6db74">do</span>: <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> serialize(unexpected), <span style="color:#e6db74">do</span>: <span style="color:#960050;background-color:#1e0010">…</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span></span></span></code></pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-15" class="outline-4">
+<h4 id="headline-15">
+Actions
+</h4>
+<div id="outline-text-headline-15" class="outline-text-4">
+<ol>
+<li>Question:  &#34;Do we want to branch with <code>case</code>, multiple function heads, or something else?&#34;  (Skip this if the magic words gave it away.)</li>
+<li>Mechanical:  Add the boilerplate code for the desired style of branching.  (See examples above.)</li>
+<li>Question:  &#34;What&#39;s a case that we need to handle?&#34;  (Repeat this and the following steps until no more branching is needed.)</li>
+<li>Mechanical:  Type the test and any needed boilerplate.  (<code>-&gt;</code>, <code>, do:</code>, etc.)</li>
+<li>Question:  &#34;And what code do we need to run for that case?&#34;</li>
+<li>Mechanical:  Work out the conditional code with applications of your function calling, pipelines, and other scripts.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-headline-16" class="outline-4">
+<h4 id="headline-16">
+Discussion
+</h4>
+<div id="outline-text-headline-16" class="outline-text-4">
+<p>
+While the iterators handle looping in most modern languages, the other half of flow control is conditional logic.  A massive portion of programming is separating the various cases that need handling and applying the suitable code for each of them.  Along with functions and iterators, this script should cover a large majority of the structure of any code written.</p>
+<p>
+It may surprise some folks to see pattern matching listed above as a form of branching, but it often serves that role.  A <code>case</code> statement is just a syntactical way to try several pattern matches until one fits.  Multiple function heads provide the same service for function arguments.  Even a bare pattern match is a type of branching with two possible outcomes:  either it matches or an error is thrown.</p>
+<p>
+This script assumes you will work through each condition before moving on to the next one.  However, you may want to stay flexible.  Sometimes it&#39;s easier to think through each of the cases that needs handling (writing all of the tests as you go) and then go back and add the handling code.</p>
+</div>
+</div>
+<div id="outline-container-headline-17" class="outline-4">
+<h4 id="headline-17">
+Growth Opportunities
+</h4>
+<div id="outline-text-headline-17" class="outline-text-4">
+<p>
+Probably the biggest skill you can eventually grow into with this script is to merge it with the function definition script.  In functional languages with pattern matching and multiple function heads, that&#39;s where a huge portion of the branching really happens.  We tend to handle both needs at the same time:  defining a chunk of code to handle the various possibilities that need handling.</p>
+<p>
+It&#39;s okay if you&#39;re not great at that at first.  Go ahead and define the <code>case</code> statement to keep the discussion rolling.  When you&#39;re done, look to see if you just defined a function that contains nothing but a <code>case</code> statement.  If so, you can almost surely rewrite it into a single function with multiple heads.  That&#39;s a very mechanical process that makes for great practice!</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-18" class="outline-3">
+<h3 id="headline-18">
+Magic Words:  &#34;It&#39;s time to turn this into a pipeline…&#34;
+</h3>
+<div id="outline-text-headline-18" class="outline-text-3">
+<div id="outline-container-headline-19" class="outline-4">
+<h4 id="headline-19">
+Variations
+</h4>
+<div id="outline-text-headline-19" class="outline-text-4">
+<ul>
+<li>&#34;Now pipe that into…&#34;</li>
+<li>&#34;Let&#39;s run this through a couple of iterators to get what we need…&#34;</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-20" class="outline-4">
+<h4 id="headline-20">
+Actions
+</h4>
+<div id="outline-text-headline-20" class="outline-text-4">
+<ol>
+<li>Mechanical:  Remove the first argument of the function call and the trailing comma, if there is one.</li>
+<li>Mechanical:  Place that argument on the line above.</li>
+<li>Mechanical:  Insert a pipe operator (<code>|&gt;</code>) before the function call.</li>
+<li>Question:  &#34;Should we keep piping?&#34;  (Repeat this and the following steps until the answer is no.)</li>
+<li>Mechanical:  Add a line below the current one and start it off with a pipe operator.</li>
+<li>Mechanical:  Work out the next function call using the appropriate script.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-headline-21" class="outline-4">
+<h4 id="headline-21">
+Discussion
+</h4>
+<div id="outline-text-headline-21" class="outline-text-4">
+<p>
+This script is extremely specific to Elixir or languages like it, but the concept is universal.  In Elixir, we structure a large amount of code around pipelines.  When you can identify features like that for any language, developing a quick script gives you a very repeatable mechanical process that continually dumps you into what comes next.  That guides us through the process of constructing something.</p>
+</div>
+</div>
+<div id="outline-container-headline-22" class="outline-4">
+<h4 id="headline-22">
+Growth Opportunities
+</h4>
+<div id="outline-text-headline-22" class="outline-text-4">
+<p>
+As your comfort grows with this script, start scanning for places in the code where you have assigned several variables in a row.  It may even be the same variable over and over again.  Those sections are probably crying out for a little pipeline magic.  Transforming them is another great practice opportunity.</p>
+<p>
+By the way, it&#39;s very okay to perform these acts of manual practice while your partner watches on.  It buys them some valuable thinking time while they don&#39;t have to worry about what operation is happening right now.</p>
+<p>
+As your pipelines grow more complex, you can learn to transition into <code>with</code> statements.  A <code>with</code> statement is a supercharged pipeline that can abort early, pipe into arguments other than the first one, carry forward more than one argument, and more.  In time, you can develop a script for that and practice identifying the right times to make the switch.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-23" class="outline-3">
+<h3 id="headline-23">
+Magic Words:  NONE
+</h3>
+<div id="outline-text-headline-23" class="outline-text-3">
+<div id="outline-container-headline-24" class="outline-4">
+<h4 id="headline-24">
+Variations
+</h4>
+<div id="outline-text-headline-24" class="outline-text-4">
+<ul>
+<li>&#34;How do we begin?&#34;</li>
+<li>&#34;What&#39;s next?&#34;</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-25" class="outline-4">
+<h4 id="headline-25">
+Actions
+</h4>
+<div id="outline-text-headline-25" class="outline-text-4">
+<ol>
+<li>Question:  &#34;What are the overall steps we need to work through?&#34;</li>
+<li>Mechanical:  Outline the listed steps in code comments where you will soon be writing the implementation.</li>
+<li>Mechanical:  Shift your focus to the first step you wrote down and consider if it&#39;s simple enough to start on now (meaning something like you know which function call to start with) or if you need more information.</li>
+<li>Mechanical:  If you need more information, restart the script from the beginning but just focus on accomplishing this one small step.</li>
+<li>Mechanical:  Implement the step using tools like your function calling scripts.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-headline-26" class="outline-4">
+<h4 id="headline-26">
+Discussion
+</h4>
+<div id="outline-text-headline-26" class="outline-text-4">
+<p>
+Similar to the well known problem that authors face when staring down a blank page, there&#39;s not much scarier to the programmer than watching a blinking cursor in an empty editor window.  What&#39;s next?  You have literally infinite choices.  Good luck!</p>
+<p>
+We could talk about how to get past this problem for many blog posts.  Folks already have.  However, this script is one of the easier processes that typically gets me moving in some useful direction.</p>
+<p>
+Let&#39;s work through a simple example.  James is just sitting down to pair with Dana on reading in a large input file and using it to add records to the database.  Let&#39;s listen in on their imaginary conversation.</p>
+<p>
+James:  &#34;What are the steps we need to take to get this done?&#34;</p>
+<p>
+Dana:  &#34;It seems like we will need to read in the file, validate and transform the records found inside, then add them to the database.&#34;</p>
+<p>
+James:  &#34;That&#39;s sounds great.&#34;  (James starts typing.)</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#75715e"># 1. Read file</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 2. Transform records</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 3. Validate records</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 4. Save to database</span></span></span></code></pre></div>
+</div>
+<p>
+James:  &#34;I split out transform and validate, and also thought we might want to do them in this order.  We may change that as we go.  I&#39;m thinking about reading in the file.  Is it as simple as one call to <code>File.read</code> or will we need to do some parsing?&#34;</p>
+<p>
+Dana:  &#34;Well, we need to deal with each line individually.  Also, it&#39;s in the CSV format so we need to separate that to find the fields.  I guess you could say it will need some light parsing.&#34;</p>
+<p>
+James:  &#34;Got it.&#34;  (Resumes typing.)</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#75715e"># 1. Read file</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">#    a. Read input one line at a time</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">#    b. Decode CSV</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 2. Transform records</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 3. Validate records</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 4. Save to database</span></span></span></code></pre></div>
+</div>
+<p>
+At this point, James feels that he knows enough to start writing some code.  If he didn&#39;t, they could keep breaking down the steps.</p>
+<p>
+I tend to drop the code in directly below the line of the outline where it tells me what to do.  I&#39;ll later go back and purge the comments when I feel they are no longer useful.  You could also choose to replace the lines as you go.</p>
+<p>
+Remember that these steps are a starting point, not a pact signed in blood.  If you discover new steps or feel the need to modify steps as you work, that&#39;s great!  It means the process is working.  Once you&#39;ve started the wheels rolling, you can more easily understand what actually needs doing.</p>
+<p>
+This script is useful at all beginnings.  Starting a project, defining a new function body, working out one clause of a branching statement, and much more.  It ties in with all of the scripts above and more.</p>
+</div>
+</div>
+<div id="outline-container-headline-27" class="outline-4">
+<h4 id="headline-27">
+Growth Opportunities
+</h4>
+<div id="outline-text-headline-27" class="outline-text-4">
+<p>
+In the beginning you may feel the need to ask very specific questions and type exactly what your pair dictates.  That&#39;s totally fine.  It&#39;s okay to let your pair guide the process.</p>
+<p>
+As you gain experience, you may feel more able to insert steps, rearrange the order, or otherwise contribute to the plan.  I&#39;ve tried to show how this might go in the example above.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-28" class="outline-2">
+<h2 id="headline-28">
+Sans Keyboard
+</h2>
+<div id="outline-text-headline-28" class="outline-text-2">
+<p>
+Scripts can remain useful when you&#39;re not the person driving the keyboard.  You can still ask all the leading questions at the key moments.  Simply skip over the mechanical steps as your partner will be handling those.</p>
+<p>
+Again, this is still helpful.  The goal of a pair is to share some of the mental load of creation.  Just prompting for the right times to consider the right things provides that.</p>
+<p>
+Since you won&#39;t need to worry about mechanics in this role, try to provide more help in discussions like naming or all of the cases that need handling.  You don&#39;t have to have all of the answers.  Ask as many probing questions as needed to help draw them out of your partner.  You&#39;ll learn a lot from watching them go through that process.</p>
+</div>
+</div>
+<div id="outline-container-headline-29" class="outline-2">
+<h2 id="headline-29">
+Add You Own Scripts
+</h2>
+<div id="outline-text-headline-29" class="outline-text-2">
+<p>
+The scripts above are just meant to get you started.  They represent generic needs that should exist in pretty much any programming context.  However, you know your work way better than I could.  It&#39;s important to recognize tasks that you always end up doing and to try codify those into the steps involved.  Going through that process will help you turn overwhelming interactions into comfortable learning scenarios.</p>
+<p>
+Use the sample scripts above as starting points.  If you are building a script for time zone conversions, start with the iterators script.  Both involve functions to manipulate related data types.  Translate the magic words and questions into things you&#39;ve heard your coworkers say.  Add mechanical steps for the things you&#39;ve seen them do.  Most importantly of all, if you can&#39;t work out what they are doing in a given step, definitely ask!  That&#39;s the whole point.  You are trying to gain insight into how they are working through what needs doing.</p>
+</div>
+</div>
+      </div></div>
+
+  
+    
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h">Read other posts</span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+      <a href="http://localhost:1313/posts/scrappy-parsing/" class="button inline prev">
+        &lt; [<span class="button__text">Scrappy Parsing</span>]
+      </a>
+    
+    
+      ::
+    
+    
+      <a href="http://localhost:1313/posts/math-not-required/" class="button inline next">
+         [<span class="button__text">Math Not Required</span>] &gt;
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="http://localhost:1313/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

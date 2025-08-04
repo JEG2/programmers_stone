@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  
+    <title>Math Not Required :: The Programmer&#39;s Stone</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=" There&#39;s an age old debate in programming about whether or not there&#39;s a lot of math involved. Do you need to be a math geek to become a good programmer?
+At the risk of spoiling this entire article: I don&#39;t think you do.
+Why do I say that and what do I think this debate is really about? That I won&#39;t spoil…
+" />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="http://localhost:1313/posts/math-not-required/" />
+
+
+
+
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/code.min.d529ea4b2fb8d34328d7d31afc5466d5f7bc2f0bc9abdd98b69385335d7baee4.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/main.min.36833afd348409fc6c3d09d0897c5833d9d5bf1ff31f5e60ea3ee42ce2b1268c.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/menu.min.3c17467ebeb3d38663dce68f71f519901124fa5cbb4519b2fb0667a21e9aca39.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="http://localhost:1313/terminal.css">
+
+
+
+
+<link rel="shortcut icon" href="http://localhost:1313/favicon.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Math Not Required">
+<meta property="og:description" content=" There&#39;s an age old debate in programming about whether or not there&#39;s a lot of math involved. Do you need to be a math geek to become a good programmer?
+At the risk of spoiling this entire article: I don&#39;t think you do.
+Why do I say that and what do I think this debate is really about? That I won&#39;t spoil…
+" />
+<meta property="og:url" content="http://localhost:1313/posts/math-not-required/" />
+<meta property="og:site_name" content="The Programmer&#39;s Stone" />
+
+  <meta property="og:image" content="http://localhost:1313/og-image.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2023-11-18 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="container center">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="http://localhost:1313/">
+  <div class="logo">
+    The Programmer&#39;s Stone
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="http://localhost:1313/about">About</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="http://localhost:1313/about" >About</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="http://localhost:1313/posts/math-not-required/">Math Not Required</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2023-11-18</time><span class="post-author">JEG2</span></div>
+
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <p>
+There&#39;s an age old debate in programming about whether or not there&#39;s a lot of math involved.  Do you need to be a math geek to become a good programmer?</p>
+<p>
+At the risk of spoiling this entire article:  I don&#39;t think you do.</p>
+<p>
+Why do I say that and what do I think this debate is really about?  That I won&#39;t spoil…</p>
+<div id="outline-container-headline-1" class="outline-2">
+<h2 id="headline-1">
+Programming Without Math
+</h2>
+<div id="outline-text-headline-1" class="outline-text-2">
+<p>
+Let&#39;s examine a problem that we could math our way out of, but assume we don&#39;t know how.  We&#39;ll lean on our programming to teach us what we don&#39;t know.</p>
+<p>
+The <a href="https://en.wikipedia.org/wiki/Monty_Hall_problem">Monty Hall problem</a> comes from an old game show called Let&#39;s Make a Deal, hosted by Monty Hall.  In the show, Monty would show three closed doors to a contestant and explain that one holds a car while the other two hold goats.  The contestant then chose a door.  After this first pick, Monty would reveal one unchosen door that was hiding a goat.  The contestant then faced a key second choice:  keep their door or switch to the other closed door.  After this final choice, the two doors were opened and the contestant kept whatever they selected.  The goal, of course, was to win a car.</p>
+<p>
+What we really to want to know:  are the chances of winning better if we switch or don&#39;t switch after the reveal?</p>
+<p>
+Let&#39;s see if we can find out by modeling the problem in code:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#66d9ef">defmodule</span> <span style="color:#a6e22e">MontyHallProblem</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> dont_switch <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>at(randomize_doors(), pick_door())
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># no need to model the reveal or second choice in this case since it</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># doesn&#39;t change the outcome</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> switch <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>      game <span style="color:#f92672">=</span> randomize_doors()
+</span></span><span style="display:flex;"><span>      pick1 <span style="color:#f92672">=</span> pick_door()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      reveal <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">0</span><span style="color:#f92672">..</span><span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>filter(<span style="color:#66d9ef">fn</span> i <span style="color:#f92672">-&gt;</span> i <span style="color:#f92672">!=</span> pick1 <span style="color:#f92672">and</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>at(game, i) <span style="color:#f92672">==</span> <span style="color:#e6db74">:lose</span> <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>random()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      pick2 <span style="color:#f92672">=</span> hd([<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>] <span style="color:#f92672">--</span> [pick1, reveal])
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>at(game, pick2)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defp</span> randomize_doors, <span style="color:#e6db74">do</span>: <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>shuffle(<span style="color:#e6db74">~w[win lose lose]a</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defp</span> pick_door, <span style="color:#e6db74">do</span>: <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>random(<span style="color:#ae81ff">0</span><span style="color:#f92672">..</span><span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span></span></span></code></pre></div>
+</div>
+<p>
+Hopefully this code is a pretty direct translation of the earlier problem description.  Note that we now have two public functions, one that simulates a game where we switch and another for when we don&#39;t.</p>
+<p>
+Here&#39;s a random run of each one:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#a6e22e">MontyHallProblem</span><span style="color:#f92672">.</span>dont_switch() <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">IO</span><span style="color:#f92672">.</span>inspect()</span></span></code></pre></div>
+</div>
+<pre class="example">
+:win
+</pre>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#a6e22e">MontyHallProblem</span><span style="color:#f92672">.</span>switch() <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">IO</span><span style="color:#f92672">.</span>inspect()</span></span></code></pre></div>
+</div>
+<pre class="example">
+:lose
+</pre>
+<p>
+Now what we want to do is just try them both—a lot—and show the results.</p>
+<p>
+Let&#39;s write a little code for that too:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#66d9ef">defmodule</span> <span style="color:#a6e22e">MonteCarloSimulation</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> analyze(event, measurement, repetitions \\ <span style="color:#ae81ff">10_000</span>) <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>repeatedly(event)
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>take(repetitions)
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>count(<span style="color:#66d9ef">fn</span> result <span style="color:#f92672">-&gt;</span> result <span style="color:#f92672">==</span> measurement <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> then(<span style="color:#f92672">&amp;</span><span style="color:#e6db74">:io_lib</span><span style="color:#f92672">.</span>format(<span style="color:#e6db74">&#34;~.2f%&#34;</span>, [&amp;1 <span style="color:#f92672">/</span> repetitions <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>]))
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> to_string()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span></span></span></code></pre></div>
+</div>
+<p>
+This code takes some function that simulates an <code>event</code>, runs it for a requested number <code>repetitions</code>, and counts how many times the result matches a provided <code>measurement</code>.  The rest is just about showing pretty output.</p>
+<p>
+You may have noticed from the module name that this technique is another &#34;Monte.&#34;  <a href="https://en.wikipedia.org/wiki/Monte_Carlo_method">Monte Carlo simulations</a> are just repeated random samplings used to measure results.  This works thanks to <a href="https://en.wikipedia.org/wiki/Law_of_large_numbers">the law of large numbers</a>.</p>
+<p>
+It may sound like I&#39;m sneaking some math into this solution, but I suspect most of us intuitively understand this process even if we don&#39;t know the names for it.  For example, how many heads will I get if I flip a coin three times?</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#a6e22e">MonteCarloSimulation</span><span style="color:#f92672">.</span>analyze(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>random([<span style="color:#e6db74">:heads</span>, <span style="color:#e6db74">:tails</span>]) <span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">:heads</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>  )</span></span></code></pre></div>
+</div>
+<pre class="example">
+&#34;0.00%&#34;
+</pre>
+<p>
+I guess I&#39;m not very lucky, but watch what happens if I keep cranking up the number of flips:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#a6e22e">MonteCarloSimulation</span><span style="color:#f92672">.</span>analyze(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>random([<span style="color:#e6db74">:heads</span>, <span style="color:#e6db74">:tails</span>]) <span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">:heads</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">30</span>
+</span></span><span style="display:flex;"><span>  )</span></span></code></pre></div>
+</div>
+<pre class="example">
+&#34;43.33%&#34;
+</pre>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#a6e22e">MonteCarloSimulation</span><span style="color:#f92672">.</span>analyze(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>random([<span style="color:#e6db74">:heads</span>, <span style="color:#e6db74">:tails</span>]) <span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">:heads</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">300</span>
+</span></span><span style="display:flex;"><span>  )</span></span></code></pre></div>
+</div>
+<pre class="example">
+&#34;54.67%&#34;
+</pre>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#a6e22e">MonteCarloSimulation</span><span style="color:#f92672">.</span>analyze(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>random([<span style="color:#e6db74">:heads</span>, <span style="color:#e6db74">:tails</span>]) <span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">:heads</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">3_000</span>
+</span></span><span style="display:flex;"><span>  )</span></span></code></pre></div>
+</div>
+<pre class="example">
+&#34;50.47%&#34;
+</pre>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#a6e22e">MonteCarloSimulation</span><span style="color:#f92672">.</span>analyze(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>random([<span style="color:#e6db74">:heads</span>, <span style="color:#e6db74">:tails</span>]) <span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">:heads</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">30_000</span>
+</span></span><span style="display:flex;"><span>  )</span></span></code></pre></div>
+</div>
+<pre class="example">
+&#34;50.40%&#34;
+</pre>
+<p>
+What if I asked:  how many heads will I get if I flip 30,000 coins?  I feel like a lot of folks would answer, &#34;around 15,000,&#34; or, &#34;about half.&#34;  That&#39;s exactly what happens.  The more tests we do the more the results converge on the expected probability.</p>
+<p>
+We can use that to discover the answer to the Monty Hall problem!</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  %{
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Don&#39;t switch win chance&#34;</span> <span style="color:#f92672">=&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">MonteCarloSimulation</span><span style="color:#f92672">.</span>analyze(
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">MontyHallProblem</span><span style="color:#f92672">.</span>dont_switch<span style="color:#f92672">/</span><span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">:win</span>
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Switch win chance&#34;</span> <span style="color:#f92672">=&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">MonteCarloSimulation</span><span style="color:#f92672">.</span>analyze(
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">MontyHallProblem</span><span style="color:#f92672">.</span>switch<span style="color:#f92672">/</span><span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">:win</span>
+</span></span><span style="display:flex;"><span>      )
+</span></span><span style="display:flex;"><span>  }</span></span></code></pre></div>
+</div>
+<pre class="example">
+%{&#34;Don&#39;t switch win chance&#34; =&gt; &#34;33.40%&#34;, &#34;Switch win chance&#34; =&gt; &#34;66.78%&#34;}
+</pre>
+<p>
+What we see there is mathematically correct, or at least very close to it.  The <em>don&#39;t switch</em> result is probably the easiest to come to terms with.  We selected one of three available doors and never changed, so we&#39;ll be right about a third of the time.</p>
+<p>
+The <em>switching</em> result is a little trickier.  If our initial guess is right a third of the time, that means it&#39;s wrong two thirds of the time.  Put another way there&#39;s a two thirds chance that the car is behind one of the two doors we didn&#39;t initially pick.  Then Monty is kind enough to rule one of those two out, shifting the full two thirds chance to the one remaining unselected door.  If we switch to that one, we double our chances to win!</p>
+<p>
+Programming can show you what to do, even if it doesn&#39;t explain why.</p>
+</div>
+</div>
+<div id="outline-container-headline-2" class="outline-2">
+<h2 id="headline-2">
+In Defense of Math
+</h2>
+<div id="outline-text-headline-2" class="outline-text-2">
+<p>
+I want to be very clear:  this article is examining whether or not math is essential background knowledge for programmers.  It is not arguing that math is not important or valuable.</p>
+<p>
+I believe that most people can benefit from learning some math!  You are absolutely affected by math in your day-to-day life, whether you understand it or not.</p>
+<p>
+For example, many adults have a credit card.  Credit cards typically come with an <em>Annual Percentage Rate (APR)</em>, which is pretty confusing since most cards calculate daily compound interest.  Compound interest could be considered the eighth wonder of the modern world and, when you compound it daily, it&#39;s simply terrifying.  It&#39;s vital to understand at least the magnitude of how this grows if you carry a significant balance.</p>
+<p>
+However, if you don&#39;t know this, programming might be able to save you!  Let&#39;s build a model for credit cards:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#66d9ef">defmodule</span> <span style="color:#a6e22e">CreditCard</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defstruct</span> <span style="color:#e6db74">balance</span>: <span style="color:#ae81ff">7_279.0</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">apr</span>: <span style="color:#ae81ff">24.45</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">daily_periodic_rate</span>: <span style="color:#66d9ef">nil</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">minimum_percent</span>: <span style="color:#ae81ff">0.02</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">minimum_floor</span>: <span style="color:#ae81ff">27.5</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">last_due</span>: <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> new(fields \\ []) <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>      fields
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Keyword</span><span style="color:#f92672">.</span>put_new_lazy(<span style="color:#e6db74">:last_due</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Date</span><span style="color:#f92672">.</span>utc_today<span style="color:#f92672">/</span><span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> then(<span style="color:#f92672">&amp;</span>struct!(__MODULE__, &amp;1))
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> then(<span style="color:#66d9ef">fn</span> card <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#960050;background-color:#1e0010">%</span>__MODULE__{card <span style="color:#f92672">|</span> <span style="color:#e6db74">daily_periodic_rate</span>: card<span style="color:#f92672">.</span>apr <span style="color:#f92672">/</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">365</span>}
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> payment_schedule(card, overpayment \\ <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>unfold(card, <span style="color:#66d9ef">fn</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#960050;background-color:#1e0010">%</span>__MODULE__{<span style="color:#e6db74">balance</span>: <span style="color:#ae81ff">0.0</span>} <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        card <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>          payment <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">CreditCard.Payment</span><span style="color:#f92672">.</span>new(card)
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">CreditCard.Payment</span><span style="color:#f92672">.</span>advance_due_date()
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">CreditCard.Payment</span><span style="color:#f92672">.</span>accrue_interest()
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">CreditCard.Payment</span><span style="color:#f92672">.</span>apply_payment(overpayment)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>          {payment, payment<span style="color:#f92672">.</span>card_after}
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span></span></span></code></pre></div>
+</div>
+<p>
+This code above is mostly just a data structure.  The defaults you see came from Google:</p>
+<ul>
+<li><a href="https://www.lendingtree.com/credit-cards/credit-card-debt-statistics/">Average balance</a></li>
+<li><a href="https://www.lendingtree.com/credit-cards/average-credit-card-interest-rate-in-america/">Average APR</a></li>
+<li><a href="https://wallethub.com/edu/cc/credit-card-minimum-payments/97692">Average minimum payment</a></li>
+</ul>
+<p>The <code>CreditCard.payment_schedule/2</code> function provides a public interface for repeatedly making payments, until the balance reaches zero.  A payment involves a few steps, but the keys bits are that interest is accrued for days past and then a payment is applied to the new total.  A minimum payment is always made, but we can choose to pass an <code>overpayment</code> amount.</p>
+<p>
+The trickiest line in the code above is probably where I convert the APR to a <code>daily_periodic_rate</code>.  Is this using math knowledge?  I don&#39;t think it has to be, since the <a href="https://www.usbank.com/customer-service/knowledge-base/KB0194384.html">formulas needed are easily Googled</a>.  (Yes, I&#39;ve made some simplifying assumptions:  assume the full balance is already subject to interest, ignore details like <em>cash advances</em> to assume the whole balance is under the same APR, and assume no new debt will be added.)</p>
+<p>
+Let&#39;s look at the payments:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#66d9ef">defmodule</span> <span style="color:#a6e22e">CreditCard.Payment</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">defstruct</span> <span style="color:#e6db74">~w[card_before card_after days interest minimum paid]a</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> new(card), <span style="color:#e6db74">do</span>: <span style="color:#960050;background-color:#1e0010">%</span>__MODULE__{<span style="color:#e6db74">card_before</span>: card, <span style="color:#e6db74">card_after</span>: card}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> advance_due_date(payment) <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># try to jump a month forward</span>
+</span></span><span style="display:flex;"><span>      last_due <span style="color:#f92672">=</span> payment<span style="color:#f92672">.</span>card_before<span style="color:#f92672">.</span>last_due
+</span></span><span style="display:flex;"><span>      next_due <span style="color:#f92672">=</span> <span style="color:#a6e22e">Date</span><span style="color:#f92672">.</span>add(last_due, <span style="color:#a6e22e">Date</span><span style="color:#f92672">.</span>days_in_month(last_due))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># correct if we overshot a shorter month (not possible in November or</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># December, since both December and January have 31 days)</span>
+</span></span><span style="display:flex;"><span>      next_due <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> next_due<span style="color:#f92672">.</span>month <span style="color:#f92672">==</span> last_due<span style="color:#f92672">.</span>month <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">Date</span><span style="color:#f92672">.</span>add(next_due, <span style="color:#f92672">-</span>next_due<span style="color:#f92672">.</span>day)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>          next_due
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      days <span style="color:#f92672">=</span> <span style="color:#a6e22e">Date</span><span style="color:#f92672">.</span>diff(next_due, last_due)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#960050;background-color:#1e0010">%</span>__MODULE__{
+</span></span><span style="display:flex;"><span>        payment
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">|</span> <span style="color:#e6db74">card_after</span>: %<span style="color:#a6e22e">CreditCard</span>{payment<span style="color:#f92672">.</span>card_after <span style="color:#f92672">|</span> <span style="color:#e6db74">last_due</span>: next_due},
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">days</span>: days
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> accrue_interest(payment) <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>      card <span style="color:#f92672">=</span> payment<span style="color:#f92672">.</span>card_after
+</span></span><span style="display:flex;"><span>      interest <span style="color:#f92672">=</span> card<span style="color:#f92672">.</span>balance <span style="color:#f92672">*</span> card<span style="color:#f92672">.</span>daily_periodic_rate <span style="color:#f92672">*</span> payment<span style="color:#f92672">.</span>days
+</span></span><span style="display:flex;"><span>      new_balance <span style="color:#f92672">=</span> card<span style="color:#f92672">.</span>balance <span style="color:#f92672">+</span> interest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#960050;background-color:#1e0010">%</span>__MODULE__{
+</span></span><span style="display:flex;"><span>        payment
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">|</span> <span style="color:#e6db74">card_after</span>: %<span style="color:#a6e22e">CreditCard</span>{payment<span style="color:#f92672">.</span>card_after <span style="color:#f92672">|</span> <span style="color:#e6db74">balance</span>: new_balance},
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">interest</span>: interest
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> apply_payment(payment, overpayment \\ <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>      card <span style="color:#f92672">=</span> payment<span style="color:#f92672">.</span>card_after
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      minimum <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>        card<span style="color:#f92672">.</span>balance
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">|&gt;</span> min(card<span style="color:#f92672">.</span>minimum_floor)
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">|&gt;</span> max(card<span style="color:#f92672">.</span>balance <span style="color:#f92672">*</span> card<span style="color:#f92672">.</span>minimum_percent)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      paid <span style="color:#f92672">=</span> min(card<span style="color:#f92672">.</span>balance, minimum <span style="color:#f92672">+</span> overpayment)
+</span></span><span style="display:flex;"><span>      new_balance <span style="color:#f92672">=</span> card<span style="color:#f92672">.</span>balance <span style="color:#f92672">-</span> paid
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#960050;background-color:#1e0010">%</span>__MODULE__{
+</span></span><span style="display:flex;"><span>        payment
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">|</span> <span style="color:#e6db74">card_after</span>: %<span style="color:#a6e22e">CreditCard</span>{payment<span style="color:#f92672">.</span>card_after <span style="color:#f92672">|</span> <span style="color:#e6db74">balance</span>: new_balance},
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">minimum</span>: minimum,
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">paid</span>: paid
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span></span></span></code></pre></div>
+</div>
+<p>
+Another data structure and three public functions as the interface for manipulating it.  The longest function finds the next payment date, because calendaring might be the only subject more complex credit cards.  The interest calculation is right out of the formulas page I linked to above.  Finally the actual payment function has to sort out whether we&#39;re paying the minimum percentage, using the minimum floor, or just paying the full remaining balance, depending on how much is left on the card.</p>
+<p>
+That&#39;s enough for us to see how long it&#39;ll take to pay off an average debt if we stick to minimum payments:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  payments <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">CreditCard</span><span style="color:#f92672">.</span>new()
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">CreditCard</span><span style="color:#f92672">.</span>payment_schedule()
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>map(<span style="color:#f92672">&amp;</span> &amp;1<span style="color:#f92672">.</span>paid)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  %{
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">months</span>: length(payments),
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">total_paid</span>: payments <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>sum() <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Float</span><span style="color:#f92672">.</span>round(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">IO</span><span style="color:#f92672">.</span>inspect()</span></span></code></pre></div>
+</div>
+<pre class="example">
+%{months: 87414, total_paid: 6257806.8}
+</pre>
+<p>
+Over 7,000 years and $6,000,000?  You would be forgiven for assuming that I have a bug!  But do I?</p>
+<p>
+Let&#39;s examine the first five payments:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#a6e22e">CreditCard</span><span style="color:#f92672">.</span>new()
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">CreditCard</span><span style="color:#f92672">.</span>payment_schedule()
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>take(<span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">IO</span><span style="color:#f92672">.</span>inspect()</span></span></code></pre></div>
+</div>
+<pre class="example">
+[
+  %CreditCard.Payment{
+    days: 31,
+    interest: 151.1539191780822,
+    card_after: %CreditCard{
+      balance: 7281.550840794521,
+      apr: 24.45,
+      daily_periodic_rate: 6.698630136986302e-4,
+      minimum_percent: 0.02,
+      minimum_floor: 27.5,
+      last_due: ~D[2023-11-16]
+    },
+    card_before: %CreditCard{
+      balance: 7279.0,
+      apr: 24.45,
+      daily_periodic_rate: 6.698630136986302e-4,
+      minimum_percent: 0.02,
+      minimum_floor: 27.5,
+      last_due: ~D[2023-10-16]
+    },
+    minimum: 148.60307838356164,
+    paid: 148.60307838356164
+  },
+  %CreditCard.Payment{
+    days: 30,
+    interest: 146.32924771843236,
+    card_after: %CreditCard{
+      balance: 7279.322486742694,
+      apr: 24.45,
+      daily_periodic_rate: 6.698630136986302e-4,
+      minimum_percent: 0.02,
+      minimum_floor: 27.5,
+      last_due: ~D[2023-12-16]
+    },
+    card_before: %CreditCard{
+      balance: 7281.550840794521,
+      apr: 24.45,
+      daily_periodic_rate: 6.698630136986302e-4,
+      minimum_percent: 0.02,
+      minimum_floor: 27.5,
+      last_due: ~D[2023-11-16]
+    },
+    minimum: 148.55760177025905,
+    paid: 148.55760177025905
+  },
+  %CreditCard.Payment{
+    days: 31,
+    interest: 151.1606158582637,
+    card_after: %CreditCard{
+      balance: 7281.873440548939,
+      apr: 24.45,
+      daily_periodic_rate: 6.698630136986302e-4,
+      minimum_percent: 0.02,
+      minimum_floor: 27.5,
+      last_due: ~D[2024-01-16]
+    },
+    card_before: %CreditCard{
+      balance: 7279.322486742694,
+      apr: 24.45,
+      daily_periodic_rate: 6.698630136986302e-4,
+      minimum_percent: 0.02,
+      minimum_floor: 27.5,
+      last_due: ~D[2023-12-16]
+    },
+    minimum: 148.60966205201916,
+    paid: 148.60966205201916
+  },
+  %CreditCard.Payment{
+    days: 31,
+    interest: 151.21358833600186,
+    card_after: %CreditCard{
+      balance: 7284.425288307241,
+      apr: 24.45,
+      daily_periodic_rate: 6.698630136986302e-4,
+      minimum_percent: 0.02,
+      minimum_floor: 27.5,
+      last_due: ~D[2024-02-16]
+    },
+    card_before: %CreditCard{
+      balance: 7281.873440548939,
+      apr: 24.45,
+      daily_periodic_rate: 6.698630136986302e-4,
+      minimum_percent: 0.02,
+      minimum_floor: 27.5,
+      last_due: ~D[2024-01-16]
+    },
+    minimum: 148.6617405776988,
+    paid: 148.6617405776988
+  },
+  %CreditCard.Payment{
+    days: 29,
+    interest: 141.50744522395203,
+    card_after: %CreditCard{
+      balance: 7277.41407886057,
+      apr: 24.45,
+      daily_periodic_rate: 6.698630136986302e-4,
+      minimum_percent: 0.02,
+      minimum_floor: 27.5,
+      last_due: ~D[2024-03-16]
+    },
+    card_before: %CreditCard{
+      balance: 7284.425288307241,
+      apr: 24.45,
+      daily_periodic_rate: 6.698630136986302e-4,
+      minimum_percent: 0.02,
+      minimum_floor: 27.5,
+      last_due: ~D[2024-02-16]
+    },
+    minimum: 148.51865467062387,
+    paid: 148.51865467062387
+  }
+]
+</pre>
+<p>
+If you look closely at the first payment, you can see that the interest is a little more than what we&#39;re required to pay.  Our balance actually went up by a couple of bucks!</p>
+<p>
+The second payment was better, because it happened in a month that&#39;s one day shorter.  It cost us less interest.  After making both payments we&#39;re about 32 cents above where we started.  So what saves us from a forever climbing balance?</p>
+<p>
+February.  Check out that fifth payment.  Unfortunately it landed in a <em>leap year</em>, so it still has one more day than normal.  However, it&#39;s enough of a win to undo the damage of the previous four payments and leave us over a buck and a half to the good.</p>
+<p>
+This cycle repeats for a very long time, with each new February gaining a tiny bit of ground.  Eventually we reach a point where all payments are more than the interest and a payoff can be reached.  Even that is slow going though.</p>
+<p>
+When you&#39;re in this situation, little changes can have a huge impact.  Look at the differences we see if we just up the minimum payment percentage to the higher end of average:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  payments <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">CreditCard</span><span style="color:#f92672">.</span>new(<span style="color:#e6db74">minimum_percent</span>: <span style="color:#ae81ff">0.03</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">CreditCard</span><span style="color:#f92672">.</span>payment_schedule()
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>map(<span style="color:#f92672">&amp;</span> &amp;1<span style="color:#f92672">.</span>paid)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  %{
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">months</span>: length(payments),
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">total_paid</span>: payments <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>sum() <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Float</span><span style="color:#f92672">.</span>round(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">IO</span><span style="color:#f92672">.</span>inspect()</span></span></code></pre></div>
+</div>
+<pre class="example">
+%{months: 258, total_paid: 20606.42}
+</pre>
+<p>
+We&#39;re still paying for over 20 years and it&#39;ll cost nearly three times the amount charged, but this seems like a miracle compared to the previous outcome.</p>
+<p>
+What if we tossed in an extra $10 per month?</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  card <span style="color:#f92672">=</span> <span style="color:#a6e22e">CreditCard</span><span style="color:#f92672">.</span>new(<span style="color:#e6db74">minimum_percent</span>: <span style="color:#ae81ff">0.03</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  overpayments <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>    card
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">CreditCard</span><span style="color:#f92672">.</span>payment_schedule(<span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>map(<span style="color:#f92672">&amp;</span> &amp;1<span style="color:#f92672">.</span>paid)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  overpayments_total <span style="color:#f92672">=</span> overpayments <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>sum() <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Float</span><span style="color:#f92672">.</span>round(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  minimums_total <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>    card
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">CreditCard</span><span style="color:#f92672">.</span>payment_schedule()
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>map(<span style="color:#f92672">&amp;</span> &amp;1<span style="color:#f92672">.</span>paid)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>sum()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  %{
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">months</span>: length(overpayments),
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">total_paid</span>: overpayments_total,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">savings</span>: <span style="color:#a6e22e">Float</span><span style="color:#f92672">.</span>round(minimums_total <span style="color:#f92672">-</span> overpayments_total, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">IO</span><span style="color:#f92672">.</span>inspect()</span></span></code></pre></div>
+</div>
+<pre class="example">
+%{months: 178, total_paid: 17481.32, savings: 3125.1}
+</pre>
+<p>
+That saves us over six years and $3,000 even with the increased outlay of cash each month.</p>
+<p>
+Hopefully you get the idea.  I think math holds a lot of value to humans in general, regardless of where we land on the programming issue.  Just refreshing algebra and geometry can do a lot for you, if it&#39;s been a while.  In a world where typical credit card debt turns into a life long reduction of income, this stuff matters!</p>
+</div>
+</div>
+<div id="outline-container-headline-3" class="outline-2">
+<h2 id="headline-3">
+Half of An Education
+</h2>
+<div id="outline-text-headline-3" class="outline-text-2">
+<p>
+Let&#39;s return to the main question.</p>
+<p>
+Why do some say that programmers require math?  I&#39;ve seen other possibly related claims.  One was a job description for a tech savvy position that wanted applicants to have, &#34;completed an Intro to Programming course (HTML doesn&#39;t count).&#34;  Another was a code school that sought students, &#34;comfortable with the command-line.&#34;  Who&#39;s comfortable with the command-line that&#39;s not a programmer?  Almost programmers?</p>
+<p>
+Programmers need a pretty diverse set of skills when you really think about it.  There&#39;s the obvious technical know-how, which can be plenty to get your head around.  But that&#39;s not even close to enough.</p>
+<p>
+Programmers translate human requirements into machine instructions.  Strong communication is vital for tasks like requirements gathering and documentation, at a minimum.  Still, there&#39;s more.</p>
+<p>
+Rarely does code spring fully formed from a programmer&#39;s head.  Most solutions need to be discovered.  Programmers spend time exploring the domain to gain familiarity and insights.  Then there&#39;s a stage of modeling where the struggle is to balance human needs with what&#39;s viable for computers.  This is creative <a href="https://en.wikipedia.org/wiki/Knowledge_worker">knowledge work</a> that leans heavily on areas like logic and problem solving.  Who&#39;s typically experienced in logic and problem solving?  Math fans, for one.</p>
+<p>
+So where&#39;s the disconnect?  If we know what&#39;s needed, why do we apply all of these specific filters?</p>
+<p>
+I suspect that we have a training problem.  A typical Elixirist probably studies:</p>
+<ul>
+<li><a href="https://www.manning.com/books/elixir-in-action-third-edition">The core language</a></li>
+<li><a href="https://pragprog.com/titles/liveview/programming-phoenix-liveview/">Specific domains</a> and/or <a href="https://pragprog.com/titles/sgdpelixir/concurrent-data-processing-in-elixir/">specialized knowledge</a></li>
+<li>And maybe some <a href="https://pragprog.com/titles/jwdsal2/a-common-sense-guide-to-data-structures-and-algorithms-second-edition/">general theory</a></li>
+</ul>
+<p>I personally haven&#39;t seen many classes on <a href="https://www.cnvc.org/store/nonviolent-communication-a-language-of-life">respectful collaboration</a>, <a href="https://raymondsmullyan.com/books/to-mock-a-mockingbird-and-other-logic-puzzles/">logical deduction</a>, or even just <a href="https://mitpress.mit.edu/9780262545297/once-upon-an-algorithm/">abstract thinking</a>.  It seems like we need them though.  Otherwise, we&#39;re only learning half of our job, and I worry it&#39;s the easier half.</p>
+<p>
+I&#39;ll say it again:  I don&#39;t think strong math is essential for programmers.  However, systemic problem solving definitely is.  We need to enhance our study of these areas as a community.  Even more importantly, we need to get better as teaching them.</p>
+</div>
+</div>
+      </div></div>
+
+  
+    
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h">Read other posts</span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+      <a href="http://localhost:1313/posts/junior_pairing_scripts/" class="button inline prev">
+        &lt; [<span class="button__text">Junior Pairing Scripts</span>]
+      </a>
+    
+    
+      ::
+    
+    
+      <a href="http://localhost:1313/posts/easier-recursion/" class="button inline next">
+         [<span class="button__text">Easier Recursion</span>] &gt;
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="http://localhost:1313/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

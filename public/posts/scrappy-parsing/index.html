@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  
+    <title>Scrappy Parsing :: The Programmer&#39;s Stone</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=" I love parsing! I really do. There&#39;s something very satisfying about converting input into usable data structures that help me accomplish some task.
+Parsing is important. How well we construct those data structures and the quality of the structures we choose can massively impact the work that comes after. We should probably all be worrying about parsing a little more than we do.
+The good news is that Elixir is the best language I have ever worked with for doing serious parsing. Let&#39;s prove it. Let&#39;s pull the data out of a SQLite database file using vanilla Elixir and some tricks from my Scrappy Programmer Livebook series. (You don&#39;t need to have read that to follow along with this article. Everyone is welcome.)
+" />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="http://localhost:1313/posts/scrappy-parsing/" />
+
+
+
+
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/code.min.d529ea4b2fb8d34328d7d31afc5466d5f7bc2f0bc9abdd98b69385335d7baee4.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/main.min.36833afd348409fc6c3d09d0897c5833d9d5bf1ff31f5e60ea3ee42ce2b1268c.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/menu.min.3c17467ebeb3d38663dce68f71f519901124fa5cbb4519b2fb0667a21e9aca39.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="http://localhost:1313/terminal.css">
+
+
+
+
+<link rel="shortcut icon" href="http://localhost:1313/favicon.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Scrappy Parsing">
+<meta property="og:description" content=" I love parsing! I really do. There&#39;s something very satisfying about converting input into usable data structures that help me accomplish some task.
+Parsing is important. How well we construct those data structures and the quality of the structures we choose can massively impact the work that comes after. We should probably all be worrying about parsing a little more than we do.
+The good news is that Elixir is the best language I have ever worked with for doing serious parsing. Let&#39;s prove it. Let&#39;s pull the data out of a SQLite database file using vanilla Elixir and some tricks from my Scrappy Programmer Livebook series. (You don&#39;t need to have read that to follow along with this article. Everyone is welcome.)
+" />
+<meta property="og:url" content="http://localhost:1313/posts/scrappy-parsing/" />
+<meta property="og:site_name" content="The Programmer&#39;s Stone" />
+
+  <meta property="og:image" content="http://localhost:1313/og-image.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2024-10-25 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="container center">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="http://localhost:1313/">
+  <div class="logo">
+    The Programmer&#39;s Stone
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="http://localhost:1313/about">About</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="http://localhost:1313/about" >About</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="http://localhost:1313/posts/scrappy-parsing/">Scrappy Parsing</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2024-10-25</time><span class="post-author">JEG2</span></div>
+
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <p>
+I love parsing!  I really do.  There&#39;s something very satisfying about converting input into usable data structures that help me accomplish some task.</p>
+<p>
+Parsing is important.  How well we construct those data structures and the quality of the structures we choose can massively impact the work that comes after.  We should probably all be <a href="https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/">worrying about parsing</a> a little more than we do.</p>
+<p>
+The good news is that Elixir is the best language I have ever worked with for doing serious parsing.  Let&#39;s prove it.  Let&#39;s pull the data out of a SQLite database file using vanilla Elixir and some tricks from my <a href="https://voyagesincode.com/products/how-to-train-your-scrappy-programmer">Scrappy Programmer Livebook series</a>.  (You don&#39;t need to have read that to follow along with this article.  Everyone is welcome.)</p>
+<div id="outline-container-headline-1" class="outline-2">
+<h2 id="headline-1">
+Genie, Fetch Me Some Data
+</h2>
+<div id="outline-text-headline-1" class="outline-text-2">
+<p>
+  We need a database, with some data in it, in order to have something interesting to parse.  Let&#39;s programmatically create one.  This is the one time we will reach for some helper libraries.  We&#39;ll use one to talk directly to SQLite and another to invent fake data.  Here&#39;s the code:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#a6e22e">Mix</span><span style="color:#f92672">.</span>install([
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">:exqlite</span>, <span style="color:#e6db74">&#34;~&gt; 0.23.0&#34;</span>},
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">:faker</span>, <span style="color:#e6db74">&#34;~&gt; 0.18.0&#34;</span>}
+</span></span><span style="display:flex;"><span>  ])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  db_path <span style="color:#f92672">=</span> <span style="color:#a6e22e">Path</span><span style="color:#f92672">.</span>join(<span style="color:#a6e22e">System</span><span style="color:#f92672">.</span>tmp_dir!(), <span style="color:#e6db74">&#34;db.sqlite3&#34;</span>)
+</span></span><span style="display:flex;"><span>  {<span style="color:#e6db74">:ok</span>, conn} <span style="color:#f92672">=</span> <span style="color:#a6e22e">Exqlite.Sqlite3</span><span style="color:#f92672">.</span>open(db_path)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">:ok</span> <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Exqlite.Sqlite3</span><span style="color:#f92672">.</span>execute(conn, <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    CREATE TABLE people (
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      id INTEGER PRIMARY KEY,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      name TEXT NOT NULL,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      age INTEGER NOT NULL,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      email TEXT NOT NULL
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    );
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    CREATE UNIQUE INDEX person_email ON people(email);
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  {<span style="color:#e6db74">:ok</span>, statement} <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Exqlite.Sqlite3</span><span style="color:#f92672">.</span>prepare(
+</span></span><span style="display:flex;"><span>      conn,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;INSERT INTO people (name, age, email) VALUES (?1, ?2, ?3)&#34;</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>repeatedly(<span style="color:#66d9ef">fn</span> <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    name <span style="color:#f92672">=</span> <span style="color:#a6e22e">Faker.Person</span><span style="color:#f92672">.</span>name()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    account <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>      name
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">String</span><span style="color:#f92672">.</span>downcase()
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">String</span><span style="color:#f92672">.</span>replace(<span style="color:#e6db74">~r{[^a-z]+}</span>, <span style="color:#e6db74">&#34;_&#34;</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">String</span><span style="color:#f92672">.</span>replace(<span style="color:#e6db74">~r{_\z}</span>, <span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    [name, <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>random(<span style="color:#ae81ff">10</span><span style="color:#f92672">..</span><span style="color:#ae81ff">100</span><span style="color:#f92672">//</span><span style="color:#ae81ff">1</span>), <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">#{</span>account<span style="color:#e6db74">}</span><span style="color:#e6db74">@</span><span style="color:#e6db74">#{</span><span style="color:#a6e22e">Faker.Internet</span><span style="color:#f92672">.</span>domain_name()<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>take(<span style="color:#ae81ff">150</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>each(<span style="color:#66d9ef">fn</span> values <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">:ok</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Exqlite.Sqlite3</span><span style="color:#f92672">.</span>bind(conn, statement, values)
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">:done</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Exqlite.Sqlite3</span><span style="color:#f92672">.</span>step(conn, statement)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">:ok</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Exqlite.Sqlite3</span><span style="color:#f92672">.</span>release(conn, statement)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">IO</span><span style="color:#f92672">.</span>puts(<span style="color:#e6db74">&#34;Database path:  </span><span style="color:#e6db74">#{</span>db_path<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+Database path:  /tmp/db.sqlite3
+:ok
+</pre>
+<p>
+We&#39;re not really here to discuss this code, but, very briefly, it creates a new database table with four fields, adds on an index, and pumps 150 fake records into it.  The only things in this code that effect what we are about to do are the fields in the table and index as well as the <code>db_path</code> variable.  That holds the location of our database file in the temporary directory.</p>
+<p>
+Let&#39;s now use the real SQLite to browse through what we&#39;ve created:</p>
+<pre class="example">
+sqlite&gt; SELECT * FROM people LIMIT 10;
+1|Margret Ebert|39|margret_ebert@bahringer.net
+2|Thad Pouros|74|thad_pouros@rodriguez.com
+3|Susana Torp|50|susana_torp@ebert.biz
+4|Mr. Michele Stroman|84|mr_michele_stroman@white.name
+5|Kenna Okuneva|49|kenna_okuneva@koch.biz
+6|Irwin Kohler|61|irwin_kohler@ledner.com
+7|Daren Keeling|89|daren_keeling@collins.name
+8|Viola Beer V|73|viola_beer_v@bayer.org
+9|Edward Cummerata|47|edward_cummerata@lockman.biz
+10|Nathan Halvorson|98|nathan_halvorson@kuhlman.biz
+
+sqlite&gt; SELECT * FROM people WHERE age &gt;= 97;
+10|Nathan Halvorson|98|nathan_halvorson@kuhlman.biz
+27|Colten Kub DDS|98|colten_kub_dds@nolan.info
+45|Randy Grimes|100|randy_grimes@grant.com
+46|Mrs. Madisen Bashirian DVM|100|mrs_madisen_bashirian_dvm@prosacco.name
+59|Paula Larkin|99|paula_larkin@abshire.com
+63|Barney Walker|98|barney_walker@dooley.com
+80|Daphney Carroll|100|daphney_carroll@jast.name
+94|Rickey Balistreri DVM|97|rickey_balistreri_dvm@kuvalis.info
+100|Bradford Schowalter|100|bradford_schowalter@okeefe.biz
+
+sqlite&gt; SELECT * FROM people WHERE id = 77;
+77|Samanta Waelchi III|88|samanta_waelchi_iii@blanda.org
+
+sqlite&gt; SELECT * FROM people WHERE id = 142;
+142|Darryl Dicki|62|darryl_dicki@sawayn.net
+
+sqlite&gt; SELECT * FROM people WHERE email = &#39;randy_grimes@grant.com&#39;;
+45|Randy Grimes|100|randy_grimes@grant.com
+</pre>
+<p>
+Here we see five different queries that give us a feel for the data.  The first two are table scans that require the database to read through the records to locate the ones that meet our criteria.  There&#39;s no index on the <code>age</code> field to speed that up.  The next two queries are very efficient lookups by primary key and the final query is almost as optimized since it uses the <code>email</code> index.</p>
+<p>
+These five queries represent our goal.  We want to recreate these operations using just Elixir.  Let&#39;s to it!</p>
+</div>
+</div>
+<div id="outline-container-headline-2" class="outline-2">
+<h2 id="headline-2">
+I Hope Someone Brought A Map
+</h2>
+<div id="outline-text-headline-2" class="outline-text-2">
+<p>
+An entire SQLite database is stored in just one file.  That file contains the structural definitions for our table and index, all of the records we loaded into the table, the index that allows us to find records quickly by <code>email</code>, and a bit more.  How do we find exactly what we&#39;re after on this lush, tropical island?  We need a map!</p>
+<p>
+SQLite has got you covered.  The file is predictable.  While it can contain multitudes, it is constructed from simple abstractions that can be easily understood one by one.  As we work our way through those layers, a map will emerge showing us precisely where the treasure we seek can be found.</p>
+<p>
+The first abstraction is <em>pages</em>.  While a large database might produce a huge file, all SQLite files are divided into equally sized chunks.  One chunk is called a page.  Each page contains a certain kind of data and can be dealt with largely independently from the other pages.</p>
+<p>
+This means that the first step to understanding is just knowing the size of each page.  Once we know that size, we can carve up the entire file and begin to make sense of the individual pieces.  Therefore, it may not be too surprising to learn that all SQLite databases begin with a header that explains a handful of key details, including the page size!  Let&#39;s read that header:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#a6e22e">File</span><span style="color:#f92672">.</span>open!(db_path, [<span style="color:#e6db74">:read</span>, <span style="color:#e6db74">:binary</span>], <span style="color:#66d9ef">fn</span> f <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    &lt;&lt;<span style="color:#e6db74">&#34;SQLite format 3\0&#34;</span><span style="color:#f92672">::</span>binary,
+</span></span><span style="display:flex;"><span>      raw_page_size<span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">1</span><span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">1</span><span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">0</span><span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">64</span><span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">32</span><span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">32</span><span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>      file_change_counter<span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>      page_count<span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>      _first_freelist_trunk_page<span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>      _freelist_pages<span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>      _schema_cookie<span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">4</span><span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>      _default_page_cache_size<span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>      _largest_root_page_for_vacuum<span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">1</span><span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>      _user_version<span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">0</span><span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>      _application_id<span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">0</span><span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">20</span>),
+</span></span><span style="display:flex;"><span>      file_change_counter<span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">4</span>),
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">3_046_000</span><span style="color:#f92672">::</span>integer<span style="color:#f92672">-</span>big<span style="color:#f92672">-</span>unit(<span style="color:#ae81ff">8</span>)<span style="color:#f92672">-</span>size(<span style="color:#ae81ff">4</span>)&gt;&gt; <span style="color:#f92672">=</span> <span style="color:#a6e22e">IO</span><span style="color:#f92672">.</span>binread(f, <span style="color:#ae81ff">100</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    page_size <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">case</span> raw_page_size <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">1</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">65_536</span>
+</span></span><span style="display:flex;"><span>        _ <span style="color:#f92672">-&gt;</span> raw_page_size
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    %{<span style="color:#e6db74">page_size</span>: page_size, <span style="color:#e6db74">page_count</span>: page_count}
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+%{page_count: 7, page_size: 4096}
+</pre>
+<p>
+The first 100 bytes of a SQLite database file are a collection of integers that explain the various features contained within.  <a href="https://www.sqlite.org/fileformat2.html#the_database_header">The excellent documentation</a> explains what each of those values indicate.  The most important one to us is the <code>raw_page_size</code>.  If you look through the pattern match above, you will see some other interesting details like a <code>page_count</code>.  That can be helpful to see the structure of the database, but you could also get it by dividing the file size by the page size.</p>
+<p>
+Now, it may look like we are ignoring many of these values.  To some extent that is true.  This tutorial is not going to concern itself with free pages, for example, as we would only need to know about those if we were looking for empty pages to write new data into.  However, don&#39;t make the mistake of assuming that the parser we are building is a fragile snowflake.  Pattern matching has allowed me to hardcode many expectations about the header.  In the places where you see me matching against literal integer values I am ensuring that the database has the formats, schema versions, and text encoding that I expect.  The final value even encodes the exact version of SQLite used to create the file <code>3_046_000</code> (&#34;3.46.0&#34;).  If you try to use this code on anything it wasn&#39;t prepared to handle, it will bail out noisily at this very first step.  That makes it a lot easier to trust the results we are getting.</p>
+<p>
+The rest of the code performs a trivial conversion to produce the actual page size and the output shows us that our file contains seven 4k pages.</p>
+<p>
+The above pattern match was purposefully done in a very verbose format to specifically match the values given in the documentation.  Many of those options are defaults though and others have much shorter forms.  Let&#39;s rewrite it into what we are more likely to encounter in the wild and wrap it in a function for easy reuse:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  parse_header <span style="color:#f92672">=</span> <span style="color:#66d9ef">fn</span> bytes, f <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    &lt;&lt;<span style="color:#e6db74">&#34;SQLite format 3\0&#34;</span>,
+</span></span><span style="display:flex;"><span>      raw_page_size<span style="color:#f92672">::</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">1</span><span style="color:#f92672">::</span><span style="color:#ae81ff">1</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">1</span><span style="color:#f92672">::</span><span style="color:#ae81ff">1</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">0</span><span style="color:#f92672">::</span><span style="color:#ae81ff">1</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">64</span><span style="color:#f92672">::</span><span style="color:#ae81ff">1</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">32</span><span style="color:#f92672">::</span><span style="color:#ae81ff">1</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">32</span><span style="color:#f92672">::</span><span style="color:#ae81ff">1</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      file_change_counter<span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      page_count<span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      _first_freelist_trunk_page<span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      _freelist_pages<span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      _schema_cookie<span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">4</span><span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      _default_page_cache_size<span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      _largest_root_page_for_vacuum<span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">1</span><span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      _user_version<span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">0</span><span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      _application_id<span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">0</span><span style="color:#f92672">::</span><span style="color:#ae81ff">20</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      file_change_counter<span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">3_046_000</span><span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>&gt;&gt; <span style="color:#f92672">=</span> bytes
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    page_size <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">case</span> raw_page_size <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">1</span> <span style="color:#f92672">-&gt;</span> <span style="color:#ae81ff">65_536</span>
+</span></span><span style="display:flex;"><span>        _ <span style="color:#f92672">-&gt;</span> raw_page_size
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    %{<span style="color:#e6db74">file</span>: f, <span style="color:#e6db74">page_size</span>: page_size, <span style="color:#e6db74">page_count</span>: page_count}
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  open_db <span style="color:#f92672">=</span> <span style="color:#66d9ef">fn</span> path, func <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">File</span><span style="color:#f92672">.</span>open!(path, [<span style="color:#e6db74">:read</span>, <span style="color:#e6db74">:binary</span>], <span style="color:#66d9ef">fn</span> f <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>      db <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>        f
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">IO</span><span style="color:#f92672">.</span>binread(<span style="color:#ae81ff">100</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">|&gt;</span> parse_header<span style="color:#f92672">.</span>(f)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      func<span style="color:#f92672">.</span>(db)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  open_db<span style="color:#f92672">.</span>(db_path, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Function</span><span style="color:#f92672">.</span>identity<span style="color:#f92672">/</span><span style="color:#ae81ff">1</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+%{file: #PID&lt;0.184.0&gt;, page_count: 7, page_size: 4096}
+</pre>
+<p>
+The code above also includes a new function that opens a file, parses the header, and passes the key database details into an anonymous function we can provide for further processing of the contents.</p>
+<p>
+We&#39;ve found the pages.  Now we have to make sense of them.</p>
+</div>
+</div>
+<div id="outline-container-headline-3" class="outline-2">
+<h2 id="headline-3">
+Climb a Tree, Dear
+</h2>
+<div id="outline-text-headline-3" class="outline-text-2">
+<p>
+Somewhere in the seven pages of our database we know that we will find a table full of data and an index mapping email addresses to records in that table.  Tables and indexes are stored in the second of SQLite&#39;s abstractions:  <a href="https://en.wikipedia.org/wiki/B-tree">B-trees</a>.  A B-tree is a handy tree format for efficiently storing large chunks of data (like pages) in a branching structure that can quickly get you to the data you seek.  The tree itself is made of pages that point to other pages.  If you know where the root page of a tree is, you can find all of the other pages.</p>
+<p>
+Three of the seven pages are the tree that holds the data in our table.  Another three are a tree that holds the index.  The only other page, the first one in the database, holds an abstraction we&#39;ll look at a bit later that allows us to find both of those trees.  The following image shows how these pages map to one another.</p>
+<p>
+<img src="http://localhost:1313/images/scrappy_parsing_pages.png" alt="/images/scrappy_parsing_pages.png" title="/images/scrappy_parsing_pages.png" /></p>
+<p>
+In order to follow the map of pages, we need to be able to read what is actually on them.  Unsurprisingly, pages also have <a href="https://www.sqlite.org/fileformat2.html#b_tree_pages">a predictable format</a> including a header of their own that provides some key details about what you will find in its contents.  The only gotcha when looking for this page header is to remember that the first 100 bytes of the database are the database header.  That means that the header for page one starts 100 bytes in, but the header for all other pages is at the beginning of the page.</p>
+<p>
+<img src="http://localhost:1313/images/scrappy_parsing_layout.png" alt="/images/scrappy_parsing_layout.png" title="/images/scrappy_parsing_layout.png" /></p>
+<p>
+Again, we really only need a couple of key details from the page header to make sense of it.  The first value we&#39;re interested in is the type of page that it is.  Does it hold a table or an index?  Is it the actual table data or does it just point to other pages that hold the table data?</p>
+<p>
+We saw before that SQLite databases are just a collection of pages.  Well, pages are just a collection of <em>cells</em>.  That means the other key element we need to know are how many cells are on this page.  That&#39;s in the header too.  Let&#39;s parse them out:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  parse_page <span style="color:#f92672">=</span> <span style="color:#66d9ef">fn</span> bytes, i <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    start <span style="color:#f92672">=</span> <span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">do</span>: <span style="color:#ae81ff">100</span>, <span style="color:#e6db74">else</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;&lt;raw_type<span style="color:#f92672">::</span><span style="color:#ae81ff">1</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      _first_page_freeblock<span style="color:#f92672">::</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      cell_count<span style="color:#f92672">::</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      _raw_cell_content_start<span style="color:#f92672">::</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      _fragmented_free_bytes<span style="color:#f92672">::</span><span style="color:#ae81ff">1</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>,
+</span></span><span style="display:flex;"><span>      rest<span style="color:#f92672">::</span>binary&gt;&gt; <span style="color:#f92672">=</span> binary_slice(bytes, start, <span style="color:#ae81ff">12</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    type <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">case</span> raw_type <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">2</span> <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">:interior_index</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">5</span> <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">:interior_table</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">10</span> <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">:leaf_index</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ae81ff">13</span> <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">:leaf_table</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    right_most_pointer <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> type <span style="color:#f92672">in</span> [<span style="color:#e6db74">:interior_index</span>, <span style="color:#e6db74">:interior_table</span>] <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        &lt;&lt;right_most_pointer<span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>&gt;&gt; <span style="color:#f92672">=</span> rest
+</span></span><span style="display:flex;"><span>        right_most_pointer
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    %{
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">index</span>: i,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">start</span>: start,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">type</span>: type,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">cell_count</span>: cell_count,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">right_most_pointer</span>: right_most_pointer
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  read_page <span style="color:#f92672">=</span> <span style="color:#66d9ef">fn</span> %{<span style="color:#e6db74">page_count</span>: last_page} <span style="color:#f92672">=</span> db, i <span style="color:#f92672">when</span> i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">&lt;=</span> last_page <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">:file</span><span style="color:#f92672">.</span>position(db<span style="color:#f92672">.</span>file, (i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> db<span style="color:#f92672">.</span>page_size)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    db<span style="color:#f92672">.</span>file
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">IO</span><span style="color:#f92672">.</span>binread(db<span style="color:#f92672">.</span>page_size)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> parse_page<span style="color:#f92672">.</span>(i)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  open_db<span style="color:#f92672">.</span>(db_path, <span style="color:#66d9ef">fn</span> db <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>map(<span style="color:#ae81ff">1</span><span style="color:#f92672">..</span><span style="color:#ae81ff">3</span><span style="color:#f92672">//</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">fn</span> i <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>      read_page<span style="color:#f92672">.</span>(db, i)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+[
+  %{
+    index: 1,
+    start: 100,
+    type: :leaf_table,
+    cell_count: 2,
+    right_most_pointer: nil
+  },
+  %{
+    index: 2,
+    start: 0,
+    type: :interior_table,
+    cell_count: 1,
+    right_most_pointer: 5
+  },
+  %{
+    index: 3,
+    start: 0,
+    type: :interior_index,
+    cell_count: 1,
+    right_most_pointer: 7
+  }
+]
+</pre>
+<p>
+This code is pretty similar to the earlier code that parsed the database header.  We match some raw values, do some minor clean up, and return them in a data structure telling you what you need to know.  You can see that I&#39;ve pulled out some other details, like the <code>right_most_pointer</code>.  We&#39;ll get to what that is in a bit.</p>
+<p>
+Here we also see a new function for reading pages out of the file.  Given the index of any page we want to see, some simple math can tell us how many bytes of other pages to skip past.  We can then read one chunk of page size bytes to get that page.</p>
+<p>
+The end of this example uses that header parser and that page reading function to extract some details about the first three pages.  Don&#39;t worry too much about the first page just yet, but take note of <code>2</code> and <code>3</code>.  One of them is a table page that will eventually lead us to the other two table pages and the other is the index counterpart.  To follow those leads, we will need to make sense of the cells.</p>
+</div>
+</div>
+<div id="outline-container-headline-4" class="outline-2">
+<h2 id="headline-4">
+Living Things Are Made Of Cells
+</h2>
+<div id="outline-text-headline-4" class="outline-text-2">
+<p>
+Conceptually, the cells in a page are just a list of values.  When I show you how those values are laid out it may initially seem strange, but it makes a lot more sense when you think about how databases can change.  Let&#39;s look at a trivial example:</p>
+<pre class="example">
+8whatever5small8whatever8whatever8whatever
+</pre>
+<p>
+Cells could just be laid out in order after the header.  Each cell could begin with a number telling you how many bytes to read and be immediately followed by that content.  The example above shows roughly what this would look like (although it is not in binary).  Now consider that someone issues a SQL statement to modify the <code>small</code> field to be <code>quiteabitbigger</code>:</p>
+<pre class="example">
+8whatever15quiteabitbigger8whatever8whatever8whatever
+</pre>
+<p>
+In order to accommodate this change most of the page has to be moved.  All later values had to be shifted in order to make space for the now larger field.  SQLite wants to minimize the need for changes due to edits.</p>
+<p>
+To support that, it stores two things for each cell.  The first is a pointer to where the cell content is in the page and then, at that location, it stores the actual content of the cell.  When changes modify cells, SQLite can place the new content in any convenient space and simply adjust the pointer numbers to direct us to the right things.  Have a fresh look at this earlier diagram:</p>
+<p>
+<img src="http://localhost:1313/images/scrappy_parsing_layout.png" alt="/images/scrappy_parsing_layout.png" title="/images/scrappy_parsing_layout.png" /></p>
+<p>
+The cell pointers are those simple numbers following immediately after the header and growing towards the end of the page.  The cell contents themselves will start at the end of the page and grow backwards toward the beginning.  This leaves a large chunk of empty space in the middle for use when edits cause changes.  Here&#39;s an animation of how SQLite will layout the first three cells as they are added:</p>
+<p>
+<img src="http://localhost:1313/images/scrappy_parsing_cells.gif" alt="/images/scrappy_parsing_cells.gif" title="/images/scrappy_parsing_cells.gif" /></p>
+<p>
+Luckily, understanding cell layout is harder than actually parsing the cells.  We just need to read some numbers after the header and follow those to extract the contents.</p>
+<p>
+This does require another new element of the SQLite format called a <em>varint</em>.  You&#39;ll see the code to parse these special numbers in the following example, but I&#39;m not going to explain them just yet.  I promise that we will get there soon.  In the meantime, let&#39;s read some cell contents:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  parse_varint <span style="color:#f92672">=</span> <span style="color:#66d9ef">fn</span> bytes, start <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>reduce_while(<span style="color:#ae81ff">0</span><span style="color:#f92672">..</span><span style="color:#ae81ff">8</span>, {<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>}, <span style="color:#66d9ef">fn</span> offset, {int, size} <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>      &lt;&lt;high_bit<span style="color:#f92672">::</span><span style="color:#ae81ff">1</span>, new_int<span style="color:#f92672">::</span><span style="color:#ae81ff">7</span>&gt;&gt; <span style="color:#f92672">=</span> binary_part(bytes, start <span style="color:#f92672">+</span> offset, <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">cond</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        size <span style="color:#f92672">==</span> <span style="color:#ae81ff">8</span> <span style="color:#f92672">-&gt;</span> {<span style="color:#e6db74">:halt</span>, {<span style="color:#a6e22e">Bitwise</span><span style="color:#f92672">.</span>bsl(int, <span style="color:#ae81ff">8</span>) <span style="color:#f92672">+</span> new_int, size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>}}
+</span></span><span style="display:flex;"><span>        high_bit <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">-&gt;</span> {<span style="color:#e6db74">:halt</span>, {<span style="color:#a6e22e">Bitwise</span><span style="color:#f92672">.</span>bsl(int, <span style="color:#ae81ff">7</span>) <span style="color:#f92672">+</span> new_int, size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>}}
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">true</span> <span style="color:#f92672">-&gt;</span> {<span style="color:#e6db74">:cont</span>, {<span style="color:#a6e22e">Bitwise</span><span style="color:#f92672">.</span>bsl(int, <span style="color:#ae81ff">7</span>) <span style="color:#f92672">+</span> new_int, size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>}}
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  parse_cells <span style="color:#f92672">=</span> <span style="color:#66d9ef">fn</span> bytes, page <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    cell_start <span style="color:#f92672">=</span> page<span style="color:#f92672">.</span>start <span style="color:#f92672">+</span> <span style="color:#66d9ef">if</span> is_nil(page<span style="color:#f92672">.</span>right_most_pointer), <span style="color:#e6db74">do</span>: <span style="color:#ae81ff">8</span>, <span style="color:#e6db74">else</span>: <span style="color:#ae81ff">12</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    cells <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">0</span><span style="color:#f92672">..</span>(page<span style="color:#f92672">.</span>cell_count <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)<span style="color:#f92672">//</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>map(<span style="color:#66d9ef">fn</span> i <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        &lt;&lt;content_start<span style="color:#f92672">::</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>&gt;&gt; <span style="color:#f92672">=</span> binary_part(bytes, i <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> cell_start, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        content_start
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>map(<span style="color:#66d9ef">fn</span> content_start <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> page<span style="color:#f92672">.</span>type <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">:interior_index</span> <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>            &lt;&lt;left_child_pointer<span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>&gt;&gt; <span style="color:#f92672">=</span> binary_part(bytes, content_start, <span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>            {payload_bytes, p_size} <span style="color:#f92672">=</span> parse_varint<span style="color:#f92672">.</span>(bytes, content_start <span style="color:#f92672">+</span> <span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>              left_child_pointer,
+</span></span><span style="display:flex;"><span>              binary_part(bytes, content_start <span style="color:#f92672">+</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">+</span> p_size, payload_bytes)
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">:interior_table</span> <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>            &lt;&lt;left_child_pointer<span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>&gt;&gt; <span style="color:#f92672">=</span> binary_part(bytes, content_start, <span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>            {integer_key, _size} <span style="color:#f92672">=</span> parse_varint<span style="color:#f92672">.</span>(bytes, content_start <span style="color:#f92672">+</span> <span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>            {left_child_pointer, integer_key}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">:leaf_index</span> <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>            {payload_bytes, p_size} <span style="color:#f92672">=</span> parse_varint<span style="color:#f92672">.</span>(bytes, content_start)
+</span></span><span style="display:flex;"><span>            binary_part(bytes, content_start <span style="color:#f92672">+</span> p_size, payload_bytes)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">:leaf_table</span> <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>            {payload_bytes, p_size} <span style="color:#f92672">=</span> parse_varint<span style="color:#f92672">.</span>(bytes, content_start)
+</span></span><span style="display:flex;"><span>            {rowid, i_size} <span style="color:#f92672">=</span> parse_varint<span style="color:#f92672">.</span>(bytes, content_start <span style="color:#f92672">+</span> p_size)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>              rowid,
+</span></span><span style="display:flex;"><span>              binary_part(bytes, content_start <span style="color:#f92672">+</span> p_size <span style="color:#f92672">+</span> i_size, payload_bytes)
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Map</span><span style="color:#f92672">.</span>put(page, <span style="color:#e6db74">:cells</span>, cells)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  read_page <span style="color:#f92672">=</span> <span style="color:#66d9ef">fn</span> %{<span style="color:#e6db74">page_count</span>: last_page} <span style="color:#f92672">=</span> db, i <span style="color:#f92672">when</span> i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">&lt;=</span> last_page <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">:file</span><span style="color:#f92672">.</span>position(db<span style="color:#f92672">.</span>file, (i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> db<span style="color:#f92672">.</span>page_size)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    bytes <span style="color:#f92672">=</span> <span style="color:#a6e22e">IO</span><span style="color:#f92672">.</span>binread(db<span style="color:#f92672">.</span>file, db<span style="color:#f92672">.</span>page_size)
+</span></span><span style="display:flex;"><span>    page <span style="color:#f92672">=</span> parse_page<span style="color:#f92672">.</span>(bytes, i)
+</span></span><span style="display:flex;"><span>    parse_cells<span style="color:#f92672">.</span>(bytes, page)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  open_db<span style="color:#f92672">.</span>(db_path, <span style="color:#66d9ef">fn</span> db <span style="color:#f92672">-&gt;</span> read_page<span style="color:#f92672">.</span>(db, <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">end</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+%{
+  index: 1,
+  start: 100,
+  type: :leaf_table,
+  cell_count: 2,
+  right_most_pointer: nil,
+  cells: [
+    {1,
+     &lt;&lt;7, 23, 25, 25, 1, 129, 119, 116, 97, 98, 108, 101, 112, 101, 111, 112,
+       108, 101, 112, 101, 111, 112, 108, 101, 2, 67, 82, 69, 65, 84, 69, 32,
+       84, 65, 66, 76, 69, 32, 112, 101, 111, ...&gt;&gt;},
+    {2,
+     &lt;&lt;6, 23, 37, 25, 1, 111, 105, 110, 100, 101, 120, 112, 101, 114, 115, 111,
+       110, 95, 101, 109, 97, 105, 108, 112, 101, 111, 112, 108, 101, 3, 67, 82,
+       69, 65, 84, 69, 32, 85, 78, 73, ...&gt;&gt;}
+  ]
+}
+</pre>
+<p>
+That&#39;s a lot of code, so let&#39;s break it down.  Again, for now, just think of the code that parses varints as a magical number reader.  Inside the cell parsing code, we first check if this is a kind of page that would include a <code>right_most_pointer</code>.  When that&#39;s present, it pushes the start of the cells a little further into the page.</p>
+<p>
+Immediately after that check is where the action is.  That first call to <code>Enum.map/2</code> is what reads all the cell pointers, converting them into simple integers that show where the content for that cell starts.  The following call to <code>Enum.map/2</code> is what actually reads those contents.  Unfortunately, cell contents are slightly different for <a href="https://www.sqlite.org/fileformat2.html#b_tree_pages">the four different types of pages</a> in our database.  That&#39;s why this section branches on the page type and uses four different techniques.</p>
+<p>
+This code redefines <code>read_page/2</code> to add in cell parsing whenever we fetch one.</p>
+<p>
+We will talk about what those cells actually hold in a moment, but you can already see from the output that we have managed to extract some kind of structured data pairs of numbered binary blobs.  Onward to deblobification!</p>
+<div id="outline-container-headline-5" class="outline-3">
+<h3 id="headline-5">
+Integers of Varying Sizes
+</h3>
+<div id="outline-text-headline-5" class="outline-text-3">
+<p>
+Many things in binary formats involve telling you what you are about to read, and potentially the size of it, then giving you the thing to read.  The way to tell you what to read is to put some magic number in front of it.  That number can probably be pretty small.  If there are less than 256 things you could need to read, one byte will do.  Of course, let&#39;s say you are told to read some arbitrarily long text that the user typed in.  Now we need another number to tell you how long the text is.  How large does that size indicator need to be?  Well, it would have to be large enough to encode the maximally large text that a user could enter.  But if we throw these large numbers around everywhere and users only enter ten digits at a time, we&#39;re wasting some serious space.</p>
+<p>
+<a href="https://www.sqlite.org/fileformat2.html#varint">Varints</a> are the cure for this disease.  They are a way to encode an integer of varying lengths.  If you only need a small number, they take up one byte.  They scale all the way up to nine bytes for the largest values that SQLite supports.  To read one, you keep going until you read a byte where the highest-order bit is a <code>0</code> or you reach the ninth byte.  That sounds more complex than it is.  Here are all of the possible combinations:</p>
+<pre class="example">
+0bbbbbbb
+1bbbbbbb 0bbbbbbb
+1bbbbbbb 1bbbbbbb 0bbbbbbb
+1bbbbbbb 1bbbbbbb 1bbbbbbb 0bbbbbbb
+1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 0bbbbbbb
+1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 0bbbbbbb
+1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 0bbbbbbb
+1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 0bbbbbbb
+1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb 1bbbbbbb bbbbbbbb
+</pre>
+<p>
+The <code>1</code> or <code>0</code> at the beginning of each byte tells you whether to keep reading or stop respectively.  You don&#39;t need it for the bottom case because you always stop if you read nine bytes.  The <code>b</code> bits are what you actually combine to form the numbers.</p>
+<p>
+This system makes it easy for SQLite to encode values using only the number of bytes needed, without a lot of extra padding.  And why does that matter?  Records, my good friend.  Records.</p>
+</div>
+</div>
+<div id="outline-container-headline-6" class="outline-3">
+<h3 id="headline-6">
+Building a Record Player
+</h3>
+<div id="outline-text-headline-6" class="outline-text-3">
+<p>
+Databases are made up of pages, organized into B-trees.  Pages are made up of cells.  Cells are made up of <em>records</em>.  Are we having fun yet?</p>
+<p>
+That binary blob we saw when we parsed out the cell values is a <a href="https://www.sqlite.org/fileformat2.html#record_format">record</a>.  A record is a header indicating the types and sizes of all the fields that follow, immediately followed by the contents of those fields.  As the table at the link shows, a type <code>1</code> means you are reading a single byte integer for that field while a <code>6</code> is an eight byte integer.  Odd values above <code>13</code> are a way to indicate textual content and a size with one number.  Be sure to look at the table.  It&#39;s clever!</p>
+<p>
+The following code is an Elixirification of that table:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  parse_record <span style="color:#f92672">=</span> <span style="color:#66d9ef">fn</span> bytes <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    {header_bytes, h_size} <span style="color:#f92672">=</span> parse_varint<span style="color:#f92672">.</span>(bytes, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    h_size
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>unfold(<span style="color:#66d9ef">fn</span> read_bytes <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> read_bytes <span style="color:#f92672">&lt;</span> header_bytes <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>        {column, c_size} <span style="color:#f92672">=</span> parse_varint<span style="color:#f92672">.</span>(bytes, read_bytes)
+</span></span><span style="display:flex;"><span>        {column, read_bytes <span style="color:#f92672">+</span> c_size}
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>to_list()
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>map_reduce(header_bytes, <span style="color:#66d9ef">fn</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">0</span>, read_bytes <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        {<span style="color:#66d9ef">nil</span>, read_bytes}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">1</span>, read_bytes <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        &lt;&lt;int<span style="color:#f92672">::</span><span style="color:#ae81ff">1</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>&gt;&gt; <span style="color:#f92672">=</span> binary_part(bytes, read_bytes, <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        {int, read_bytes <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">2</span>, read_bytes <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        &lt;&lt;int<span style="color:#f92672">::</span><span style="color:#ae81ff">2</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>&gt;&gt; <span style="color:#f92672">=</span> binary_part(bytes, read_bytes, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        {int, read_bytes <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">3</span>, read_bytes <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        &lt;&lt;int<span style="color:#f92672">::</span><span style="color:#ae81ff">3</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>&gt;&gt; <span style="color:#f92672">=</span> binary_part(bytes, read_bytes, <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>        {int, read_bytes <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">4</span>, read_bytes <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        &lt;&lt;int<span style="color:#f92672">::</span><span style="color:#ae81ff">4</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>&gt;&gt; <span style="color:#f92672">=</span> binary_part(bytes, read_bytes, <span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>        {int, read_bytes <span style="color:#f92672">+</span> <span style="color:#ae81ff">4</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">5</span>, read_bytes <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        &lt;&lt;int<span style="color:#f92672">::</span><span style="color:#ae81ff">6</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>&gt;&gt; <span style="color:#f92672">=</span> binary_part(bytes, read_bytes, <span style="color:#ae81ff">6</span>)
+</span></span><span style="display:flex;"><span>        {int, read_bytes <span style="color:#f92672">+</span> <span style="color:#ae81ff">6</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">6</span>, read_bytes <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        &lt;&lt;int<span style="color:#f92672">::</span><span style="color:#ae81ff">8</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>&gt;&gt; <span style="color:#f92672">=</span> binary_part(bytes, read_bytes, <span style="color:#ae81ff">8</span>)
+</span></span><span style="display:flex;"><span>        {int, read_bytes <span style="color:#f92672">+</span> <span style="color:#ae81ff">8</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">7</span>, read_bytes <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        &lt;&lt;flt<span style="color:#f92672">::</span><span style="color:#ae81ff">8</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span>&gt;&gt; <span style="color:#f92672">=</span> binary_part(bytes, read_bytes, <span style="color:#ae81ff">8</span>)
+</span></span><span style="display:flex;"><span>        {flt, read_bytes <span style="color:#f92672">+</span> <span style="color:#ae81ff">8</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">8</span>, read_bytes <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        {<span style="color:#ae81ff">0</span>, read_bytes}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">9</span>, read_bytes <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        {<span style="color:#ae81ff">1</span>, read_bytes}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      n, read_bytes <span style="color:#f92672">when</span> n <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">12</span> <span style="color:#f92672">and</span> rem(n, <span style="color:#ae81ff">2</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        size <span style="color:#f92672">=</span> div(n <span style="color:#f92672">-</span> <span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        text <span style="color:#f92672">=</span> binary_part(bytes, read_bytes, size)
+</span></span><span style="display:flex;"><span>        {text, read_bytes <span style="color:#f92672">+</span> size}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      n, read_bytes <span style="color:#f92672">when</span> n <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">13</span> <span style="color:#f92672">and</span> rem(n, <span style="color:#ae81ff">2</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        size <span style="color:#f92672">=</span> div(n <span style="color:#f92672">-</span> <span style="color:#ae81ff">13</span>, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        text <span style="color:#f92672">=</span> binary_part(bytes, read_bytes, size)
+</span></span><span style="display:flex;"><span>        {text, read_bytes <span style="color:#f92672">+</span> size}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> elem(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  read_page <span style="color:#f92672">=</span> <span style="color:#66d9ef">fn</span> %{<span style="color:#e6db74">page_count</span>: last_page} <span style="color:#f92672">=</span> db, i <span style="color:#f92672">when</span> i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> i <span style="color:#f92672">&lt;=</span> last_page <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">:file</span><span style="color:#f92672">.</span>position(db<span style="color:#f92672">.</span>file, (i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> db<span style="color:#f92672">.</span>page_size)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    bytes <span style="color:#f92672">=</span> <span style="color:#a6e22e">IO</span><span style="color:#f92672">.</span>binread(db<span style="color:#f92672">.</span>file, db<span style="color:#f92672">.</span>page_size)
+</span></span><span style="display:flex;"><span>    page <span style="color:#f92672">=</span> parse_page<span style="color:#f92672">.</span>(bytes, i)
+</span></span><span style="display:flex;"><span>    page <span style="color:#f92672">=</span> parse_cells<span style="color:#f92672">.</span>(bytes, page)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Map</span><span style="color:#f92672">.</span>update!(page, <span style="color:#e6db74">:cells</span>, <span style="color:#66d9ef">fn</span> cells <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>map(cells, <span style="color:#66d9ef">fn</span>
+</span></span><span style="display:flex;"><span>        bytes <span style="color:#f92672">when</span> is_binary(bytes) <span style="color:#f92672">-&gt;</span> parse_record<span style="color:#f92672">.</span>(bytes)
+</span></span><span style="display:flex;"><span>        {other, bytes} <span style="color:#f92672">when</span> is_binary(bytes) <span style="color:#f92672">-&gt;</span> {other, parse_record<span style="color:#f92672">.</span>(bytes)}
+</span></span><span style="display:flex;"><span>        cell <span style="color:#f92672">-&gt;</span> cell
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  open_db<span style="color:#f92672">.</span>(db_path, <span style="color:#66d9ef">fn</span> db <span style="color:#f92672">-&gt;</span> read_page<span style="color:#f92672">.</span>(db, <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">end</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+%{
+  index: 1,
+  start: 100,
+  type: :leaf_table,
+  cell_count: 2,
+  right_most_pointer: nil,
+  cells: [
+    {1,
+     [&#34;table&#34;, &#34;people&#34;, &#34;people&#34;, 2,
+      &#34;CREATE TABLE people (\n  id INTEGER PRIMARY KEY,\n  name TEXT NOT NULL,\n  age INTEGER NOT NULL,\n  email TEXT NOT NULL\n)&#34;]},
+    {2,
+     [&#34;index&#34;, &#34;person_email&#34;, &#34;people&#34;, 3,
+      &#34;CREATE UNIQUE INDEX person_email ON people(email)&#34;]}
+  ]
+}
+</pre>
+<p>
+The function heads inside of the <code>Enum.map_reduce/3</code> call line up perfectly with the table from the documentation.  This code also redefines <code>read_page/2</code> yet again to add in the new cell decoding functionality.</p>
+<p>
+As you can see from the output, cell blob content has turned into meaningful data.  Page one of a SQLite database is another B-tree.  It just so happens that ours is small enough for the whole thing to fit on one page without any redirecting pages needed.  That initial B-tree points to <a href="https://www.sqlite.org/fileformat2.html#storage_of_the_sql_database_schema">a SQL table</a> describing all of the SQL objects encoded in this database file.  It includes the page each item starts on among other details.  This finally shows how I knew that our table began on page two and our index was on page three.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-headline-7" class="outline-2">
+<h2 id="headline-7">
+Lookup Tables
+</h2>
+<div id="outline-text-headline-7" class="outline-text-2">
+<p>
+Now that we understand the first page, let&#39;s look at a SQL table that spans multiple pages:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  open_db<span style="color:#f92672">.</span>(db_path, <span style="color:#66d9ef">fn</span> db <span style="color:#f92672">-&gt;</span> read_page<span style="color:#f92672">.</span>(db, <span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">end</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+%{
+  index: 2,
+  start: 0,
+  type: :interior_table,
+  cell_count: 1,
+  right_most_pointer: 5,
+  cells: [{4, 79}]
+}
+</pre>
+<p>
+We know from earlier diagrams in this post that the content of our database table begins on page two and continues on pages four and five.  If you look closely at the data structure above for page two, you will see that it does point to <code>4</code> and <code>5</code>.</p>
+<p>
+Cells of interior pages, the pages that lead to other pages, are pairs of page numbers (called a <em>left child pointer</em>) and keys.  For the table above, there is only one cell and it contains the page number <code>4</code> paired with the key <code>79</code>.  These pairs form a conceptual mapping where the page number preceding each key is the page where you will find all records with a <a href="https://www.sqlite.org/lang_createtable.html#rowid">rowid</a>, an autoincrementing integer key, less than or equal to that key.  When none of those cells contains the key you are looking for, you follow the <code>right_most_pointer</code> to the last page in the list.  Here&#39;s a diagram of how the lookup cells relate to each other:</p>
+<p>
+<img src="http://localhost:1313/images/scrappy_parsing_interiors.png" alt="/images/scrappy_parsing_interiors.png" title="/images/scrappy_parsing_interiors.png" /></p>
+<p>
+Indexes have a very similar structure for their pages that point to other pages.  Let&#39;s look at our index to see this:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  open_db<span style="color:#f92672">.</span>(db_path, <span style="color:#66d9ef">fn</span> db <span style="color:#f92672">-&gt;</span> read_page<span style="color:#f92672">.</span>(db, <span style="color:#ae81ff">3</span>) <span style="color:#66d9ef">end</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+%{
+  index: 3,
+  start: 0,
+  type: :interior_index,
+  cell_count: 1,
+  right_most_pointer: 7,
+  cells: [{6, [&#34;micah_beahan@douglas.biz&#34;, 18]}]
+}
+</pre>
+<p>
+The above is still a pair of page number and &#34;key.&#34;  However, the key is a little more complex.  It now contains all of the fields we are indexing on (just <code>email</code> in our case) followed by the rowid of the matching record in the actual table.</p>
+<p>
+This is used in pretty much the same way.  Emails less than (speaking in a manner of textual sorting) would be on the page number on the left, while greater emails would be on the <code>right_most_pointer</code> page.  In indexes, the record that exactly matches the key would not appear on a deeper page, because finding it during a lookup means you already know what you need to know:  the rowid to lookup in the actual table.</p>
+<p>
+The rest of the index is pretty unsurprising.  It just contains that email and rowid pairs.  Here&#39;s a look at one of those pages:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  open_db<span style="color:#f92672">.</span>(db_path, <span style="color:#66d9ef">fn</span> db <span style="color:#f92672">-&gt;</span> read_page<span style="color:#f92672">.</span>(db, <span style="color:#ae81ff">6</span>) <span style="color:#66d9ef">end</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+%{
+  index: 6,
+  start: 0,
+  type: :leaf_index,
+  cell_count: 81,
+  right_most_pointer: nil,
+  cells: [
+    [&#34;ada_bauch@bechtelar.name&#34;, 144],
+    [&#34;albin_weber@wyman.com&#34;, 113],
+    [&#34;alexandra_morissette@mayer.info&#34;, 48],
+    [&#34;alfonzo_gusikowski@osinski.org&#34;, 133],
+    [&#34;ali_ortiz@fahey.info&#34;, 97],
+    [&#34;anibal_hudson@streich.biz&#34;, 136],
+    [&#34;ansel_kulas@leffler.biz&#34;, 150],
+    [&#34;ara_glover@zboncak.com&#34;, 62],
+    [&#34;arnoldo_hodkiewicz@thiel.info&#34;, 86],
+    [&#34;ashleigh_dietrich@okon.biz&#34;, 74],
+    [&#34;autumn_halvorson@conroy.biz&#34;, 106],
+    [&#34;barney_walker@dooley.com&#34;, 63],
+    [&#34;beth_fay@stiedemann.biz&#34;, 57],
+    [&#34;bette_gottlieb@harber.info&#34;, 129],
+    [&#34;blaise_sporer@bins.info&#34;, 56],
+    [&#34;blake_kulas@wiza.org&#34;, 126],
+    [&#34;bradford_schowalter@okeefe.biz&#34;, 100],
+    [&#34;breana_bergnaum@von.com&#34;, 107],
+    [&#34;cesar_schmidt@fahey.org&#34;, 75],
+    [&#34;chelsey_waters@stanton.net&#34;, 82],
+    [&#34;colten_kub_dds@nolan.info&#34;, 27],
+    [&#34;dakota_d_amore@heidenreich.biz&#34;, 120],
+    [&#34;dale_gorczany@jerde.com&#34;, 72],
+    [&#34;daphney_carroll@jast.name&#34;, 80],
+    [&#34;daren_keeling@collins.name&#34;, 7],
+    [&#34;dario_brown@dibbert.net&#34;, 36],
+    [&#34;darryl_dicki@sawayn.net&#34;, 142],
+    [&#34;dayne_goodwin@gusikowski.net&#34;, 134],
+    [&#34;deshaun_gutkowski@sipes.biz&#34;, 13],
+    [&#34;donna_wuckert@mills.name&#34;, 31],
+    [&#34;dr_lee_bruen_ii@bogisich.net&#34;, 22],
+    [&#34;dr_taylor_frami@roberts.biz&#34;, 71],
+    [&#34;dr_vidal_cartwright_i@cummerata.net&#34;, 127],
+    [&#34;ed_goyette@wuckert.net&#34;, 76],
+    [&#34;edward_cummerata@lockman.biz&#34;, 9],
+    [&#34;edyth_medhurst@hauck.net&#34;, 146],
+    [&#34;elouise_borer@ruecker.biz&#34;, 44],
+    [&#34;erick_strosin@schneider.info&#34;, 95],
+    [&#34;esteban_stracke@batz.biz&#34;, 110],
+    [&#34;etha_mohr@kerluke.net&#34;, 102],
+    [&#34;frances_grant_ii@vandervort.name&#34;, 24],
+    [&#34;gage_schaefer@waters.name&#34;, 105],
+    [&#34;gardner_fritsch_dvm@nicolas.info&#34;, ...],
+    [...],
+    ...
+  ]
+}
+</pre>
+</div>
+</div>
+<div id="outline-container-headline-8" class="outline-2">
+<h2 id="headline-8">
+Query Time
+</h2>
+<div id="outline-text-headline-8" class="outline-text-2">
+<p>
+We now understand all of the abstractions needed to make sense of this database.  Let&#39;s reproduce the five queries at the beginning of this article using Elixir.  The first thing that we need is a function that can walk through an entire B-tree yielding the contents as they are passed:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  stream_table <span style="color:#f92672">=</span> <span style="color:#66d9ef">fn</span> db, root_page <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>resource(
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">fn</span> <span style="color:#f92672">-&gt;</span> [{read_page<span style="color:#f92672">.</span>(db, root_page), <span style="color:#ae81ff">0</span>}] <span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">fn</span>
+</span></span><span style="display:flex;"><span>        [] <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>          {<span style="color:#e6db74">:halt</span>, []}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        [{%{<span style="color:#e6db74">type</span>: <span style="color:#e6db74">:leaf_table</span>} <span style="color:#f92672">=</span> page, <span style="color:#ae81ff">0</span>} <span style="color:#f92672">|</span> rest] <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>          {page<span style="color:#f92672">.</span>cells, rest}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        [{%{<span style="color:#e6db74">cell_count</span>: cell_count} <span style="color:#f92672">=</span> page, cell_count} <span style="color:#f92672">|</span> rest] <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>          {[], [{read_page<span style="color:#f92672">.</span>(db, page<span style="color:#f92672">.</span>right_most_pointer), <span style="color:#ae81ff">0</span>} <span style="color:#f92672">|</span> rest]}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        [{page, i} <span style="color:#f92672">|</span> rest] <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>          {next_page, _rowid} <span style="color:#f92672">=</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>at(page<span style="color:#f92672">.</span>cells, i)
+</span></span><span style="display:flex;"><span>          {[], [{read_page<span style="color:#f92672">.</span>(db, next_page), <span style="color:#ae81ff">0</span>}, {page, i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>} <span style="color:#f92672">|</span> rest]}
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">fn</span> _stack <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">:noop</span> <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  open_db<span style="color:#f92672">.</span>(db_path, <span style="color:#66d9ef">fn</span> db <span style="color:#f92672">-&gt;</span> db <span style="color:#f92672">|&gt;</span> stream_table<span style="color:#f92672">.</span>(<span style="color:#ae81ff">1</span>) <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>to_list() <span style="color:#66d9ef">end</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+[
+  {1,
+   [&#34;table&#34;, &#34;people&#34;, &#34;people&#34;, 2,
+    &#34;CREATE TABLE people (\n  id INTEGER PRIMARY KEY,\n  name TEXT NOT NULL,\n  age INTEGER NOT NULL,\n  email TEXT NOT NULL\n)&#34;]},
+  {2,
+   [&#34;index&#34;, &#34;person_email&#34;, &#34;people&#34;, 3,
+    &#34;CREATE UNIQUE INDEX person_email ON people(email)&#34;]}
+]
+</pre>
+<p>
+I&#39;ve decided to represent table B-trees as Elixir Streams.  This allows us to use the full suite of iterators to dig through them as needed.</p>
+<p>
+The second thing we need is a way to link field definitions with the values we find in the tables.  SQLite handles this by giving you the SQL used to create the table in the database schema listing.  Let&#39;s add some code to parse those out when the database is opened:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  parse_schema <span style="color:#f92672">=</span> <span style="color:#66d9ef">fn</span> db <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    sqlite_schema <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">type</span>: <span style="color:#e6db74">&#34;TEXT&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">name</span>: <span style="color:#e6db74">&#34;TEXT&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">tbl_name</span>: <span style="color:#e6db74">&#34;TEXT&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">rootpage</span>: <span style="color:#e6db74">&#34;INTEGER&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">sql</span>: <span style="color:#e6db74">&#34;TEXT&#34;</span>
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    schema <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>      db
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> stream_table<span style="color:#f92672">.</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>into(%{<span style="color:#e6db74">&#34;sqlite_schema&#34;</span> <span style="color:#f92672">=&gt;</span> {<span style="color:#ae81ff">1</span>, sqlite_schema}}, <span style="color:#66d9ef">fn</span> {_rowid, values} <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        row <span style="color:#f92672">=</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>zip(<span style="color:#a6e22e">Keyword</span><span style="color:#f92672">.</span>keys(sqlite_schema), values)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        fields <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">Keyword</span><span style="color:#f92672">.</span>fetch!(row, <span style="color:#e6db74">:type</span>) <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;table&#34;</span> <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">~r{(\w+)</span><span style="color:#ae81ff">\s</span><span style="color:#e6db74">+([^,\(\)]+?)</span><span style="color:#ae81ff">\s</span><span style="color:#e6db74">*[,\)]}</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Regex</span><span style="color:#f92672">.</span>scan(<span style="color:#a6e22e">Keyword</span><span style="color:#f92672">.</span>fetch!(row, <span style="color:#e6db74">:sql</span>))
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>map(<span style="color:#66d9ef">fn</span> [_match, name, definition] <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>                {<span style="color:#a6e22e">String</span><span style="color:#f92672">.</span>to_atom(name), definition}
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;index&#34;</span> <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">~r{(\w+)</span><span style="color:#ae81ff">\s</span><span style="color:#e6db74">*[,\)]}</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Regex</span><span style="color:#f92672">.</span>scan(<span style="color:#a6e22e">Keyword</span><span style="color:#f92672">.</span>fetch!(row, <span style="color:#e6db74">:sql</span>))
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>map(<span style="color:#66d9ef">fn</span> [_match, name] <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">String</span><span style="color:#f92672">.</span>to_atom(name) <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            _other <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>              []
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        key <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">Keyword</span><span style="color:#f92672">.</span>fetch!(row, <span style="color:#e6db74">:type</span>) <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;table&#34;</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">Keyword</span><span style="color:#f92672">.</span>fetch!(row, <span style="color:#e6db74">:name</span>)
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">#{</span><span style="color:#a6e22e">Keyword</span><span style="color:#f92672">.</span>fetch!(row, <span style="color:#e6db74">:tbl_name</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">#{</span><span style="color:#a6e22e">Keyword</span><span style="color:#f92672">.</span>fetch!(row, <span style="color:#e6db74">:name</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        {key, {<span style="color:#a6e22e">Keyword</span><span style="color:#f92672">.</span>fetch!(row, <span style="color:#e6db74">:rootpage</span>), fields}}
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Map</span><span style="color:#f92672">.</span>put(db, <span style="color:#e6db74">:schema</span>, schema)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  open_db <span style="color:#f92672">=</span> <span style="color:#66d9ef">fn</span> path, func <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">File</span><span style="color:#f92672">.</span>open!(path, [<span style="color:#e6db74">:read</span>, <span style="color:#e6db74">:binary</span>], <span style="color:#66d9ef">fn</span> f <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>      db <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>        f
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">IO</span><span style="color:#f92672">.</span>binread(<span style="color:#ae81ff">100</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">|&gt;</span> parse_header<span style="color:#f92672">.</span>(f)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      db
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> parse_schema<span style="color:#f92672">.</span>()
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> func<span style="color:#f92672">.</span>()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  open_db<span style="color:#f92672">.</span>(db_path, <span style="color:#66d9ef">fn</span> db <span style="color:#f92672">-&gt;</span> db <span style="color:#66d9ef">end</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+%{
+  file: #PID&lt;0.192.0&gt;,
+  page_count: 7,
+  page_size: 4096,
+  schema: %{
+    &#34;people&#34; =&gt; {2,
+     [
+       id: &#34;INTEGER PRIMARY KEY&#34;,
+       name: &#34;TEXT NOT NULL&#34;,
+       age: &#34;INTEGER NOT NULL&#34;,
+       email: &#34;TEXT NOT NULL&#34;
+     ]},
+    &#34;people:person_email&#34; =&gt; {3, [:email]},
+    &#34;sqlite_schema&#34; =&gt; {1,
+     [
+       type: &#34;TEXT&#34;,
+       name: &#34;TEXT&#34;,
+       tbl_name: &#34;TEXT&#34;,
+       rootpage: &#34;INTEGER&#34;,
+       sql: &#34;TEXT&#34;
+     ]}
+  }
+}
+</pre>
+<p>
+Don&#39;t loose a lot of sleep over this crude parsing code.  I used regular expressions to pull out the values we need to care about for these examples.  Obviously, SQLite has a SQL parser that it can leverage to understand these definitions.  That&#39;s outside the scope of what we are trying to do here.</p>
+<p>
+The above code redefines <code>open_db/2</code> to always perform this schema parsing and add the yielded field definitions along with the root page numbers to the database data structure.  We can combine those definitions with the table records to produce a full table scan:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  build_table_row <span style="color:#f92672">=</span> <span style="color:#66d9ef">fn</span> fields, {rowid, values} <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>zip_with(fields, values, <span style="color:#66d9ef">fn</span> {name, definition}, v <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>      v <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> is_nil(v) <span style="color:#f92672">and</span> definition <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;INTEGER PRIMARY KEY&#34;</span> <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>          rowid
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>          v
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      {name, v}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  scan_table <span style="color:#f92672">=</span> <span style="color:#66d9ef">fn</span> db, table_name <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    {root_page, fields} <span style="color:#f92672">=</span> <span style="color:#a6e22e">Map</span><span style="color:#f92672">.</span>fetch!(db<span style="color:#f92672">.</span>schema, table_name)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    db
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> stream_table<span style="color:#f92672">.</span>(root_page)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>map(<span style="color:#66d9ef">fn</span> id_and_values <span style="color:#f92672">-&gt;</span> build_table_row<span style="color:#f92672">.</span>(fields, id_and_values) <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  open_db<span style="color:#f92672">.</span>(db_path, <span style="color:#66d9ef">fn</span> db <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    db
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> scan_table<span style="color:#f92672">.</span>(<span style="color:#e6db74">&#34;people&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>take(<span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+[
+  [id: 1, name: &#34;Margret Ebert&#34;, age: 39, email: &#34;margret_ebert@bahringer.net&#34;],
+  [id: 2, name: &#34;Thad Pouros&#34;, age: 74, email: &#34;thad_pouros@rodriguez.com&#34;],
+  [id: 3, name: &#34;Susana Torp&#34;, age: 50, email: &#34;susana_torp@ebert.biz&#34;],
+  [
+    id: 4,
+    name: &#34;Mr. Michele Stroman&#34;,
+    age: 84,
+    email: &#34;mr_michele_stroman@white.name&#34;
+  ],
+  [id: 5, name: &#34;Kenna Okuneva&#34;, age: 49, email: &#34;kenna_okuneva@koch.biz&#34;],
+  [id: 6, name: &#34;Irwin Kohler&#34;, age: 61, email: &#34;irwin_kohler@ledner.com&#34;],
+  [id: 7, name: &#34;Daren Keeling&#34;, age: 89, email: &#34;daren_keeling@collins.name&#34;],
+  [id: 8, name: &#34;Viola Beer V&#34;, age: 73, email: &#34;viola_beer_v@bayer.org&#34;],
+  [
+    id: 9,
+    name: &#34;Edward Cummerata&#34;,
+    age: 47,
+    email: &#34;edward_cummerata@lockman.biz&#34;
+  ],
+  [
+    id: 10,
+    name: &#34;Nathan Halvorson&#34;,
+    age: 98,
+    email: &#34;nathan_halvorson@kuhlman.biz&#34;
+  ]
+]
+</pre>
+<p>
+This is the first query we ran back at the beginning of this article.  It&#39;s worth noting that, now that we have all the needed abstractions, the final call is essentially <code>Enum.take(table, 10)</code>.  Scanning for specific ages isn&#39;t much harder:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  open_db<span style="color:#f92672">.</span>(db_path, <span style="color:#66d9ef">fn</span> db <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    db
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> scan_table<span style="color:#f92672">.</span>(<span style="color:#e6db74">&#34;people&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>filter(<span style="color:#66d9ef">fn</span> row <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">Keyword</span><span style="color:#f92672">.</span>fetch!(row, <span style="color:#e6db74">:age</span>) <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">97</span> <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+[
+  [
+    id: 10,
+    name: &#34;Nathan Halvorson&#34;,
+    age: 98,
+    email: &#34;nathan_halvorson@kuhlman.biz&#34;
+  ],
+  [id: 27, name: &#34;Colten Kub DDS&#34;, age: 98, email: &#34;colten_kub_dds@nolan.info&#34;],
+  [id: 45, name: &#34;Randy Grimes&#34;, age: 100, email: &#34;randy_grimes@grant.com&#34;],
+  [
+    id: 46,
+    name: &#34;Mrs. Madisen Bashirian DVM&#34;,
+    age: 100,
+    email: &#34;mrs_madisen_bashirian_dvm@prosacco.name&#34;
+  ],
+  [id: 59, name: &#34;Paula Larkin&#34;, age: 99, email: &#34;paula_larkin@abshire.com&#34;],
+  [id: 63, name: &#34;Barney Walker&#34;, age: 98, email: &#34;barney_walker@dooley.com&#34;],
+  [
+    id: 80,
+    name: &#34;Daphney Carroll&#34;,
+    age: 100,
+    email: &#34;daphney_carroll@jast.name&#34;
+  ],
+  [
+    id: 94,
+    name: &#34;Rickey Balistreri DVM&#34;,
+    age: 97,
+    email: &#34;rickey_balistreri_dvm@kuvalis.info&#34;
+  ],
+  [
+    id: 100,
+    name: &#34;Bradford Schowalter&#34;,
+    age: 100,
+    email: &#34;bradford_schowalter@okeefe.biz&#34;
+  ]
+]
+</pre>
+</div>
+</div>
+<div id="outline-container-headline-9" class="outline-2">
+<h2 id="headline-9">
+Maximum Warp, Engage
+</h2>
+<div id="outline-text-headline-9" class="outline-text-2">
+<p>
+The three remaining queries are meant to be more efficient than a table scan.  They can skip right to the needed data using primary keys or supporting indexes.  As we&#39;ve seen, the way SQLite tables are stored, they are basically their own index for autoincrementing integer primary keys.  Let&#39;s write the code to walk those B-trees efficiently:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  lookup_by_id <span style="color:#f92672">=</span> <span style="color:#66d9ef">fn</span> db, id <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    {root_page, fields} <span style="color:#f92672">=</span> <span style="color:#a6e22e">Map</span><span style="color:#f92672">.</span>fetch!(db<span style="color:#f92672">.</span>schema, <span style="color:#e6db74">&#34;people&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>iterate(read_page<span style="color:#f92672">.</span>(db, root_page), <span style="color:#66d9ef">fn</span>
+</span></span><span style="display:flex;"><span>      %{<span style="color:#e6db74">type</span>: <span style="color:#e6db74">:leaf_table</span>} <span style="color:#f92672">=</span> page <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        with id_and_values <span style="color:#f92672">when</span> is_tuple(id_and_values) <span style="color:#f92672">&lt;-</span>
+</span></span><span style="display:flex;"><span>               <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>find(page<span style="color:#f92672">.</span>cells, <span style="color:#66d9ef">fn</span> {rowid, _values} <span style="color:#f92672">-&gt;</span> rowid <span style="color:#f92672">==</span> id <span style="color:#66d9ef">end</span>) <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>          build_table_row<span style="color:#f92672">.</span>(fields, id_and_values)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      page <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        next_page <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>          page<span style="color:#f92672">.</span>cells
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>find({page<span style="color:#f92672">.</span>right_most_pointer, <span style="color:#66d9ef">nil</span>}, <span style="color:#66d9ef">fn</span> {_pointer, rowid} <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>            id <span style="color:#f92672">&lt;=</span> rowid
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">|&gt;</span> elem(<span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        read_page<span style="color:#f92672">.</span>(db, next_page)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>find(<span style="color:#66d9ef">fn</span> found <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">not</span> is_map(found) <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  open_db<span style="color:#f92672">.</span>(db_path, <span style="color:#66d9ef">fn</span> db <span style="color:#f92672">-&gt;</span> lookup_by_id<span style="color:#f92672">.</span>(db, <span style="color:#ae81ff">77</span>) <span style="color:#66d9ef">end</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+[
+  id: 77,
+  name: &#34;Samanta Waelchi III&#34;,
+  age: 88,
+  email: &#34;samanta_waelchi_iii@blanda.org&#34;
+]
+</pre>
+<p>
+This code still streams the content, but it&#39;s smarter about how it moves from page to page.  Since we pass in an <code>id</code>, it can check the keys to see which branches of the tree to follow, skipping any pages that won&#39;t lead to what we&#39;re after.  When it reaches a leaf page, it knows the desired value must be on this page (assuming it exists) and a simple <code>Enum.find/2</code> is used to retrieve it.</p>
+<p>
+We know this first lookup was on page <code>4</code>, because the <code>id</code> was less than <code>79</code>.  Let&#39;s do one more lookup to force it to take the other path to page <code>5</code>:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  open_db<span style="color:#f92672">.</span>(db_path, <span style="color:#66d9ef">fn</span> db <span style="color:#f92672">-&gt;</span> lookup_by_id<span style="color:#f92672">.</span>(db, <span style="color:#ae81ff">142</span>) <span style="color:#66d9ef">end</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+[id: 142, name: &#34;Darryl Dicki&#34;, age: 62, email: &#34;darryl_dicki@sawayn.net&#34;]
+</pre>
+<p>
+This final query uses a very similar strategy, but for the email index.  The differences are:</p>
+<ul>
+<li>We are checking emails instead of ID&#39;s</li>
+<li>Exactly matching the key on an interior page ends the search without continuing to a leaf page</li>
+<li>When the email lookup succeeds, we use the resulting ID to perform a table lookup and get the actual record</li>
+</ul>
+<p>Here&#39;s the code:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  lookup_by_email <span style="color:#f92672">=</span> <span style="color:#66d9ef">fn</span> db, email <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    {root_page, _fields} <span style="color:#f92672">=</span> <span style="color:#a6e22e">Map</span><span style="color:#f92672">.</span>fetch!(db<span style="color:#f92672">.</span>schema, <span style="color:#e6db74">&#34;people:person_email&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    key <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>iterate(read_page<span style="color:#f92672">.</span>(db, root_page), <span style="color:#66d9ef">fn</span>
+</span></span><span style="display:flex;"><span>        %{<span style="color:#e6db74">type</span>: <span style="color:#e6db74">:leaf_index</span>} <span style="color:#f92672">=</span> page <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>find(page<span style="color:#f92672">.</span>cells, <span style="color:#66d9ef">fn</span> [e, _rowid] <span style="color:#f92672">-&gt;</span> email <span style="color:#f92672">==</span> e <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        page <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>          match <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>find(
+</span></span><span style="display:flex;"><span>              page<span style="color:#f92672">.</span>cells,
+</span></span><span style="display:flex;"><span>              {page<span style="color:#f92672">.</span>right_most_pointer, <span style="color:#66d9ef">nil</span>},
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">fn</span> {_pointer, [e, _rowid]} <span style="color:#f92672">-&gt;</span> email <span style="color:#f92672">&lt;=</span> e <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">case</span> match <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>            {_pointer, [e, rowid]} <span style="color:#f92672">when</span> email <span style="color:#f92672">==</span> e <span style="color:#f92672">-&gt;</span> [email, rowid]
+</span></span><span style="display:flex;"><span>            {pointer, _key} <span style="color:#f92672">-&gt;</span> read_page<span style="color:#f92672">.</span>(db, pointer)
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>find(<span style="color:#66d9ef">fn</span> found <span style="color:#f92672">-&gt;</span> <span style="color:#f92672">not</span> is_map(found) <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> key <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>      [_email, rowid] <span style="color:#f92672">-&gt;</span> lookup_by_id<span style="color:#f92672">.</span>(db, rowid)
+</span></span><span style="display:flex;"><span>      failed_match <span style="color:#f92672">-&gt;</span> failed_match
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  open_db<span style="color:#f92672">.</span>(db_path, <span style="color:#66d9ef">fn</span> db <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>    lookup_by_email<span style="color:#f92672">.</span>(db, <span style="color:#e6db74">&#34;randy_grimes@grant.com&#34;</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">end</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+[id: 45, name: &#34;Randy Grimes&#34;, age: 100, email: &#34;randy_grimes@grant.com&#34;]
+</pre>
+</div>
+</div>
+<div id="outline-container-headline-10" class="outline-2">
+<h2 id="headline-10">
+Go Forth and Parse Things
+</h2>
+<div id="outline-text-headline-10" class="outline-text-2">
+<p>
+The code above doesn&#39;t handle every possible situation in a SQLite database.  The most notable omission is that it&#39;s possible for large content to overflow a page and end up on subsequent pages.  A real solution needs to identify those cases and follow the leads.</p>
+<p>
+However, we&#39;ve handled a huge chunk of the SQLite file specification, securely and efficiently.  We used some random file access, streaming content, and some seriously powerful binary pattern matching to make sense of a lot of data.  These simple tools are very powerful ways to break down the content we are faced with.</p>
+<p>
+If you enjoyed this post, I compare the parsing strategies used here with other techniques, like lexer and parser generators, in <a href="https://voyagesincode.com/products/the-wild-world-of-parsing">The Wild World of Parsing</a> Livebook from my <a href="https://voyagesincode.com/products/how-to-train-your-scrappy-programmer">How to Train Your Scrappy Programmer</a> series.</p>
+<p>
+Discussion of this article is welcome <a href="https://elixirforum.com/t/blog-post-parse-a-sqlite-database-file-with-elixir/67023">on Elixir Forum</a>.</p>
+</div>
+</div>
+      </div></div>
+
+  
+    
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h">Read other posts</span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+      <a href="http://localhost:1313/posts/jeg2s-questions/" class="button inline prev">
+        &lt; [<span class="button__text">JEG2&#39;s Questions</span>]
+      </a>
+    
+    
+      ::
+    
+    
+      <a href="http://localhost:1313/posts/junior_pairing_scripts/" class="button inline next">
+         [<span class="button__text">Junior Pairing Scripts</span>] &gt;
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="http://localhost:1313/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+#+title: How will we know it works?
+#+author: JEG2
+#+date: <2025-08-04 Mon>
+#+draft: True
+
+This article is part of the series [[https://programmersstone.blog/posts/jeg2s-questions/][JEG2's Questions]].
+
+do achieve product's roadmap, but don't blindly grind through tickets
+
+# more
+
+* The Best Lunch and Learn
+
+[[https://jessitron.com/][Jessica Kerr]]'s [[https://www.youtube.com/watch?v=Lbcyyu8XB_Y][Forget Velocity, Let's Talk Acceleration]] presentation
+
+Sea monsters and "face eating zombies"
+
+Our job isn't..., it's...
+
+* What's in a ticket?
+
+"Turn this button red"
+
+Product knows:  [[https://www.svpg.com/books/inspired-how-to-create-tech-products-customers-love-2nd-edition/][INSPIRED:  How to Create Tech Products Customers Love]] outcomes over features
+
+We've got to learn to work as Product Dev
+
+* How the Magic Happens
+
+Ask the q
+
+How would knowing change what we do?
+
+I'm not telling you to use more process!  Steph's fix
+
+* Also, Programming
+
+Observability (code, user behavior, business metrics) is vital, before you ship anything
+
+We have to enable data-driven decision making at all possible levels
+
+Angeleah's path to automation
+
+* Pro Moves
+
+Can we make [[http://ribbonfarm.com/2010/07/26/a-big-little-idea-called-legibility/][Legibility]] work for us?
