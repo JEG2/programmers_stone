@@ -5,42 +5,66 @@
 
 This article is part of the series [[https://programmersstone.blog/posts/jeg2s-questions/][JEG2's Questions]].
 
-do achieve product's roadmap, but don't blindly grind through tickets
+As programmers, our primary function is to achieve Product's roadmap.  We will into existence the features Product believes will move the product forward.  However, how we do that matters.  It can be easy to fall into the trap of just blindly grinding through as many tickets as possible, but that's not truly as helpful to the business as it might seem at first glance.
 
 # more
 
 * The Best Lunch and Learn
 
-[[https://jessitron.com/][Jessica Kerr]]'s [[https://www.youtube.com/watch?v=Lbcyyu8XB_Y][Forget Velocity, Let's Talk Acceleration]] presentation
+All Engineering teams should have to watch [[https://jessitron.com/][Jessica Kerr]]'s [[https://www.youtube.com/watch?v=Lbcyyu8XB_Y][Forget Velocity, Let's Talk Acceleration]] presentation.  I recommend doing it as a Lunch and Learn together.  There is so much good content in that talk that it's almost unthinkable that a room full of developers wouldn't take some great nugget of wisdom from it.  When my team watched it together, we picked up the habit of describing obstacles we faced as "sea monsters" or "face eating zombies."  We kept that up the entire time I worked with that team.
 
-Sea monsters and "face eating zombies"
-
-Our job isn't..., it's...
+One of the great things Jessica says in that talk (roughly paraphrased) is that it isn't our job to make software work.  Our job is to show that the software works.  I think about those words all the time.  Let's explore what they mean.
 
 * What's in a ticket?
 
-"Turn this button red"
+It's late.  On a Friday.  You've put in a good week's worth of work.  You're about to call it for the weekend.  But then you see one more ticket.  It's trivial.
 
-Product knows:  [[https://www.svpg.com/books/inspired-how-to-create-tech-products-customers-love-2nd-edition/][INSPIRED:  How to Create Tech Products Customers Love]] outcomes over features
+"Turn this button red."
 
-We've got to learn to work as Product Dev
+I think a lot of developers would lean towards grabbing it, making the change, and calling it a win.  I know I would have for many years.
+
+Nowadays, that ticket kind of bugs me.  I think, "Why would they ask me to turn the button red without telling me why?"  Need the info!
+
+Effective Product teams follow the mantra /outcomes over features/.  (One place you can read about this and other useful Product knowledge is the book [[https://www.svpg.com/books/inspired-how-to-create-tech-products-customers-love-2nd-edition/][INSPIRED:  How to Create Tech Products Customers Love]].  Sadly, I cannot recommend that book without warning you that it also contains a lot of advice about work/life balance that I consider to be wrong and toxic.)  That means that it doesn't matter how many tickets we crank through.  Did we address the issue?  If not, we need to keep trying until we do.  That's what counts.
+
+Don't implement features.  Solve problems.
+
+It's essential that we realize our role in this Product Dev team and take these steps to get the information that we need and use it to do our job more effectively.
 
 * How the Magic Happens
 
-Ask the q
+My favorite set of magic words to push this process forward is to ask:  *How will we know it works?*  Don't accept silly answers like, "The button will be red."  That's not what the person who wrote that ticket is looking for.  They have a reason for wanting the button to be red and you need to know it.
 
-How would knowing change what we do?
+Perhaps their reason is that they have been surprised by the number of visitors who have elected not to click the button even though it was massively in their favor to do so.  One possible idea they have for why this might be happening is that the design of the elements on the page isn't making the button stand out enough to be noticed.  The ticket is an attempt to validate their theory that making the button more obvious will result in more clicks.
 
-I'm not telling you to use more process!  Steph's fix
+How does knowing that change what you would do?  For me, it would lead me to make sure that we have an easy way of seeing how many folks have clicked that button over time.  It might even be a good idea to split the button clickers into groups, like the group of folks who had clear advantages for doing so.  Do we also want to differentiate the numbers based on clickers of the hard-to-find button versus the bright red button?  What information do we need to know to show that we solved this problem, not that we turned the button red.
+
+By the way, this isn't a hypothetical scenario.  We had this actual issue in a project that I worked on and in that case knowing the reason meant a world of difference.  We were running a series of campaigns to bring visitors to the site in chunks.  The dull button hypothesis was raised in the middle of one of the campaign runs.  While discussing how we would measure success, we realized that one of the best ways would be to A/B test folks who saw the different buttons and see if the red group had more clicks in the end.
+
+We could totally do that, but that would require some development before the next campaign to be ready to divide the groups and collect the metrics.  That would work, but it was slow.  The winning idea, from our Head of Product, was to immediately deploy a button color change as fast as possible.  That has very nearly the same effect.  Those folks who had already visited in the current campaign were one group.  They had seen the dull button.  Those that would visit after the deploy would see the red.  Then we could just compare the numbers at the end of the campaign.  It's unlikely that the deploy would do any harm and, if Product was correct, we would see improvement half a campaign faster.  They were and we did.
+
+It's important to realize that asking these questions doesn't mean introducing more work or more process.  It just helps you understand what you are trying to accomplish.  The fix for the button problem was trivial once we realized what was needed.
 
 * Also, Programming
 
-Observability (code, user behavior, business metrics) is vital, before you ship anything
+I've spent most of this article about programming advice talking about Product.  That's not a mistake.  We are one team with the same goals.
 
-We have to enable data-driven decision making at all possible levels
+However, the decide how you will know this works principle definitely applies to our programming.  It's maybe even more important there.  We need to be thinking about observability in every thing that we build.  We can't know if something works if we can't monitor the running system, user behavior, or relevant business metrics.  If we can't see those things, we can't know that it works.  If we can't know that it works, it's impossible to perform our primary function.  We need to ask these questions and at least find a first guess at some answers before we try to build and ship a potential solution.
 
-Angeleah's path to automation
+We have to enable data-driven decision making at all possible levels.  Engineering needs to be monitoring our systems, Product is always going to want to know several things about how our applications are performing, Customer Success needs to see when bug counts drop off, and so on.
+
+One great example of the power of this thinking at a previous job of mine is when we added a system for manually correcting data that would come to us in seemingly unpredictable formats.  We could work with the data as is, but would be less effective.  When we could identify it, we were able to make significantly better choices.  We added an interface to allow administrators to identify the data, but there was a lot of it.  To maximize the value of identification, we ranked things we had seen by how many times we had seen them and had employees focus on those.
+
+One of our engineers monitored this data regularly.  They liked to check-in to see how it was going.  It turns out that there was just enough visibility into the process that the engineer eventually learned the patterns of the data.  They couldn't automate all of it, but they were eventually able to push a feature that automatically identified roughly 80% of the data as it arrived.  This resulted in dramatically better results for our users in real time and it saved our administrators some effort.  Win-win.
 
 * Pro Moves
 
-Can we make [[http://ribbonfarm.com/2010/07/26/a-big-little-idea-called-legibility/][Legibility]] work for us?
+If all of our developers did just this, it would be a massive improvement.  But here's a little extra credit for you over-achievers out there.
+
+Jessica's talk has another incredible idea in it related to what we've been discussing.  She briefly mentions and defines [[http://ribbonfarm.com/2010/07/26/a-big-little-idea-called-legibility/][Legibility]].  For those who haven't seen the video yet, this is a concept about making information naturally roll up to those who need to have it.
+
+Jessica's example is about how earlier settlements were filled with streets that didn't have names and people who only had single names.  Later, governments imposed systems on top of this that gave those people and roads more names.  They wanted to do that so they could count people in an area for purposes like taxation and measuring growth or decline.
+
+All of the mentions I can find about this form of legibility take a kind of negative view of it.  Those early governments didn't really care if people or roads needed more names or what kind of hassles it might impose on them to track that stuff.  They were just minding their own needs without fully understanding everything they were meddling with.
+
+Those assessments are totally fair, but what really keeps me up at night now is wondering how often we can make legibility work for us instead of against us.  Are there opportunities in what we are building to add the right information in key places so that our users, administrators, stakeholders, or whoever will just know precisely what they need to know in the moment that they need to know it?  That seems like a very worthy quest.

@@ -6,22 +6,8 @@
     <description>Recent content on The Programmer&#39;s Stone</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 04 Aug 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Oct 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>How will we know it works?</title>
-      <link>http://localhost:1313/posts/how-will-we-know-it-works/</link>
-      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/how-will-we-know-it-works/</guid>
-      <description>&lt;p&gt;&#xA;This article is part of the series &lt;a href=&#34;https://programmersstone.blog/posts/jeg2s-questions/&#34;&gt;JEG2&amp;#39;s Questions&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;&#xA;do achieve product&amp;#39;s roadmap, but don&amp;#39;t blindly grind through tickets&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>JEG2&#39;s Questions</title>
-      <link>http://localhost:1313/posts/jeg2s-questions/</link>
-      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/jeg2s-questions/</guid>
-      <description>&lt;p&gt;&#xA;&lt;a href=&#34;https://en.wikipedia.org/wiki/My_System&#34;&gt;My System&lt;/a&gt; by &lt;a href=&#34;https://en.wikipedia.org/wiki/Aron_Nimzowitsch&#34;&gt;Aron Nimzowitsch&lt;/a&gt; was one of the early chess books that had a big impact on me.  The first part of the book, called &lt;em&gt;The Elements&lt;/em&gt;, is where Nimzowitsch lays out the specific criteria he is monitoring to evaluate chess games.&lt;/p&gt;&#xA;&lt;p&gt;&#xA;Do I have any open files?  Have I created any passed pawns?  Am I pressing the attack on the back ranks?  This tells Nimzowitsch and his readers that a chess game where they have managed to create a passed pawn on an open file that they control and push it to the seventh rank is probably going pretty well for them.&lt;/p&gt;&#xA;&lt;p&gt;&#xA;That&amp;#39;s chess.  Let&amp;#39;s talk about programming…&lt;/p&gt;</description>
-    </item>
     <item>
       <title>Scrappy Parsing</title>
       <link>http://localhost:1313/posts/scrappy-parsing/</link>
