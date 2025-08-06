@@ -31,6 +31,8 @@ Don't implement features.  Solve problems.
 
 It's essential that we realize our role in this Product Dev team and take these steps to get the information that we need and use it to do our job more effectively.
 
+Note Product's responsibility
+
 * How the Magic Happens
 
 My favorite set of magic words to push this process forward is to ask:  *How will we know it works?*  Don't accept silly answers like, "The button will be red."  That's not what the person who wrote that ticket is looking for.  They have a reason for wanting the button to be red and you need to know it.
@@ -53,9 +55,9 @@ However, the decide how you will know this works principle definitely applies to
 
 We have to enable data-driven decision making at all possible levels.  Engineering needs to be monitoring our systems, Product is always going to want to know several things about how our applications are performing, Customer Success needs to see when bug counts drop off, and so on.
 
-One great example of the power of this thinking at a previous job of mine is when we added a system for manually correcting data that would come to us in seemingly unpredictable formats.  We could work with the data as is, but would be less effective.  When we could identify it, we were able to make significantly better choices.  We added an interface to allow administrators to identify the data, but there was a lot of it.  To maximize the value of identification, we ranked things we had seen by how many times we had seen them and had employees focus on those.
+One great example of the power of this thinking at a previous job of mine is when we added a system for manually correcting data that would come to us in seemingly unpredictable formats.  We could work with the data as is, but it would be less effective.  When we could identify it, we were able to make significantly better choices.  We added an interface to allow administrators to identify the data, but there was a lot of it.  To maximize the value of identification, we ranked things we had seen by how many times we had seen them and had employees focus on those.
 
-One of our engineers monitored this data regularly.  They liked to check-in to see how it was going.  It turns out that there was just enough visibility into the process that the engineer eventually learned the patterns of the data.  They couldn't automate all of it, but they were eventually able to push a feature that automatically identified roughly 80% of the data as it arrived.  This resulted in dramatically better results for our users in real time and it saved our administrators some effort.  Win-win.
+A dedicated engineer, [[https://www.linkedin.com/in/angeleahdaidone/][Angeleah Daidone]], monitored this data regularly.  They liked to check-in to see how it was going.  It turns out that there was just enough visibility into the process that the engineer eventually learned the patterns of the data.  They couldn't automate all of it, but they were eventually able to push a feature that automatically identified roughly 80% of the data as it arrived.  This resulted in dramatically better results for our users in real time and it saved our administrators some effort.  Win-win.
 
 * Pro Moves
 

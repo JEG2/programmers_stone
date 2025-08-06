@@ -1,0 +1,62 @@
+#+title: What are we afraid of?
+#+author: JEG2
+#+date: <2025-08-05 Tue>
+#+draft: True
+
+This article is part of the series [[https://programmersstone.blog/posts/jeg2s-questions/][JEG2's Questions]].
+
+One of the lessons I learned during my time in management is that it was far more important for me to worry about creating environments where good work could get done than it was to spend my effort directly doing the work.  As one person, the maximum I could contribute was whatever my upper capacity was.  However, if I could improve the work environment to give the team a boost, their future efforts would be increased relative to the size of the team.  They could accomplish more than I could ever hope to.
+
+Which leaves just one question:  what is the ideal work environment?
+
+# more
+
+* Products are Discovered, Not Built
+
+In order to analyze the ideal work environment for software development, we first need to understand what software development really is.  I think we sometimes fantasize that a company dreams up a product, developers build it, and then they sell it.  That's pretty far from the truth, though.
+
+Our friends in Product know this well.  They are taught to expect between half and two thirds of their ideas to be unsuccessful.  They are also taught that their first approach is extremely unlikely to be the winning one.
+
+This makes total sense when you dig into it.  If a product were trivially created from our current knowledge, it would very likely already exist.  This is why different people all over the world tend to make similar breakthroughs at roughly the same points in history.  Once the requisite knowledge was available, the next steps became obvious.
+
+Those aren't the products we are typically building.  Instead, Product knows to use a well-honed iterative search to find a useful product.  They assemble a team and build some piece of an idea (remember, they assume this isn't it).  They then recruit some key customers and get them using the product.  Those customers will provide feedback and Product will observe how they are using the product.  This is a classic feedback loop, like the unit testing programmers use.  By listening to that feedback, testing new features, and observing the changes in customer behavior, they can eventually discover a useful product that people are willing to pay for.
+
+This process takes time.  Product has to become experts in the domain of their customers.  The development team needs to become experts in the modeling and implementation of that domain.  All of these different groups — Product, Engineering, the customers, and more — influence each other throughout this process to collaboratively land at the final result.
+
+Even if you knew exactly what to build, it's extremely unlikely that you could do it correctly on the first pass without those influencing pressures from the other groups.  Fred Hebert has a great description of how hard it is to [[https://ferd.ca/a-bridge-over-a-river-never-crossed.html][build a communication device before you have a listener]] waiting to receive your messages.  You might need to begin with a one-way sending and work your way up to enabling replies.  You'll need to work out the protocol the devices use and it's very likely for that protocol to evolve as you transition between those two phases.  This is the work.
+
+* It's Learning Machines All the Way Down
+
+Product is learning what their customers need.  The customers are learning how to incorporate this new product into their work.  Engineering is learning how to create what Product needs.  None of these things is happening in isolation.
+
+Let's take a simple example.  Our team needs to monitor some customer behavior to ensure that our upcoming changes will have a meaningful impact on the problems we are trying to solve.  Unfortunately, Fred Hebert also tells us that [[https://ferd.ca/plato-s-dashboards.html][measuring what we want to know can be difficult]].  We tend to measure things that are easy to measure, like how many orders are placed.  That may or may not have some relationship to what we really want to know, like what makes shoppers place an order.  Even if they are related, we don't always know the error margins between the thing we are measuring and the thing we want to know.  For example, maybe a significant portion of shoppers are learning about products from our site, but purchasing them from a cheaper source.  Even our monitoring skills will need dialing in so we can ask better questions that lead to better observations and eventually better results.
+
+I have [[https://programmersstone.blog/posts/how-will-we-know-it-works/][previously mentioned]] my love of Jessica Kerr's Acceleration video.  In it, she uses a word that was unfamiliar to me.  I googled it and found her helpful summary definition of [[https://medium.com/@jessitron/symmathecist-n-c728957ce71f][symmathesy]].  A symmathesy is a learning machine built of learning machine parts.  That is an excellent way to describe software development.  Each piece of the machine — Product, Engineering, etc. — is co-evolving based on its stream of collaboration with the other pieces of the machine.  They are calibrating each other.
+
+It's critical for teams to "[[https://debliu.substack.com/p/staying-scrappy][stay scrappy]]" to support this transference of learning between the separate parts of the machine.  Product may ask Engineering to measure some customer action.  Engineering may say that it's difficult or impossible to measure exactly that action, but offer up some alternatives.  Product may then to investigate how well those alternatives relate to what they really need to know about the customers.  Teams have to be flexible enough to accommodate these shifts that eventually lead to the desired end goal of a useful product.
+
+* Nonnegotiables
+
+This leads us to another inevitable truth:  you have to cultivate an environment where your co-workers feel like they can tell you what you need to know.  Here's a non-exhaustive list of horrible things I have had to say to people I worked for:
+
+- Some actions that are administrators took last night deleted roughly 50% of our production database
+- This application that you paid other developers a lot of money for is faking numerous operations with smoke and mirrors
+- I have taken our site offline during peak traffic because we have hit a limit that is causing damage to our database every second that it remains live
+
+These scary statements aren't the end of events.  They begin the key conversations that need to be had.  How long does our site need to stay offline?  Initial estimates are that the database migration to fix it will take approximately three days.  Can we find a faster solution?  What means do we have to notify our customers of what is happening and reassure them that their data is safe and will be restored as soon as possible?
+
+We have good studies showing traits that high performance development teams share.  The single largest identifier in that bunch is the presence of [[https://www.hbs.edu/faculty/Pages/item.aspx?num=54851][Psychological Safety]].  It is simply the idea that employees feel empowered to say anything they need to say.  This does not always make the work environment easier, but it does empower the cross team collaboration and learning needed to guide the team to produce genuinely useful products.
+
+* An Accidental Find
+
+That leaves us wondering what steps we can take to create these environments.  Plenty of our modern development practices are focused to this end.  The relationship between common meetings like Planning, Demos, and Retro are great examples of learning feedback loops.  Pair programming is another fantastic knowledge sharing tool, if a little Engineering-centric.  I want to tell you about one more trick that I have found very helpful.
+
+I remember one day when Product was explaining an upcoming build in our weekly Planning meeting.  I was observing the reactions of the engineers and I felt like their body language was telling me something was wrong.  No one was actively complaining, but I wanted to see if I could create space for them to air their concerns.  When Product was done laying out what was needed, I just asked, "*What are we afraid of?*"
+
+In the ensuing conversation I took extra care to make sure everyone got a chance to speak, especially the quiet folks.  They definitely all had concerns and they were pretty varied.  Pulling them into the open was like magic.  One developer would name something they felt would be difficult and another developer in the room would respond that they had done a similar trick before and they would be happy to own that challenge.  Other concerns weren't as easy to dismiss and I focused in on those.
+
+I asked the team to come up with small, time-boxed spikes that we could build and test to give us the information that we needed.  We then planned to circle back after we had those answers to see if we could make decisions we were all more comfortable with.  Since these spikes were so key to our progress, I encouraged the engineers to pair or even mob on working through them.
+
+It went great.  By the time we had the answers from the spikes, the needed adjustments to the plan were a lot more obvious.  There were one or two outstanding questions but they were down to the scale that we could easily try one and change our mind if we weren't happy with the results.  I can't imagine how much pain that one meeting saved us on that build that we eventually delivered ahead of schedule.
+
+I found this strategy mostly by dumb luck, but it continues to serve me well whenever I deploy it.  I have since learned that this combination of a "learning hour" followed by "ensemble programming" is closely related to techniques for [[https://x.com/ceilfors/status/1593559687709876224][scaling learning to teams]].  That's precisely what we need to accomplish.
