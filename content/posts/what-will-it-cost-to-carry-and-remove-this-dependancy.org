@@ -1,0 +1,105 @@
+#+title: What will it cost to carry and remove this dependency?
+#+author: JEG2
+#+date: <2025-08-06 Wed>
+#+draft: True
+
+This article is part of the series [[https://programmersstone.blog/posts/jeg2s-questions/][JEG2's Questions]].
+
+I've built a lot of applications with a lot of teams.  I've seen a lot of the problems with software development.  There are two problems that I've seen so often that I believe they are worth looking out for at all times.  The first of those is the accumulation of high cost dependencies.
+
+# more
+
+* The Math of Dependencies
+
+We all use dependencies in our programming and I am in no way against that.  If you're building an Elixir web application, you probably start with Phoenix.  If you use the default options in your new Phoenix project, you'll need to set up the relational database that it is expecting.  Both of those make sense.  You don't want to interpret HTTP from scratch and you're going to need somewhere to stick your application's data.
+
+Did we really just agree to two dependencies, though?  I just created a new default Phoenix application and counted the dependencies it downloaded.  It was 38.  I'm not saying that's bad.  I know some frameworks that fetch considerably more.  It's also not just two.
+
+So what's the problem?  The problem is that programming is an endless struggle to manage the complexity of our growing systems.  We have to add features to them to make them useful and every time we do, it complicates what we are dealing with next time.  These complications compound with each change, kind of similar to interest on a credit card.
+
+Let's imagine that each dependency we add slows our effort by a trivial 1%.  In that case, it doesn't take 100 dependencies to double the amount of effort needed to make changes to the application.  If we call our normal effort ~1~, we can see that it is more than doubled with the addition of the 70th dependency:
+
+#+begin_src elixir :session none
+  1
+  |> Stream.iterate(fn n -> n * 1.01 end)
+  |> Stream.drop(1)
+  |> Stream.take(70)
+  |> Enum.at(-1)
+#+end_src
+
+#+RESULTS:
+: 2.006763368395386
+
+If we did in fact add 100 dependencies, we would be closer to tripling our effort than doubling it:
+
+#+begin_src elixir :session none
+  1
+  |> Stream.iterate(fn n -> n * 1.01 end)
+  |> Stream.drop(1)
+  |> Stream.take(100)
+  |> Enum.at(-1)
+#+end_src
+
+#+RESULTS:
+: 2.7048138294215294
+
+Again, we're still talking about dependencies that I think are very easy to justify.  Not all dependencies are created equal.  There are plenty of situations where we are increasing future effort by a lot more than 1%.
+
+* Cost Benefit Analysis
+
+Martin Fowler has a terrific breakdown of [[https://martinfowler.com/bliki/Yagni.html][the costs of YAGNI]] (You Aren't Gonna Need It).  The short summary is that prematurely adding features has the potential to incur four different costs:
+
+- Cost of Build:  the raw effort required to add the feature
+- Cost of Delay:  the distance it pushes out other opportunities
+- Cost of Carry:  the ongoing cost added to the complexity of current and future efforts
+- Cost of Repair:  the cost to make needed corrections to the feature as you're knowledge of what is really needed grows
+
+Martin just lists those four, but in my experience dependencies often face one more cost:  the Cost of Removal.  Things change.  Libraries are abandoned.  Better options come along.  Unused features are (hopefully) removed to ease the burden of future development.
+
+The point of all of this is that we are adding a dependency because we have identified some need.  How it helps us solve that need is the benefit.  However, there will always be a tradeoff with one or more of these costs.  We need to develop the habit of weighing both sides to guide us to better decisions.
+
+* The Cost of Choices Made
+
+I worked on one LiveView project at a time when the addition of components had been announced, but not yet released.  We decided that we could add Surface to our project to start working with components immediately in the hopes of setting ourselves up for the future we knew was coming.  Before the official LiveView release, we found that Surface complicated our upgrade cycle due to it lagging behind in what it supported.  This created some difficulty in us resolving a particular bug our customers had encountered rooted in our dependency chain (Cost of Carry).  Even when official LiveView components finally dropped, we found it non-trivial to translate between the two similar but not identical systems (Cost of Repair).  We also had to unwind some unrelated code that had started to take advantage of other Surface features before we could fully make the switch (Cost of Removal).
+
+In a different project the development team compared two versions of an autocomplete feature.  One was backed by OpenSearch while the second was a custom implementation of a couple of well-known algorithms with a core under 500 lines of code.  We selected OpenSearch on the assumption that it would be more battle tested and robust.  Unfortunately, only one of it's [[https://docs.opensearch.org/latest/search-plugins/searching-data/autocomplete/][four different methods]] of autocomplete support offered a feature we vitally needed to remove duplicates and that same method forced us to keep the entire index in memory, a feature we did not want (Cost of Build).  The infrastructure we had to add for OpenSearch also led to the product's first outage.  An outdated AWS SDK didn't pick up a configuration change causing the application to lose track of the endpoint needed to communicate with OpenSearch (Cost of Carry).
+
+I have also seen a company try to cram in a move to distributed Elixir just before a new product launch deadline.  The thinking was that you could prepare for future scaling needs by making needed infrastructure changes before you have heavy traffic.  Making a change like this involves configuring production servers so that they can find each other using tools like [[https://hex.pm/packages/dns_cluster][dns_cluster]] or [[https://hex.pm/packages/libcluster][libcluster]] (Cost of Build).  Once that was in place, we still found ourselves resolving issues in OTP processes that weren't initially built to be cluster-aware (Cost of Carry), pushing back the date of the launch (Cost of Delay).  Even with everything resolved, we can't really know if distribution will be the proper answer when scaling problems do eventually surface.  If the bottleneck is the database, different interventions will still be required (Cost of Repair).
+
+* Not Very Open
+
+I'll have to confess that my go-to question for digging into this topic isn't very open.  I really feel like this is a chronic problem that we have in software development and it requires being a little more direct to keep the attention on it.
+
+Martin mentioned in his breakdown of costs that it can be helpful to ask teams to consider the refactorings they would need to do in the future to support the desired changes.  I think a similar helps in this case.  We just need to get all parties involved actively thinking about the tradeoffs we are making as we add each new log to the fire.
+
+I recommend asking:  *What will it cost to carry and remove this dependency?*
+
+Don't let folks squirm their way out of providing an answer.  There is always a cost.  Not having one means you haven't thought about it enough.
+
+* Universal Application
+
+I've approached this discussion largely from a programmer-centric viewpoint.  That's mostly because it's the easiest position for me to explain things from and I assume that my audience will understand where I am coming from.  However, dependency management absolutely applies to all aspects of our work.  Here are just some examples:
+
+- Integrations:  how many remote API's does the modern web application interact with?  I assume we're well aware of the potential consequences:  version changes, unreliable networks, end-of-lifed services, bugs on their side, etc.
+- Code change management:  how difficult is it to get some code into production?  We want our changes to be as safe as we need them to be, but the more hoops developers have to jump through to push some code, the more they will decide not to bother with it or the more they will bundle up into truly dangerous overhauls of behavior.
+- Process:  this line of thinking even applies to things like acquiring [[https://fly.io/blog/soc2-the-screenshots-will-continue-until-security-improves/][SOC 2 certification]].  That article sums it up well:  "Just don’t do it until you have to."
+
+* Going the Extra Mile
+
+Please, watch one of Brian Hunter's [[https://www.youtube.com/watch?v=hdBm4K-vvt0][Waterpark]] talks.  Be sure to take note of the following:
+
+- This application is tracking millions of patients in 185 hospitals
+- It has had zero downtime in over five years of operation
+- They have continued to evolve it and add capabilities in that time
+- They spend time simplifying parts of the system (removing complexity!)
+- They occasionally choose to reinvent a smaller wheel instead of pulling in a larger dependency
+
+Also consider running a book club with the Engineering team on [[https://web.stanford.edu/~ouster/cgi-bin/book.php][The Philosophy of Software Design]].  These are just some of the things it gives expert level treatment to:
+
+- The relationship between complexity and system growth
+- The symptoms of complexity
+- Causes of complexity (spoiler alert:  dependencies definitely makes the list)
+- Discussions of how much time and energy should be spent on tech debt
+- The dependencies between individual modules of code and how to measure them
+
+If you think I've spoiled the book for you already, think again.  All of that is in the first 20% of the book!

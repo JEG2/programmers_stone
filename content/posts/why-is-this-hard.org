@@ -1,0 +1,32 @@
+#+title: Why is this hard?
+#+author: JEG2
+#+date: <2025-08-07 Thu>
+#+draft: True
+
+This article is part of the series [[https://programmersstone.blog/posts/jeg2s-questions/][JEG2's Questions]].
+
+now add dependencies?
+
+# more
+
+* Opposites
+
+the eternal tug-of-war
+
+* Cries for Help
+
+- "It was really hard, but I pushed through"
+  the curse of what you can keep in your head
+  * **Hard to Describe** stories, concepts, implementations, and more
+  * **Hard to Pick Name**:  a hint that the underlying value may not have a clean design
+  * **Hard to Describe**:  it’s difficult to write the comment for a module or function, possibly due to the design
+- "I let the LLM write all the boiler plate"
+  [[https://www.youtube.com/watch?v=Xu2QtHUbFmc][Is Design Happening?]]
+- "The library doesn’t support exactly what we need"
+- "The tests, type system, static analysis checker, etc. didn’t catch the issue"
+- "I was fighting our/my tools on this one"
+  Show how good the math on tooling work is!
+
+* Dig Deeper
+
+*Why is this hard?*
