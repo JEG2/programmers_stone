@@ -1,6 +1,6 @@
 #+title: What are we afraid of?
 #+author: JEG2
-#+date: <2025-08-05 Tue>
+#+date: <2025-08-12 Tue>
 #+draft: True
 
 This article is part of the series [[https://programmersstone.blog/posts/jeg2s-questions/][JEG2's Questions]].

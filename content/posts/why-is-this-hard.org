@@ -24,9 +24,21 @@ the eternal tug-of-war
   [[https://www.youtube.com/watch?v=Xu2QtHUbFmc][Is Design Happening?]]
 - "The library doesn’t support exactly what we need"
 - "The tests, type system, static analysis checker, etc. didn’t catch the issue"
+  [[https://www.youtube.com/watch?v=Xu2QtHUbFmc][make invalid states impossible]]
 - "I was fighting our/my tools on this one"
   Show how good the math on tooling work is!
+- "That section needs a redesign."
+  [[https://martinfowler.com/bliki/StranglerFigApplication.html][strangler fig pattern]]
+
+  [[https://technology.riotgames.com/news/taxonomy-tech-debt
+][make contagion work for you]]
+- "I have no idea how long that would take."
+  [[https://therealadam.com/2023/08/23/i-got-better.html][practicing estimates]]
 
 * Dig Deeper
 
 *Why is this hard?*
+
+[[https://medium.com/front-line-interaction-design/intermediate-impossibles-d02f26bd9a74][intermediate impossibles]]
+
+[[https://www.youtube.com/watch?v=lz451zUlF-k&t=1196s][design it twice]]

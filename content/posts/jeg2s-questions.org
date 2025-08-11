@@ -1,7 +1,6 @@
 #+title: JEG2's Questions
 #+author: JEG2
-#+date: <2025-08-04 Mon>
-#+draft: True
+#+date: <2025-08-11 Mon>
 
 [[https://en.wikipedia.org/wiki/My_System][My System]] by [[https://en.wikipedia.org/wiki/Aron_Nimzowitsch][Aron Nimzowitsch]] was one of the early chess books that had a big impact on me.  The first part of the book, called /The Elements/, is where Nimzowitsch lays out the specific criteria he is monitoring to evaluate chess games.
 
@@ -13,7 +12,7 @@ That's chess.  Let's talk about programming…
 
 * "My System"
 
-I've been a developer or manager of developers for over two decades now.  I've spent some of that time consulting for many different companies and some of that time working for one particular company for a stretch of years.  I've worked on dozens of web applications that made it to production.  I've built software for education, finance, healthcare, and many other domains.
+I've been a developer or manager of developers for over two decades now.  I've spent some of that time consulting for many different companies and some of that time working for one particular company for a stretch of years.  I've worked on over 50 web applications that made it to production.  I've built software for education, finance, healthcare, and many other domains.
 
 I've worked on a lot of teams in many different positions.  I'm confident that some of the teams I worked on would meet most definitions of "high performance."  Almost every team that I've contributed to had at least a few things that they did very well.  Some also struggled with other things.  The struggles over my career have had quite a bit of overlap, regardless of the team.
 
@@ -27,7 +26,7 @@ I recently read back through my notes and it made me feel like there were defini
 
 That realization led me to wonder if I could reduce it down to the essential elements of what I believe about software development.  I gave myself a challenge:  could I get it under ten items?
 
-I trimmed, combined, trimmed, categorized, trimmed, and — you better believe it — cheated, but I got the list down to five.  Just don't count too closely.
+I trimmed, combined, trimmed, categorized, trimmed, and — you better believe it — cheated, but I did it.  Just don't count too closely.
 
 I had to come up with some criteria for what was most important to share.  I wanted the concepts that give you the most bang for your buck across several situations and disciplines.  In the end, I focused on these three guiding lights:
 
@@ -41,22 +40,21 @@ Once I knew what I wanted to share, I spent some energy on thinking about the be
 
 However, I'm always impatient and most interested in the shortcuts that will get me to great results.  Just give me the magic words!
 
-I was lucky enough to work with [[http://larahogan.me/][Lara Hogan]] for a few years as my management coach.  It was an incredible opportunity and I can't overstate how much I learned from her.  One lesson that took me far too long to realize the power of was the use of open questions, like those she recommends for [[https://larahogan.me/blog/creative-coaching-questions/][coaching direct reports]].
+I was lucky enough to work with [[http://larahogan.me/][Lara Hogan]] for a few years as my management coach.  It was an incredible opportunity and I can't overstate how much I learned from her.  One lesson that took me far too long to learn was the power of open-ended questions, like those she recommends for [[https://larahogan.me/blog/creative-coaching-questions/][coaching direct reports]].
 
 Her great insight is how they can turn one-way communication into two-way collaboration.  She also notes how it can transform advice dissemination into active learning.  I have come to realize that applies to the giver as well as the receiver.
 
-Think of it this way, when I'm in a conversation with a team of developers about how we are going to do something, I could choose to offer what is the best idea I can think of.  If I do, we are now discussing that idea and it's merits.  I've essentially trapped us in a local maximum with my first move.  If I choose to ask an open question instead, several ideas may be offered up and I can still contribute my own.  Now we are considering a whole universe of possibilities.  We may choose a favorite, try experiments to evaluate some, or combine multiple options that we think have promise.  This is almost sure to lead to more possibilities.
+Think of it this way, when I'm in a conversation with a team of developers about how we are going to do something, I could choose to offer what is the best idea I can think of.  If I do, we are now discussing that idea and its merits.  I've essentially trapped us in a local maximum with my first move.  If I choose to ask an open question instead, several ideas may be offered up and I can still contribute my own.  Now we are considering a whole universe of possibilities.  We may choose a favorite, try experiments to evaluate some, or combine multiple options that we think have promise.  This is almost sure to lead to more possibilities.
 
 Given that, I have elected to present my essential elements as open questions with advice about when and how they are best deployed.  My hope is that will give you shortcuts straight to the benefits.
 
 * My Questions
 
-With that introduction out of the way, here are the five questions most important to me for developing software:
+With that introduction out of the way, here are the questions most important to me for developing software:
 
 1. [[https://programmersstone.blog/posts/how-will-we-know-it-works/][How will we know it works?]]
 2. Coming Soon
 3. Coming Soon
 4. Coming Soon
-5. Coming Soon
 
-Reader's manual
+As I explain my principles, I will sprinkle in several great links of sources that have had a profound impact on my thinking.  I am absolutely standing on the shoulders of giants.  I will always try to summarize the key elements of anything I link so it makes sense in the context, but definitely consider digging further into some of these fonts of wisdom.  I arrived where I did by taking this incredible journey and giving plenty of time and space in my brain to these ideas.  I hope they prove as enlightening to your own work.

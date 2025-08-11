@@ -1,6 +1,6 @@
 #+title: What will it cost to carry and remove this dependency?
 #+author: JEG2
-#+date: <2025-08-06 Wed>
+#+date: <2025-08-13 Wed>
 #+draft: True
 
 This article is part of the series [[https://programmersstone.blog/posts/jeg2s-questions/][JEG2's Questions]].

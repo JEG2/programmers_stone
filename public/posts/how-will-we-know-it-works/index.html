@@ -87,7 +87,7 @@ As programmers, our primary function is to achieve Product&#39;s roadmap. We wil
 <meta property="og:image:height" content="627">
 
 
-  <meta property="article:published_time" content="2025-08-04 00:00:00 &#43;0000 UTC" />
+  <meta property="article:published_time" content="2025-08-11 00:00:00 &#43;0000 UTC" />
 
 
 
@@ -158,7 +158,7 @@ As programmers, our primary function is to achieve Product&#39;s roadmap. We wil
   <h1 class="post-title">
     <a href="http://localhost:1313/posts/how-will-we-know-it-works/">How will we know it works?</a>
   </h1>
-  <div class="post-meta"><time class="post-date">2025-08-04</time><span class="post-author">JEG2</span></div>
+  <div class="post-meta"><time class="post-date">2025-08-11</time><span class="post-author">JEG2</span></div>
 
   
   
@@ -177,7 +177,7 @@ The Best Lunch and Learn
 </h2>
 <div id="outline-text-headline-1" class="outline-text-2">
 <p>
-All Engineering teams should have to watch <a href="https://jessitron.com/">Jessica Kerr</a>&#39;s <a href="https://www.youtube.com/watch?v=Lbcyyu8XB_Y">Forget Velocity, Let&#39;s Talk Acceleration</a> presentation.  I recommend doing it as a Lunch and Learn together.  There is so much good content in that talk that it&#39;s almost unthinkable that a room full of developers wouldn&#39;t take some great nugget of wisdom from it.  When my team watched it together, we picked up the habit of describing obstacles we faced as &#34;sea monsters&#34; or &#34;face eating zombies.&#34;  We kept that up the entire time I worked with that team.</p>
+All Engineering teams should have to watch <a href="https://jessitron.com/">Jessica Kerr</a>&#39;s <a href="https://www.youtube.com/watch?v=Lbcyyu8XB_Y">Forget Velocity, Let&#39;s Talk Acceleration</a> presentation.  I recommend doing it as a Lunch and Learn together.  There is so much good content in that talk — like the definition of generativity or the comparison of downhill invention versus uphill analysis — that it&#39;s almost unthinkable that a room full of developers wouldn&#39;t take some great nugget of wisdom from it.  When my team watched it together, we picked up the habit of describing obstacles we faced as &#34;sea monsters&#34; or &#34;face eating zombies.&#34;  We kept that up the entire time I worked with that team.</p>
 <p>
 One of the great things Jessica says in that talk (roughly paraphrased) is that it isn&#39;t our job to make software work.  Our job is to show that the software works.  I think about those words all the time.  Let&#39;s explore what they mean.</p>
 </div>
@@ -201,6 +201,8 @@ Effective Product teams follow the mantra <em>outcomes over features</em>.  (One
 Don&#39;t implement features.  Solve problems.</p>
 <p>
 It&#39;s essential that we realize our role in this Product Dev team and take these steps to get the information that we need and use it to do our job more effectively.</p>
+<p>
+This cuts both ways, of course.  Good Product employees will understand and respect key Engineering concepts like tech debt.  Ideally, they will be writing tickets that explain their reasoning and list ways that we can measure success.</p>
 </div>
 </div>
 <div id="outline-container-headline-3" class="outline-2">
@@ -213,11 +215,11 @@ My favorite set of magic words to push this process forward is to ask:  <strong>
 <p>
 Perhaps their reason is that they have been surprised by the number of visitors who have elected not to click the button even though it was massively in their favor to do so.  One possible idea they have for why this might be happening is that the design of the elements on the page isn&#39;t making the button stand out enough to be noticed.  The ticket is an attempt to validate their theory that making the button more obvious will result in more clicks.</p>
 <p>
-How does knowing that change what you would do?  For me, it would lead me to make sure that we have an easy way of seeing how many folks have clicked that button over time.  It might even be a good idea to split the button clickers into groups, like the group of folks who had clear advantages for doing so.  Do we also want to differentiate the numbers based on clickers of the hard-to-find button versus the bright red button?  What information do we need to know to show that we solved this problem, not that we turned the button red.</p>
+How does knowing that change what you would do?  For me, it would lead me to make sure that we have an easy way of seeing how many folks have clicked that button over time.  It might even be a good idea to split the button clickers into groups, like the group of folks who had clear advantages for doing so.  Do we also want to differentiate the numbers based on clickers of the hard-to-find button versus the bright red button?  What information do we need to know to show that we solved this problem, not that we turned the button red?</p>
 <p>
 By the way, this isn&#39;t a hypothetical scenario.  We had this actual issue in a project that I worked on and in that case knowing the reason meant a world of difference.  We were running a series of campaigns to bring visitors to the site in chunks.  The dull button hypothesis was raised in the middle of one of the campaign runs.  While discussing how we would measure success, we realized that one of the best ways would be to A/B test folks who saw the different buttons and see if the red group had more clicks in the end.</p>
 <p>
-We could totally do that, but that would require some development before the next campaign to be ready to divide the groups and collect the metrics.  That would work, but it was slow.  The winning idea, from our Head of Product, was to immediately deploy a button color change as fast as possible.  That has very nearly the same effect.  Those folks who had already visited in the current campaign were one group.  They had seen the dull button.  Those that would visit after the deploy would see the red.  Then we could just compare the numbers at the end of the campaign.  It&#39;s unlikely that the deploy would do any harm and, if Product was correct, we would see improvement half a campaign faster.  They were and we did.</p>
+We could totally do that, but that would require some development before the next campaign to be ready to divide the groups and collect the metrics.  That would work, but it was slow.  The winning idea, from our always scrappy Head of Product, <a href="https://www.linkedin.com/in/stephanie-reiley/">Steph Reiley</a>, was to immediately deploy a button color change as fast as possible.  That has very nearly the same effect.  Those folks who had already visited in the current campaign were one group.  They had seen the dull button.  Those that would visit after the deploy would see the red.  Then we could just compare the numbers at the end of the campaign.  It&#39;s unlikely that the deploy would do any harm and, if Product was correct, we would see improvement half a campaign faster.  They were and we did.</p>
 <p>
 It&#39;s important to realize that asking these questions doesn&#39;t mean introducing more work or more process.  It just helps you understand what you are trying to accomplish.  The fix for the button problem was trivial once we realized what was needed.</p>
 </div>
@@ -230,13 +232,13 @@ Also, Programming
 <p>
 I&#39;ve spent most of this article about programming advice talking about Product.  That&#39;s not a mistake.  We are one team with the same goals.</p>
 <p>
-However, the decide how you will know this works principle definitely applies to our programming.  It&#39;s maybe even more important there.  We need to be thinking about observability in every thing that we build.  We can&#39;t know if something works if we can&#39;t monitor the running system, user behavior, or relevant business metrics.  If we can&#39;t see those things, we can&#39;t know that it works.  If we can&#39;t know that it works, it&#39;s impossible to perform our primary function.  We need to ask these questions and at least find a first guess at some answers before we try to build and ship a potential solution.</p>
+However, the decide-how-you-will-know-this-works principle definitely applies to our programming.  It&#39;s maybe even more important there.  We need to be thinking about observability in everything that we build.  We can&#39;t know if something works if we can&#39;t monitor the running system, user behavior, or relevant business metrics.  If we can&#39;t see those things, we can&#39;t know that it works.  If we can&#39;t know that it works, it&#39;s impossible to perform our primary function.  We need to ask these questions and at least find a first guess at some answers before we try to build and ship a potential solution.</p>
 <p>
 We have to enable data-driven decision making at all possible levels.  Engineering needs to be monitoring our systems, Product is always going to want to know several things about how our applications are performing, Customer Success needs to see when bug counts drop off, and so on.</p>
 <p>
-One great example of the power of this thinking at a previous job of mine is when we added a system for manually correcting data that would come to us in seemingly unpredictable formats.  We could work with the data as is, but would be less effective.  When we could identify it, we were able to make significantly better choices.  We added an interface to allow administrators to identify the data, but there was a lot of it.  To maximize the value of identification, we ranked things we had seen by how many times we had seen them and had employees focus on those.</p>
+One great example of the power of this thinking at a previous job of mine is when we added a system for manually correcting data that would come to us in seemingly unpredictable formats.  We could work with the data as is, but it would be less effective.  When we could identify it, we were able to make significantly better choices.  We added an interface to allow administrators to identify the data, but there was a lot of it.  To maximize the value of identification, we ranked things we had seen by how many times we had seen them and had employees focus on those.</p>
 <p>
-One of our engineers monitored this data regularly.  They liked to check-in to see how it was going.  It turns out that there was just enough visibility into the process that the engineer eventually learned the patterns of the data.  They couldn&#39;t automate all of it, but they were eventually able to push a feature that automatically identified roughly 80% of the data as it arrived.  This resulted in dramatically better results for our users in real time and it saved our administrators some effort.  Win-win.</p>
+A dedicated engineer, <a href="https://www.linkedin.com/in/angeleahdaidone/">Angeleah Daidone</a>, monitored this data regularly.  She liked to check-in to see how it was going.  It turns out that there was just enough visibility into the process that she eventually learned the patterns of the data.  She couldn&#39;t automate all of it, but was able to push a feature that automatically identified roughly 80% of the data as it arrived.  This resulted in dramatically better results for our users in real time and it saved our administrators some effort.  Win-win.</p>
 </div>
 </div>
 <div id="outline-container-headline-5" class="outline-2">
@@ -245,7 +247,15 @@ Pro Moves
 </h2>
 <div id="outline-text-headline-5" class="outline-text-2">
 <p>
-Can we make <a href="http://ribbonfarm.com/2010/07/26/a-big-little-idea-called-legibility/">Legibility</a> work for us?</p>
+If all of our developers did just this, it would be a massive improvement.  But here&#39;s a little extra credit for you over-achievers out there.</p>
+<p>
+Jessica&#39;s talk has another incredible idea in it related to what we&#39;ve been discussing.  She briefly mentions and defines <a href="http://ribbonfarm.com/2010/07/26/a-big-little-idea-called-legibility/">Legibility</a>.  For those who haven&#39;t seen the video yet, this is a concept about making information naturally roll up to those who need to have it.</p>
+<p>
+Jessica&#39;s example is about how earlier settlements were filled with streets that didn&#39;t have names and people who only had single names.  Later, governments imposed systems on top of this that gave those people and roads more names.  They wanted to do that so they could count people in an area for purposes like taxation and measuring growth or decline.</p>
+<p>
+All of the mentions I can find about this form of legibility take a kind of negative view of it.  Those early governments didn&#39;t really care if people or roads needed more names or what kind of hassles it might impose on them to track that stuff.  They were just minding their own needs without fully understanding everything they were meddling with.</p>
+<p>
+Those assessments are totally fair, but what really keeps me up at night now is wondering how often we can make legibility work for us instead of against us.  Are there opportunities in what we are building to add the right information in key places so that our users, administrators, stakeholders, or whoever will just know precisely what they need to know in the moment that they need to know it?  That seems like a very worthy quest.</p>
 </div>
 </div>
       </div></div>
