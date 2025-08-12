@@ -6,8 +6,15 @@
     <description>Recent content on The Programmer&#39;s Stone</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 11 Aug 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 12 Aug 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>What are we afraid of?</title>
+      <link>http://localhost:1313/posts/what-are-we-afraid-of/</link>
+      <pubDate>Tue, 12 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/what-are-we-afraid-of/</guid>
+      <description>&lt;p&gt;&#xA;This article is part of the series &lt;a href=&#34;https://programmersstone.blog/posts/jeg2s-questions/&#34;&gt;JEG2&amp;#39;s Questions&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;&#xA;One of the lessons I learned during my time in management is that it was far more important for me to worry about creating environments where good work could get done than it was to spend my effort directly doing the work.  As one person, the maximum I could contribute was whatever my upper capacity was.  However, if I could improve the work environment to give the team a boost, their future efforts would be increased relative to the size of the team.  They could accomplish more than I could ever hope to.&lt;/p&gt;&#xA;&lt;p&gt;&#xA;Which leaves just one question:  what is the ideal work environment?&lt;/p&gt;</description>
+    </item>
     <item>
       <title>How will we know it works?</title>
       <link>http://localhost:1313/posts/how-will-we-know-it-works/</link>

@@ -5,21 +5,39 @@
 
 This article is part of the series [[https://programmersstone.blog/posts/jeg2s-questions/][JEG2's Questions]].
 
-now add dependencies?
+In [[https://programmersstone.blog/posts/what-will-it-cost-to-carry-and-remove-this-dependancy/][a previous article]] of this series I talked about how we must remain ever vigilant against what is making it into our code.  I talked about the need to always analyze the cost of everything we are agreeing to carry forward.
+
+Now, confusingly, we need to talk about when you need to fight to add more code, process, infrastructure, and so on.
 
 # more
 
-* Opposites
+* Tradeoffs
 
-the eternal tug-of-war
+Every decision we make as developers is a tradeoff.  We choose to do it because we believe that it holds benefit for what we are trying to accomplish.  However, it is generally also a liability.  The new code we are adding will need to be maintained, following new processes takes time, keeping infrastructure up-to-date and secure requires regular effort, etc.  We are in an eternal battle to build what we need to build without being overwhelmed by these forces.  If we're going to stave off that inevitability, we must learn to manage these costs as we work.
+
+We've already talked about controlling the flood gates of what is added, but things will still be added.  As they are, what we have to manage will grow.  Meanwhile, our knowledge will also grow.  We understand more about the domain when we add the tenth major feature than we do when we add the first.  We may realize relationships between things that were done independently that are not reflected in the code or the documentation.  Taking advantage of these insights may allow us to reduce the costs of things we have already taken on.
+
+We may even realize that some features were never used or have become obsolete and can now be safely removed.  There's not much better feeling for programmers than shedding a bunch of dead weight!
+
+This give and take between controlling what gets added and adding more to control what has been added may seem paradoxical, but I've come to believe that together they are one of the main roles we serve as developers.  We must hone both instincts to build larger and more software as quickly as we are able.
 
 * Cries for Help
 
-- "It was really hard, but I pushed through"
-  the curse of what you can keep in your head
-  * **Hard to Describe** stories, concepts, implementations, and more
-  * **Hard to Pick Name**:  a hint that the underlying value may not have a clean design
-  * **Hard to Describe**:  it’s difficult to write the comment for a module or function, possibly due to the design
+Like many tasks in development, spotting potential improvements is best done by refining your listening skills.  I'm going to list several phrases below that I have heard countless times in my career.  It's extremely likely that you will eventually encounter them or subtle variations of them.
+
+Note that spotting a cry for help doesn't guarantee that you have a problem that needs addressing.  If a subsystem contains a bunch of technical debt but is out of the way of mainline development, never needs modifying, and serves its intended purpose, it's not a problem you need to spend energy on.  What matters most is a function of the difficulty an item imposes on us times the rate of change for that item.  A very slow bit of code executed for every incoming request is going to need fixing.
+
+It pays to listen and log away the things that you hear, but to really focus on taking action on the subjects that keep coming up or that are about to be relevant for upcoming needs.
+
+Here are the promised examples of things you can listen for.
+
+** "It was really hard, but I pushed through"
+
+Every developer has a limit to what they can keep in their head at one time.  Some developers can fit substantially more in their memory.  I have come to believe that hinders them at least as much as it helps them.  When you are at your limits, you are forced to simplify the situation in order to resume forward progress.  The more regularly you are forced to do that, the better the chance that you are keeping the situation under control.  This notion of pushing through hard parts can be a sign that the needed process of simplification isn't happening.
+
+You can see this in so many little places.  Stay aware of things that are hard to describe, at any level:  stories, concepts, and implementations, for example.  If you find you are having a hard time documenting an individual module or function, it can be due to a convoluted design.
+
+
 - "I let the LLM write all the boiler plate"
   [[https://www.youtube.com/watch?v=Xu2QtHUbFmc][Is Design Happening?]]
 - "The library doesn’t support exactly what we need"

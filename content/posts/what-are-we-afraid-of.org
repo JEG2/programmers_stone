@@ -1,7 +1,6 @@
 #+title: What are we afraid of?
 #+author: JEG2
 #+date: <2025-08-12 Tue>
-#+draft: True
 
 This article is part of the series [[https://programmersstone.blog/posts/jeg2s-questions/][JEG2's Questions]].
 
@@ -33,19 +32,19 @@ Let's take a simple example.  Our team needs to monitor some customer behavior t
 
 I have [[https://programmersstone.blog/posts/how-will-we-know-it-works/][previously mentioned]] my love of Jessica Kerr's Acceleration video.  In it, she uses a word that was unfamiliar to me.  I googled it and found her helpful summary definition of [[https://medium.com/@jessitron/symmathecist-n-c728957ce71f][symmathesy]].  A symmathesy is a learning machine built of learning machine parts.  That is an excellent way to describe software development.  Each piece of the machine — Product, Engineering, etc. — is co-evolving based on its stream of collaboration with the other pieces of the machine.  They are calibrating each other.
 
-It's critical for teams to "[[https://debliu.substack.com/p/staying-scrappy][stay scrappy]]" to support this transference of learning between the separate parts of the machine.  Product may ask Engineering to measure some customer action.  Engineering may say that it's difficult or impossible to measure exactly that action, but offer up some alternatives.  Product may then to investigate how well those alternatives relate to what they really need to know about the customers.  Teams have to be flexible enough to accommodate these shifts that eventually lead to the desired end goal of a useful product.
+It's critical for teams to "[[https://debliu.substack.com/p/staying-scrappy][stay scrappy]]" to support this transference of learning between the separate parts of the machine.  Product may ask Engineering to measure some customer action.  Engineering may say that it's difficult or impossible to measure exactly that action, but offer up some alternatives.  Product may then investigate how well those alternatives relate to what they really need to know about the customers.  Teams have to be flexible enough to accommodate these shifts that eventually lead to the desired end goal of a useful product.
 
 * Nonnegotiables
 
 This leads us to another inevitable truth:  you have to cultivate an environment where your co-workers feel like they can tell you what you need to know.  Here's a non-exhaustive list of horrible things I have had to say to people I worked for:
 
-- Some actions that are administrators took last night deleted roughly 50% of our production database
+- Some actions that our administrators took last night deleted roughly 50% of our production database
 - This application that you paid other developers a lot of money for is faking numerous operations with smoke and mirrors
 - I have taken our site offline during peak traffic because we have hit a limit that is causing damage to our database every second that it remains live
 
 These scary statements aren't the end of events.  They begin the key conversations that need to be had.  How long does our site need to stay offline?  Initial estimates are that the database migration to fix it will take approximately three days.  Can we find a faster solution?  What means do we have to notify our customers of what is happening and reassure them that their data is safe and will be restored as soon as possible?
 
-We have good studies showing traits that high performance development teams share.  The single largest identifier in that bunch is the presence of [[https://www.hbs.edu/faculty/Pages/item.aspx?num=54851][Psychological Safety]].  It is simply the idea that employees feel empowered to say anything they need to say.  This does not always make the work environment easier, but it does empower the cross team collaboration and learning needed to guide the team to produce genuinely useful products.
+We have good studies showing traits that high performance development teams share.  The single largest identifier in that bunch is the presence of [[https://www.hbs.edu/faculty/Pages/item.aspx?num=54851][Psychological Safety]].  It is simply the idea that employees feel empowered to say anything they need to say.  This does not always make the work environment easier, but it does empower the cross team collaboration and learning needed to guide us to produce genuinely useful products.
 
 * An Accidental Find
 
