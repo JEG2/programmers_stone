@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  
+    <title>What will it cost to carry and remove this dependency? :: The Programmer&#39;s Stone</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=" This article is part of the series JEG2&#39;s Questions.
+I&#39;ve built a lot of applications with a lot of teams. I&#39;ve seen a lot of the problems with software development. There are two problems that I&#39;ve seen so often that I believe they are worth looking out for at all times. The first of those is the accumulation of high cost dependencies.
+" />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="http://localhost:1313/posts/what-will-it-cost-to-carry-and-remove-this-dependancy/" />
+
+
+
+
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/code.min.d529ea4b2fb8d34328d7d31afc5466d5f7bc2f0bc9abdd98b69385335d7baee4.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/main.min.36833afd348409fc6c3d09d0897c5833d9d5bf1ff31f5e60ea3ee42ce2b1268c.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/menu.min.3c17467ebeb3d38663dce68f71f519901124fa5cbb4519b2fb0667a21e9aca39.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
+
+  
+  <link rel="stylesheet" href="http://localhost:1313/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="http://localhost:1313/terminal.css">
+
+
+
+
+<link rel="shortcut icon" href="http://localhost:1313/favicon.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="What will it cost to carry and remove this dependency?">
+<meta property="og:description" content=" This article is part of the series JEG2&#39;s Questions.
+I&#39;ve built a lot of applications with a lot of teams. I&#39;ve seen a lot of the problems with software development. There are two problems that I&#39;ve seen so often that I believe they are worth looking out for at all times. The first of those is the accumulation of high cost dependencies.
+" />
+<meta property="og:url" content="http://localhost:1313/posts/what-will-it-cost-to-carry-and-remove-this-dependancy/" />
+<meta property="og:site_name" content="The Programmer&#39;s Stone" />
+
+  <meta property="og:image" content="http://localhost:1313/og-image.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2025-08-13 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="container center">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="http://localhost:1313/">
+  <div class="logo">
+    The Programmer&#39;s Stone
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="http://localhost:1313/about">About</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="http://localhost:1313/about" >About</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="http://localhost:1313/posts/what-will-it-cost-to-carry-and-remove-this-dependancy/">What will it cost to carry and remove this dependency?</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2025-08-13</time><span class="post-author">JEG2</span></div>
+
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <p>
+This article is part of the series <a href="https://programmersstone.blog/posts/jeg2s-questions/">JEG2&#39;s Questions</a>.</p>
+<p>
+I&#39;ve built a lot of applications with a lot of teams.  I&#39;ve seen a lot of the problems with software development.  There are two problems that I&#39;ve seen so often that I believe they are worth looking out for at all times.  The first of those is the accumulation of high cost dependencies.</p>
+<div id="outline-container-headline-1" class="outline-2">
+<h2 id="headline-1">
+The Math of Dependencies
+</h2>
+<div id="outline-text-headline-1" class="outline-text-2">
+<p>
+We all use dependencies in our programming and I am in no way against that.  If you&#39;re building an Elixir web application, you probably start with Phoenix.  If you use the default options in your new Phoenix project, you&#39;ll need to set up the relational database that it is expecting.  Both of those make sense.  You don&#39;t want to interpret HTTP from scratch and you&#39;re going to need somewhere to stick your application&#39;s data.</p>
+<p>
+Did we really just agree to two dependencies, though?  I just created a new default Phoenix application and counted the dependencies it downloaded.  It was 38.  I&#39;m not saying that&#39;s bad.  I know some frameworks that fetch considerably more.  It&#39;s also not just two.</p>
+<p>
+So what&#39;s the problem?  The problem is that programming is an endless struggle to manage the complexity of our growing systems.  We have to add features to them to make them useful and every time we do, it complicates what we are dealing with next time.  These complications compound with each change, kind of similar to interest on a credit card.</p>
+<p>
+Let&#39;s imagine that each dependency we add slows our effort by a trivial 1%.  In that case, it doesn&#39;t take 100 dependencies to double the amount of effort needed to make changes to the application.  If we call our normal effort <code>1</code>, we can see that it is more than doubled with the addition of the 70th dependency:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>iterate(<span style="color:#66d9ef">fn</span> n <span style="color:#f92672">-&gt;</span> n <span style="color:#f92672">*</span> <span style="color:#ae81ff">1.01</span> <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>drop(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>take(<span style="color:#ae81ff">70</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>at(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+2.006763368395386
+</pre>
+<p>
+If we did in fact add 100 dependencies, we would be closer to tripling our effort than doubling it:</p>
+<div class="src src-elixir">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elixir" data-lang="elixir"><span style="display:flex;"><span>  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>iterate(<span style="color:#66d9ef">fn</span> n <span style="color:#f92672">-&gt;</span> n <span style="color:#f92672">*</span> <span style="color:#ae81ff">1.01</span> <span style="color:#66d9ef">end</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>drop(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Stream</span><span style="color:#f92672">.</span>take(<span style="color:#ae81ff">100</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">|&gt;</span> <span style="color:#a6e22e">Enum</span><span style="color:#f92672">.</span>at(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)</span></span></code></pre></div>
+</div>
+<pre class="example">
+2.7048138294215294
+</pre>
+<p>
+Again, we&#39;re still talking about dependencies that I think are very easy to justify.  Not all dependencies are created equal.  There are plenty of situations where we are increasing future effort by a lot more than 1%.</p>
+</div>
+</div>
+<div id="outline-container-headline-2" class="outline-2">
+<h2 id="headline-2">
+Cost Benefit Analysis
+</h2>
+<div id="outline-text-headline-2" class="outline-text-2">
+<p>
+Martin Fowler has a terrific breakdown of <a href="https://martinfowler.com/bliki/Yagni.html">the costs of YAGNI</a> (You Aren&#39;t Gonna Need It).  The short summary is that prematurely adding features has the potential to incur four different costs:</p>
+<ul>
+<li>Cost of Build:  the raw effort required to add the feature</li>
+<li>Cost of Delay:  the distance it pushes out other opportunities</li>
+<li>Cost of Carry:  the ongoing cost added to the complexity of current and future efforts</li>
+<li>Cost of Repair:  the cost to make needed corrections to the feature as you&#39;re knowledge of what is really needed grows</li>
+</ul>
+<p>Martin just lists those four, but in my experience dependencies often face one more cost:  the Cost of Removal.  Things change.  Libraries are abandoned.  Better options come along.  Unused features are (hopefully) removed to ease the burden of future development.</p>
+<p>
+The point of all of this is that we are adding a dependency because we have identified some need.  How it helps us solve that need is the benefit.  However, there will always be a tradeoff with one or more of these costs.  We need to develop the habit of weighing both sides to guide us to better decisions.</p>
+</div>
+</div>
+<div id="outline-container-headline-3" class="outline-2">
+<h2 id="headline-3">
+The Cost of Choices Made
+</h2>
+<div id="outline-text-headline-3" class="outline-text-2">
+<p>
+I worked on one LiveView project at a time when the addition of components had been announced, but not yet released.  We decided that we could add Surface to our project to start working with components immediately in the hopes of setting ourselves up for the future we knew was coming.  Before the official LiveView release, we found that Surface complicated our upgrade cycle due to it lagging behind in what it supported.  This created some difficulty in us resolving a particular bug our customers had encountered rooted in our dependency chain (Cost of Carry).  Even when official LiveView components finally dropped, we found it non-trivial to translate between the two similar but not identical systems (Cost of Repair).  We also had to unwind some unrelated code that had started to take advantage of other Surface features before we could fully make the switch (Cost of Removal).</p>
+<p>
+In a different project the development team compared two versions of an autocomplete feature.  One was backed by OpenSearch while the second was a custom implementation of a couple of well-known algorithms with a core under 500 lines of code.  We selected OpenSearch on the assumption that it would be more battle tested and robust.  Unfortunately, only one of its <a href="https://docs.opensearch.org/latest/search-plugins/searching-data/autocomplete/">four different methods</a> of autocomplete support offered a feature we vitally needed to remove duplicates and that same method forced us to keep the entire index in memory, a feature we did not want (Cost of Build).  The infrastructure we had to add for OpenSearch also led to the product&#39;s first outage.  An outdated AWS SDK didn&#39;t pick up a configuration change causing the application to lose track of the endpoint needed to communicate with OpenSearch (Cost of Carry).</p>
+<p>
+I have also seen a company try to cram in a move to distributed Elixir just before a new product launch deadline.  The thinking was that you could prepare for future scaling needs by making needed infrastructure changes before you have heavy traffic.  Making a change like this involves configuring production servers so that they can find each other using tools like <a href="https://hex.pm/packages/dns_cluster">dns_cluster</a> or <a href="https://hex.pm/packages/libcluster">libcluster</a> (Cost of Build).  Once that was in place, we still found ourselves resolving issues in OTP processes that weren&#39;t initially built to be cluster-aware (Cost of Carry) and pushing back the date of the launch (Cost of Delay).  Even with everything resolved, we can&#39;t really know if distribution will be the proper answer when scaling problems do eventually surface.  If the bottleneck is the database, different interventions will still be required (Cost of Repair).</p>
+</div>
+</div>
+<div id="outline-container-headline-4" class="outline-2">
+<h2 id="headline-4">
+Not Very Open
+</h2>
+<div id="outline-text-headline-4" class="outline-text-2">
+<p>
+I&#39;ll have to confess that my go-to question for digging into dependency management isn&#39;t very open.  I really feel like this is a chronic problem that we have in software development and it requires being a little more direct to keep the attention on it.</p>
+<p>
+Martin mentioned in his breakdown of costs that it can be helpful to ask teams to consider the refactorings they would need to do in the future to support the desired changes.  I think a similar exercise helps in this case.  We just need to get all parties involved actively thinking about the tradeoffs we are making as we add each new log to the fire.</p>
+<p>
+I recommend asking:  <strong>What will it cost to carry and remove this dependency?</strong></p>
+<p>
+Don&#39;t let folks squirm their way out of providing an answer.  There is always a cost.  Not having one means you haven&#39;t thought about it enough.</p>
+</div>
+</div>
+<div id="outline-container-headline-5" class="outline-2">
+<h2 id="headline-5">
+Universal Application
+</h2>
+<div id="outline-text-headline-5" class="outline-text-2">
+<p>
+I&#39;ve approached this discussion largely from a programmer-centric viewpoint.  That&#39;s mostly because it&#39;s the easiest position for me to explain things from and I assume that my audience will understand where I am coming from.  However, dependency management absolutely applies to all aspects of our work.  Here are just some examples:</p>
+<ul>
+<li>Integrations:  how many remote API&#39;s does the modern web application interact with?  I assume we&#39;re well aware of the potential consequences:  version changes, unreliable networks, end-of-lifed services, bugs on their side, etc.</li>
+<li>Code change management:  how difficult is it to get some code into production?  We want our changes to be as safe as we need them to be, but the more hoops developers have to jump through to push some code, the more they will decide not to bother with it or the more they will bundle up into truly dangerous overhauls of behavior.</li>
+<li>Process:  this line of thinking even applies to things like acquiring <a href="https://fly.io/blog/soc2-the-screenshots-will-continue-until-security-improves/">SOC 2 certification</a>.  That article sums it up well:  &#34;Just don’t do it until you have to.&#34;</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-headline-6" class="outline-2">
+<h2 id="headline-6">
+Going the Extra Mile
+</h2>
+<div id="outline-text-headline-6" class="outline-text-2">
+<p>
+Please, watch one of Brian Hunter&#39;s <a href="https://www.youtube.com/watch?v=hdBm4K-vvt0">Waterpark</a> talks.  Be sure to take note of the following:</p>
+<ul>
+<li>This application is tracking millions of patients in 185 hospitals</li>
+<li>It has had zero downtime in over five years of operation</li>
+<li>They have continued to evolve it and add capabilities in that time</li>
+<li>They spend time simplifying parts of the system (removing complexity!)</li>
+<li>They occasionally choose to reinvent a smaller wheel instead of pulling in a larger dependency</li>
+</ul>
+<p>Also consider running a book club with the Engineering team on <a href="https://web.stanford.edu/~ouster/cgi-bin/book.php">The Philosophy of Software Design</a>.  These are just some of the things it gives expert level treatment to:</p>
+<ul>
+<li>The relationship between complexity and system growth</li>
+<li>The symptoms of complexity</li>
+<li>Causes of complexity (spoiler alert:  dependencies definitely makes the list)</li>
+<li>Discussions of how much time and energy should be spent on tech debt</li>
+<li>The dependencies between individual modules of code and how to measure them</li>
+</ul>
+<p>If you think I&#39;ve spoiled the book for you already, think again.  All of that is in the first 20% of the book!</p>
+</div>
+</div>
+      </div></div>
+
+  
+    
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h">Read other posts</span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+    
+    
+      <a href="http://localhost:1313/posts/what-are-we-afraid-of/" class="button inline next">
+         [<span class="button__text">What are we afraid of?</span>] &gt;
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="http://localhost:1313/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

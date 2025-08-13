@@ -6,8 +6,15 @@
     <description>Recent content in Posts on The Programmer&#39;s Stone</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 12 Aug 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 13 Aug 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>What will it cost to carry and remove this dependency?</title>
+      <link>http://localhost:1313/posts/what-will-it-cost-to-carry-and-remove-this-dependancy/</link>
+      <pubDate>Wed, 13 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/what-will-it-cost-to-carry-and-remove-this-dependancy/</guid>
+      <description>&lt;p&gt;&#xA;This article is part of the series &lt;a href=&#34;https://programmersstone.blog/posts/jeg2s-questions/&#34;&gt;JEG2&amp;#39;s Questions&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;&#xA;I&amp;#39;ve built a lot of applications with a lot of teams.  I&amp;#39;ve seen a lot of the problems with software development.  There are two problems that I&amp;#39;ve seen so often that I believe they are worth looking out for at all times.  The first of those is the accumulation of high cost dependencies.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>What are we afraid of?</title>
       <link>http://localhost:1313/posts/what-are-we-afraid-of/</link>
