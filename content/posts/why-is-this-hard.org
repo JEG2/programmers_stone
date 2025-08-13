@@ -1,13 +1,13 @@
 #+title: Why is this hard?
 #+author: JEG2
-#+date: <2025-08-07 Thu>
+#+date: <2025-08-14 Thu>
 #+draft: True
 
 This article is part of the series [[https://programmersstone.blog/posts/jeg2s-questions/][JEG2's Questions]].
 
 In [[https://programmersstone.blog/posts/what-will-it-cost-to-carry-and-remove-this-dependancy/][a previous article]] of this series I talked about how we must remain ever vigilant against what is making it into our code.  I talked about the need to always analyze the cost of everything we are agreeing to carry forward.
 
-Now, confusingly, we need to talk about when you need to fight to add more code, process, infrastructure, and so on.
+Now, confusingly, we need to talk about when you need to fight to add more code, process, infrastructure, and so on.  This is the second concern that I always try to keep in my thoughts.
 
 # more
 
@@ -15,7 +15,7 @@ Now, confusingly, we need to talk about when you need to fight to add more code,
 
 Every decision we make as developers is a tradeoff.  We choose to do it because we believe that it holds benefit for what we are trying to accomplish.  However, it is generally also a liability.  The new code we are adding will need to be maintained, following new processes takes time, keeping infrastructure up-to-date and secure requires regular effort, etc.  We are in an eternal battle to build what we need to build without being overwhelmed by these forces.  If we're going to stave off that inevitability, we must learn to manage these costs as we work.
 
-We've already talked about controlling the flood gates of what is added, but things will still be added.  As they are, what we have to manage will grow.  Meanwhile, our knowledge will also grow.  We understand more about the domain when we add the tenth major feature than we do when we add the first.  We may realize relationships between things that were done independently that are not reflected in the code or the documentation.  Taking advantage of these insights may allow us to reduce the costs of things we have already taken on.
+We've already talked about controlling the flood gates of what is added, but things will still be added.  What we have to manage will grow.  Meanwhile, our knowledge will also grow.  We understand more about the domain when we add the tenth major feature than we do when we add the first.  We may realize relationships between things that were done independently that are not reflected in the code or the documentation.  Taking advantage of these insights may allow us to reduce the costs of things we have already taken on.
 
 We may even realize that some features were never used or have become obsolete and can now be safely removed.  There's not much better feeling for programmers than shedding a bunch of dead weight!
 
@@ -23,9 +23,9 @@ This give and take between controlling what gets added and adding more to contro
 
 * Cries for Help
 
-Like many tasks in development, spotting potential improvements is best done by refining your listening skills.  I'm going to list several phrases below that I have heard countless times in my career.  It's extremely likely that you will eventually encounter them or subtle variations of them.
+Like many tasks in development, spotting potential improvements is best done by [[https://larahogan.me/blog/actively-listening/][refining your listening skills]].  I'm going to list several phrases below that I have heard countless times in my career.  It's extremely likely that you will eventually encounter them or subtle variations of them.
 
-Note that spotting a cry for help doesn't guarantee that you have a problem that needs addressing.  If a subsystem contains a bunch of technical debt but is out of the way of mainline development, never needs modifying, and serves its intended purpose, it's not a problem you need to spend energy on.  What matters most is a function of the difficulty an item imposes on us times the rate of change for that item.  A very slow bit of code executed for every incoming request is going to need fixing.
+Note that spotting a cry for help doesn't guarantee that you have a problem that needs addressing.  If a subsystem contains a bunch of technical debt but is out of the way of mainline development, never needs modifying, and serves its intended purpose, it's not a problem you need to spend energy on.  What matters most is a function of the difficulty an item imposes on us times the rate of change for that item.  A complex decision tree in a central router that needs tweaking as we add each new capability to the system is putting a heavy tax on the developers.
 
 It pays to listen and log away the things that you hear, but to really focus on taking action on the subjects that keep coming up or that are about to be relevant for upcoming needs.
 
@@ -37,26 +37,51 @@ Every developer has a limit to what they can keep in their head at one time.  So
 
 You can see this in so many little places.  Stay aware of things that are hard to describe, at any level:  stories, concepts, and implementations, for example.  If you find you are having a hard time documenting an individual module or function, it can be due to a convoluted design.
 
+Make sure to keep asking, "[[https://www.martinfowler.com/articles/designDead.html#IsDesignHappening][Is Design Happening?]]"  This growing complexity can often be a sign of too many things being added without adequate consideration of the resulting overall structure.  When you find yourself in these situations, paying down some of the accumulated debt can help to restore at least some of the ease and speed of development.
 
-- "I let the LLM write all the boiler plate"
-  [[https://www.youtube.com/watch?v=Xu2QtHUbFmc][Is Design Happening?]]
-- "The library doesn’t support exactly what we need"
-- "The tests, type system, static analysis checker, etc. didn’t catch the issue"
-  [[https://www.youtube.com/watch?v=Xu2QtHUbFmc][make invalid states impossible]]
-- "I was fighting our/my tools on this one"
-  Show how good the math on tooling work is!
-- "That section needs a redesign."
-  [[https://martinfowler.com/bliki/StranglerFigApplication.html][strangler fig pattern]]
+** "I let the LLM write all the boilerplate"
 
-  [[https://technology.riotgames.com/news/taxonomy-tech-debt
-][make contagion work for you]]
-- "I have no idea how long that would take."
-  [[https://therealadam.com/2023/08/23/i-got-better.html][practicing estimates]]
+This is a modern variation on the point above.  Again, it doesn't have to point to a problem.  However, it does at least raise the question of why so much boilerplate is needed to accomplish tasks.  If it's a series of patterns regularly followed, it could be an opportunity to replace the boilerplate with some macros or another abstraction that centralizes these concerns.
+
+** "The tests, type system, static analysis checker, etc. didn’t catch the issue"
+
+As programmers we have access to a powerful body of tooling that sometimes knows about problems before we do.  That's fantastic!  If we are in the struggle to keep adding code without being overwhelmed by all the code, we need all the help we can get.
+
+When you find an issue that our tools didn't catch, it's worth briefly considering whether or not they could have caught it.  Could the type system not work it out because you didn't have enough type definitions?  Were the type definitions ambiguous?
+
+One of my favorite treatments on this subject is this conference talk from German Velasco on how to [[https://www.youtube.com/watch?v=Xu2QtHUbFmc][make invalid states impossible]].  Spending a little extra effort to help the tooling help you often means a future increase in free bug finding.
+
+** "I was fighting our/my tools on this one"
+
+This is similar to the case above.  Sometimes your tools don't just miss something you wish they had seen.  Sometimes they are against you from the beginning.
+
+On one project I worked on we had to work around a deficiency in one of our dependencies.  The issue was a known problem, but a fix was not yet available.  The concern was that our added workaround code would become unneeded or even harmful when the library introduced a fix of their own.  To mitigate this, the developer wrote a test to check for the workaround no longer being needed.  When that occurred, the test would fail and looking at that test code would reveal a comment explaining the situation and what to remove.  I turned out to eventually be the developer that encountered that failing test and removed the no-longer-needed code.
+
+Spend time thinking about how to make your tools work for you.  It pays off.  I mean really pays off!  Say you have a team of five developers and each of them deploys, on average, twice a day.  If you shave a single minute off of the deployment time, the team will reap over a full work week of savings in the first year:  (5 developers * 2 deploys per day * 5 days per week * 52 weeks per year) / 60 minutes per hour = 43.333 hours saved.
+
+** "That section needs a redesign"
+
+This is almost surely the most common problem in programming.  It has been a massive part of what we've been discussing in this entire series.  If writing is rewriting, then coding must be recoding.  Iterative development plus our evolving knowledge of the domain ensure that we will need to change code as a part of managing future growth.
+
+Going all the way back to [[https://programmersstone.blog/posts/how-will-we-know-it-works/][the first video I mentioned]] in this series, Jessica Kerr tells us that downhill invention is easier than uphill analysis.  This is where our tendency to want to rewrite chunks of code comes from.  It's easier if we just think through the problem ourself as we solve it.  It's much harder to figure out what the existing implementation is doing and plan out how to move it from what it is to what we need it to be.  But these are exactly the skills we need to cultivate to be effective in a constantly changing code base.
+
+Two concepts that I have found helpful in these situations are the [[https://martinfowler.com/bliki/StranglerFigApplication.html][strangler fig pattern]] and how to [[https://technology.riotgames.com/news/taxonomy-tech-debt
+][make contagion work for you]].  This first one is about how we can introduce gradual replacements for outdated parts of aging systems carefully and without discarding everything valuable that is contained within them.  The second is about building better abstractions and then trying to use the properties that spread bugs through our system to spread the improvement instead.  It's essential that we find safe ways to constantly be improving our code.
+
+** "I have no idea how long that would take"
+
+As always, this idea applies to much more than just programming.  I'll prove it to you with just one word:  estimates.  Most of us programmers dread this task.  Unfortunately, it is an essential part of what we do.  How can Product prioritize builds if they can't know roughly how long it will take to add features?  How can Customer Success tell customers when their fixes will be live?
+
+Just because this task is hard, doesn't mean we can't get better at it.  Adam Keys has a great description of how he has been [[https://therealadam.com/2023/08/23/i-got-better.html][practicing estimates]].  He pulls marketing descriptions of features off of the internet and pretends that he needs to plan out the build.  This gives him ample practice for refining the skills needed to break down features and identify unknowns.
+
+I have also found it helpful to deliver my estimates incrementally.  I might say that my initial estimate is that we could add a requested feature in about a month, but note that I've padded that pretty heavily due to the fact that it involves two problems I don't yet know how we're going to solve.  I'll add that I bet we could develop a plan for those two unknowns with a day or two of investigation each.  If I am granted that time, I'm more than happy to revise my estimate to remove unnecessary padding.
 
 * Dig Deeper
 
-*Why is this hard?*
+I feel like this is one of the easier issues to identify as soon as you get good at paying attention to the signs.  My teammates have always been eager to explain the difficulties they are facing.  Still, it never hurts to deploy the direct question in discussions:  *Why is this hard?*
 
-[[https://medium.com/front-line-interaction-design/intermediate-impossibles-d02f26bd9a74][intermediate impossibles]]
+When you do ask, try to avoid letting anyone dismiss ideas too quickly.  A key element to reaching new insights is traveling through the [[https://medium.com/front-line-interaction-design/intermediate-impossibles-d02f26bd9a74][intermediate impossibles]].  This is the idea that we would like to just do X, but obviously we can't because X is impossible.  Therefore we dismiss it.  However, is X always impossible?  Or is it just impossible in certain circumstances?  Could we work around those circumstances?  If we did, could we then do X?  Even if this doesn't turn out to be the direct solution, having the discussion and working through the possibilities is often how we find our way to better ideas.
 
-[[https://www.youtube.com/watch?v=lz451zUlF-k&t=1196s][design it twice]]
+Speaking of better ideas, it's surprising helpful to analyze more than one possible approach to a build.  John Ousterhout sometimes has to threaten his programming students to get them to try his idea to [[https://www.youtube.com/watch?v=lz451zUlF-k&t=1196s][design features twice]], but he finds that it always leads to better outcomes.  I'm not even convinced that it wastes much time.  The amount of understanding you gain for the problem you are solving provides more leverage when you are building the implementation, no matter which path you end up choosing.
+
+Remember, what we've loaded into our collective understanding is far more important than any code that we produce.
