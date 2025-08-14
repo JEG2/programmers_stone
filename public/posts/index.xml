@@ -6,8 +6,15 @@
     <description>Recent content in Posts on The Programmer&#39;s Stone</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 13 Aug 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 14 Aug 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Why is this hard?</title>
+      <link>http://localhost:1313/posts/why-is-this-hard/</link>
+      <pubDate>Thu, 14 Aug 2025 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/why-is-this-hard/</guid>
+      <description>&lt;p&gt;&#xA;This article is part of the series &lt;a href=&#34;https://programmersstone.blog/posts/jeg2s-questions/&#34;&gt;JEG2&amp;#39;s Questions&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;&#xA;In &lt;a href=&#34;https://programmersstone.blog/posts/what-will-it-cost-to-carry-and-remove-this-dependancy/&#34;&gt;a previous article&lt;/a&gt; of this series I talked about how we must remain ever vigilant against what is making it into our code.  I talked about the need to always analyze the cost of everything we are agreeing to carry forward.&lt;/p&gt;&#xA;&lt;p&gt;&#xA;Now, confusingly, we need to talk about when you need to fight to add more code, process, infrastructure, and so on.  This is the second concern that I always try to keep in my thoughts.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>What will it cost to carry and remove this dependency?</title>
       <link>http://localhost:1313/posts/what-will-it-cost-to-carry-and-remove-this-dependancy/</link>

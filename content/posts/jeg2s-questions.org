@@ -55,6 +55,6 @@ With that introduction out of the way, here are the questions most important to 
 1. [[https://programmersstone.blog/posts/how-will-we-know-it-works/][How will we know it works?]]
 2. [[https://programmersstone.blog/posts/what-are-we-afraid-of/][What are we afraid of?]]
 3. [[https://programmersstone.blog/posts/what-will-it-cost-to-carry-and-remove-this-dependancy/][What will it cost to carry and remove this dependency?]]
-4. Coming Soon
+4. [[https://programmersstone.blog/posts/why-is-this-hard/][Why is this hard?]]
 
 As I explain my principles, I will sprinkle in several great links of sources that have had a profound impact on my thinking.  I am absolutely standing on the shoulders of giants.  I will always try to summarize the key elements of anything I link so it makes sense in the context, but definitely consider digging further into some of these fonts of wisdom.  I arrived where I did by taking this incredible journey and giving plenty of time and space in my brain to these ideas.  I hope they prove as enlightening to your own work.

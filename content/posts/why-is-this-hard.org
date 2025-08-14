@@ -1,13 +1,12 @@
 #+title: Why is this hard?
 #+author: JEG2
 #+date: <2025-08-14 Thu>
-#+draft: True
 
 This article is part of the series [[https://programmersstone.blog/posts/jeg2s-questions/][JEG2's Questions]].
 
-In [[https://programmersstone.blog/posts/what-will-it-cost-to-carry-and-remove-this-dependancy/][a previous article]] of this series I talked about how we must remain ever vigilant against what is making it into our code.  I talked about the need to always analyze the cost of everything we are agreeing to carry forward.
+In [[https://programmersstone.blog/posts/what-will-it-cost-to-carry-and-remove-this-dependancy/][a previous article]] of this series I talked about how we must remain ever vigilant against what is making it into our code.  I talked about the need to always analyze the cost of everything we are agreeing to carry forward.  But there are two sides to every coin.
 
-Now, confusingly, we need to talk about when you need to fight to add more code, process, infrastructure, and so on.  This is the second concern that I always try to keep in my thoughts.
+Now we need to talk about when you need to fight to add more code, process, and infrastructure.  This is the second concern that I always try to keep in my thoughts.
 
 # more
 
@@ -16,8 +15,6 @@ Now, confusingly, we need to talk about when you need to fight to add more code,
 Every decision we make as developers is a tradeoff.  We choose to do it because we believe that it holds benefit for what we are trying to accomplish.  However, it is generally also a liability.  The new code we are adding will need to be maintained, following new processes takes time, keeping infrastructure up-to-date and secure requires regular effort, etc.  We are in an eternal battle to build what we need to build without being overwhelmed by these forces.  If we're going to stave off that inevitability, we must learn to manage these costs as we work.
 
 We've already talked about controlling the flood gates of what is added, but things will still be added.  What we have to manage will grow.  Meanwhile, our knowledge will also grow.  We understand more about the domain when we add the tenth major feature than we do when we add the first.  We may realize relationships between things that were done independently that are not reflected in the code or the documentation.  Taking advantage of these insights may allow us to reduce the costs of things we have already taken on.
-
-We may even realize that some features were never used or have become obsolete and can now be safely removed.  There's not much better feeling for programmers than shedding a bunch of dead weight!
 
 This give and take between controlling what gets added and adding more to control what has been added may seem paradoxical, but I've come to believe that together they are one of the main roles we serve as developers.  We must hone both instincts to build larger and more software as quickly as we are able.
 
@@ -65,8 +62,7 @@ This is almost surely the most common problem in programming.  It has been a mas
 
 Going all the way back to [[https://programmersstone.blog/posts/how-will-we-know-it-works/][the first video I mentioned]] in this series, Jessica Kerr tells us that downhill invention is easier than uphill analysis.  This is where our tendency to want to rewrite chunks of code comes from.  It's easier if we just think through the problem ourself as we solve it.  It's much harder to figure out what the existing implementation is doing and plan out how to move it from what it is to what we need it to be.  But these are exactly the skills we need to cultivate to be effective in a constantly changing code base.
 
-Two concepts that I have found helpful in these situations are the [[https://martinfowler.com/bliki/StranglerFigApplication.html][strangler fig pattern]] and how to [[https://technology.riotgames.com/news/taxonomy-tech-debt
-][make contagion work for you]].  This first one is about how we can introduce gradual replacements for outdated parts of aging systems carefully and without discarding everything valuable that is contained within them.  The second is about building better abstractions and then trying to use the properties that spread bugs through our system to spread the improvement instead.  It's essential that we find safe ways to constantly be improving our code.
+Two concepts that I have found helpful in these situations are the [[https://martinfowler.com/bliki/StranglerFigApplication.html][strangler fig pattern]] and how to [[https://technology.riotgames.com/news/taxonomy-tech-debt][make contagion work for you]].  This first one is about how we can introduce gradual replacements for outdated parts of aging systems carefully and without discarding everything valuable that is contained within them.  The second is about building better abstractions and then trying to use the properties that spread bugs through our system to spread the improvement instead.  It's essential that we find safe ways to constantly be improving our code.
 
 ** "I have no idea how long that would take"
 
@@ -82,6 +78,6 @@ I feel like this is one of the easier issues to identify as soon as you get good
 
 When you do ask, try to avoid letting anyone dismiss ideas too quickly.  A key element to reaching new insights is traveling through the [[https://medium.com/front-line-interaction-design/intermediate-impossibles-d02f26bd9a74][intermediate impossibles]].  This is the idea that we would like to just do X, but obviously we can't because X is impossible.  Therefore we dismiss it.  However, is X always impossible?  Or is it just impossible in certain circumstances?  Could we work around those circumstances?  If we did, could we then do X?  Even if this doesn't turn out to be the direct solution, having the discussion and working through the possibilities is often how we find our way to better ideas.
 
-Speaking of better ideas, it's surprising helpful to analyze more than one possible approach to a build.  John Ousterhout sometimes has to threaten his programming students to get them to try his idea to [[https://www.youtube.com/watch?v=lz451zUlF-k&t=1196s][design features twice]], but he finds that it always leads to better outcomes.  I'm not even convinced that it wastes much time.  The amount of understanding you gain for the problem you are solving provides more leverage when you are building the implementation, no matter which path you end up choosing.
+Speaking of better ideas, it's surprisingly helpful to analyze more than one possible approach to a build.  John Ousterhout sometimes has to threaten his programming students to get them to try his idea to [[https://www.youtube.com/watch?v=lz451zUlF-k&t=1196s][design features twice]], but he finds that it always leads to better outcomes.  I'm not even convinced that it wastes much time.  The amount of understanding you gain for the problem you are solving provides more leverage when you are building the implementation, no matter which path you end up choosing.
 
 Remember, what we've loaded into our collective understanding is far more important than any code that we produce.
