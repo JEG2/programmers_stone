@@ -84,3 +84,6 @@ pagination.paperSize = 10
         identifier = "about"
         name = "About"
         url = "/about"
+
+[markup.goldmark.renderer]
+unsafe = true

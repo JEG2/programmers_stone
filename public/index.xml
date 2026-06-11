@@ -6,8 +6,15 @@
     <description>Recent content on The Programmer&#39;s Stone</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 14 Aug 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 11 Jun 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Get Yer Free Livebooks!</title>
+      <link>http://localhost:1313/posts/get-yer-free-livebooks/</link>
+      <pubDate>Thu, 11 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/get-yer-free-livebooks/</guid>
+      <description>&lt;p&gt;I started an experiment a couple of years ago to see if&#xA;&lt;a href=&#34;https://livebook.dev/&#34;&gt;Livebook&lt;/a&gt; was a viable medium for sharing educational&#xA;programming content.  I ran a web store in that time selling an initial line of&#xA;products that I had developed.&lt;/p&gt;&#xA;&lt;p&gt;Those initial Livebooks had some supporters who I am very grateful for.&#xA;Unfortunately, I never found enough time to keep expanding the offerings.&#xA;Because of that and my desire to not have these guides lost, I am providing this&#xA;series in a free download going forward.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Why is this hard?</title>
       <link>http://localhost:1313/posts/why-is-this-hard/</link>
@@ -48,7 +55,7 @@
       <link>http://localhost:1313/posts/scrappy-parsing/</link>
       <pubDate>Fri, 25 Oct 2024 00:00:00 +0000</pubDate>
       <guid>http://localhost:1313/posts/scrappy-parsing/</guid>
-      <description>&lt;p&gt;&#xA;I love parsing!  I really do.  There&amp;#39;s something very satisfying about converting input into usable data structures that help me accomplish some task.&lt;/p&gt;&#xA;&lt;p&gt;&#xA;Parsing is important.  How well we construct those data structures and the quality of the structures we choose can massively impact the work that comes after.  We should probably all be &lt;a href=&#34;https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/&#34;&gt;worrying about parsing&lt;/a&gt; a little more than we do.&lt;/p&gt;&#xA;&lt;p&gt;&#xA;The good news is that Elixir is the best language I have ever worked with for doing serious parsing.  Let&amp;#39;s prove it.  Let&amp;#39;s pull the data out of a SQLite database file using vanilla Elixir and some tricks from my &lt;a href=&#34;https://voyagesincode.com/products/how-to-train-your-scrappy-programmer&#34;&gt;Scrappy Programmer Livebook series&lt;/a&gt;.  (You don&amp;#39;t need to have read that to follow along with this article.  Everyone is welcome.)&lt;/p&gt;</description>
+      <description>&lt;p&gt;&#xA;I love parsing!  I really do.  There&amp;#39;s something very satisfying about converting input into usable data structures that help me accomplish some task.&lt;/p&gt;&#xA;&lt;p&gt;&#xA;Parsing is important.  How well we construct those data structures and the quality of the structures we choose can massively impact the work that comes after.  We should probably all be &lt;a href=&#34;https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/&#34;&gt;worrying about parsing&lt;/a&gt; a little more than we do.&lt;/p&gt;&#xA;&lt;p&gt;&#xA;The good news is that Elixir is the best language I have ever worked with for doing serious parsing.  Let&amp;#39;s prove it.  Let&amp;#39;s pull the data out of a SQLite database file using vanilla Elixir and some tricks from my &lt;a href=&#34;https://programmersstone.blog/posts/get-yer-free-livebooks/&#34;&gt;Scrappy Programmer Livebook series&lt;/a&gt;.  (You don&amp;#39;t need to have read that to follow along with this article.  Everyone is welcome.)&lt;/p&gt;</description>
     </item>
     <item>
       <title>Junior Pairing Scripts</title>
